@@ -5,15 +5,14 @@ const screenWidth = Dimensions.get('window').width;
 const nuzlockeStyles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
     alignSelf: 'center',
     width: '100%',
-    paddingLeft: 80,
-    //maxWidth: 800,
   },
   searchContainer: {
     alignItems: 'center',
-    marginBottom: 24,
+    paddingBottom: 12,
+    paddingTop: 12,
+    backgroundColor: '#ddd'
   },
   searchInput: {
     width: '70%',
@@ -30,6 +29,9 @@ const nuzlockeStyles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'flex-start',
+    paddingTop: 12,
+    paddingLeft: 80,
+    backgroundColor: '#999'
   },
   card: {
     width: 160, // or 120, or 140 — whatever feels right visually
@@ -59,8 +61,10 @@ const nuzlockeStyles = StyleSheet.create({
     textAlign: 'center',
   },
   buttonContainer: {
-    marginTop: 24,
+    paddingTop: 12,
+    paddingBottom: 12,
     alignItems: 'center',
+    backgroundColor: '#ddd'
   },
   button: {
     backgroundColor: '#2563eb',
