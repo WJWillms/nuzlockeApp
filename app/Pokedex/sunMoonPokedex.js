@@ -3,7 +3,7 @@ import { PokemonType } from './PokemonType';
 export const Pokedex = {
   1: {
     name: "Bulbasaur",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "001",
     typeOne: "Grass",
     typeTwo: "Poison",
     typeOneId: PokemonType.GRASS,
@@ -31,7 +31,7 @@ export const Pokedex = {
   },
   2: {
     name: "Ivysaur",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "002",
     typeOne: "Grass",
     typeTwo: "Poison",
     typeOneId: PokemonType.GRASS,
@@ -59,7 +59,7 @@ export const Pokedex = {
   },
   3: {
     name: "Venusaur",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "003",
     typeOne: "Grass",
     typeTwo: "Poison",
     typeOneId: PokemonType.GRASS,
@@ -87,7 +87,7 @@ export const Pokedex = {
   },
   4: {
     name: "Charmander",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "004",
     typeOne: "Fire",
     typeTwo: null,
     typeOneId: PokemonType.FIRE,
@@ -115,7 +115,7 @@ export const Pokedex = {
   },
   5: {
     name: "Charmeleon",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "005",
     typeOne: "Fire",
     typeTwo: null,
     typeOneId: PokemonType.FIRE,
@@ -143,7 +143,7 @@ export const Pokedex = {
   },
   6: {
     name: "Charizard",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "006",
     typeOne: "Fire",
     typeTwo: "Flying",
     typeOneId: PokemonType.FIRE,
@@ -173,7 +173,7 @@ export const Pokedex = {
   },
   7: {
     name: "Squirtle",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "007",
     typeOne: "Water",
     typeTwo: null,
     typeOneId: PokemonType.WATER,
@@ -198,7 +198,7 @@ export const Pokedex = {
   },
   8: {
     name: "Wartortle",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "008",
     typeOne: "Water",
     typeTwo: null,
     typeOneId: PokemonType.WATER,
@@ -223,7 +223,7 @@ export const Pokedex = {
   },
   9: {
     name: "Blastoise",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "009",
     typeOne: "Water",
     typeTwo: null,
     typeOneId: PokemonType.WATER,
@@ -248,7 +248,7 @@ export const Pokedex = {
   },
   10: {
     name: "Caterpie",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "010",
     typeOne: "Bug",
     typeTwo: null,
     typeOneId: PokemonType.BUG,
@@ -273,7 +273,7 @@ export const Pokedex = {
   },
   11: {
     name: "Metapod",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "011",
     typeOne: "Bug",
     typeTwo: null,
     typeOneId: PokemonType.BUG,
@@ -298,7 +298,7 @@ export const Pokedex = {
   },
   12: {
     name: "Butterfree",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "012",
     typeOne: "Bug",
     typeTwo: "Flying",
     typeOneId: PokemonType.BUG,
@@ -326,7 +326,7 @@ export const Pokedex = {
   },
   13: {
     name: "Weedle",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "013",
     typeOne: "Bug",
     typeTwo: "Poison",
     typeOneId: PokemonType.BUG,
@@ -354,7 +354,7 @@ export const Pokedex = {
   },
   14: {
     name: "Kakuna",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "014",
     typeOne: "Bug",
     typeTwo: "Poison",
     typeOneId: PokemonType.BUG,
@@ -382,7 +382,7 @@ export const Pokedex = {
   },
   15: {
     name: "Beedrill",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "015",
     typeOne: "Bug",
     typeTwo: "Poison",
     typeOneId: PokemonType.BUG,
@@ -410,7 +410,7 @@ export const Pokedex = {
   },
   16: {
     name: "Pidgey",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "016",
     typeOne: "Normal",
     typeTwo: "Flying",
     typeOneId: PokemonType.NORMAL,
@@ -436,7 +436,7 @@ export const Pokedex = {
   },
   17: {
     name: "Pidgeotto",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "017",
     typeOne: "Normal",
     typeTwo: "Flying",
     typeOneId: PokemonType.NORMAL,
@@ -462,7 +462,7 @@ export const Pokedex = {
   },
   18: {
     name: "Pidgeot",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "018",
     typeOne: "Normal",
     typeTwo: "Flying",
     typeOneId: PokemonType.NORMAL,
@@ -488,7 +488,7 @@ export const Pokedex = {
   },
   19: {
     name: "Rattata",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "019",
     typeOne: "Normal",
     typeTwo: null,
     typeOneId: PokemonType.NORMAL,
@@ -509,7 +509,7 @@ export const Pokedex = {
   },
   20: {
     name: "Raticate",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "020",
     typeOne: "Normal",
     typeTwo: null,
     typeOneId: PokemonType.NORMAL,
@@ -530,7 +530,7 @@ export const Pokedex = {
   },
   21: {
     name: "Spearow",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Normal",
     typeTwo: "Flying",
     typeOneId: PokemonType.NORMAL,
@@ -556,7 +556,7 @@ export const Pokedex = {
   },
   22: {
     name: "Fearow",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Normal",
     typeTwo: "Flying",
     typeOneId: PokemonType.NORMAL,
@@ -582,7 +582,7 @@ export const Pokedex = {
   },
   23: {
     name: "Ekans",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Poison",
     typeTwo: null,
     typeOneId: PokemonType.POISON,
@@ -608,7 +608,7 @@ export const Pokedex = {
   },
   24: {
     name: "Arbok",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Poison",
     typeTwo: null,
     typeOneId: PokemonType.POISON,
@@ -634,7 +634,7 @@ export const Pokedex = {
   },
   25: {
     name: "Pikachu",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Electric",
     typeTwo: null,
     typeOneId: PokemonType.ELECTRIC,
@@ -657,7 +657,7 @@ export const Pokedex = {
   },
   26: {
     name: "Raichu",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Electric",
     typeTwo: null,
     typeOneId: PokemonType.ELECTRIC,
@@ -680,7 +680,7 @@ export const Pokedex = {
   },
   27: {
     name: "Sandshrew",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Ground",
     typeTwo: null,
     typeOneId: PokemonType.GROUND,
@@ -705,7 +705,7 @@ export const Pokedex = {
   },
   28: {
     name: "Sandslash",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Ground",
     typeTwo: null,
     typeOneId: PokemonType.GROUND,
@@ -730,7 +730,7 @@ export const Pokedex = {
   },
   29: {
     name: "Nidoran♀",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Poison",
     typeTwo: null,
     typeOneId: PokemonType.POISON,
@@ -756,7 +756,7 @@ export const Pokedex = {
   },
   30: {
     name: "Nidorina",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Poison",
     typeTwo: null,
     typeOneId: PokemonType.POISON,
@@ -782,7 +782,7 @@ export const Pokedex = {
   },
   31: {
     name: "Nidoqueen",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Poison",
     typeTwo: "Ground",
     typeOneId: PokemonType.POISON,
@@ -811,7 +811,7 @@ export const Pokedex = {
   },
   32: {
     name: "Nidoran♂",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Poison",
     typeTwo: null,
     typeOneId: PokemonType.POISON,
@@ -837,7 +837,7 @@ export const Pokedex = {
   },
   33: {
     name: "Nidorino",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Poison",
     typeTwo: null,
     typeOneId: PokemonType.POISON,
@@ -863,7 +863,7 @@ export const Pokedex = {
   },
   34: {
     name: "Nidoking",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Poison",
     typeTwo: "Ground",
     typeOneId: PokemonType.POISON,
@@ -892,7 +892,7 @@ export const Pokedex = {
   },
   35: {
     name: "Clefairy",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Fairy",
     typeTwo: null,
     typeOneId: PokemonType.FAIRY,
@@ -917,7 +917,7 @@ export const Pokedex = {
   },
   36: {
     name: "Clefable",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Fairy",
     typeTwo: null,
     typeOneId: PokemonType.FAIRY,
@@ -942,7 +942,7 @@ export const Pokedex = {
   },
   37: {
     name: "Vulpix",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Fire",
     typeTwo: null,
     typeOneId: PokemonType.FIRE,
@@ -970,7 +970,7 @@ export const Pokedex = {
   },
   38: {
     name: "Ninetales",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Fire",
     typeTwo: null,
     typeOneId: PokemonType.FIRE,
@@ -998,7 +998,7 @@ export const Pokedex = {
   },
   39: {
     name: "Jigglypuff",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Normal",
     typeTwo: "Fairy",
     typeOneId: PokemonType.NORMAL,
@@ -1023,7 +1023,7 @@ export const Pokedex = {
   },
   40: {
     name: "Wigglytuff",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Normal",
     typeTwo: "Fairy",
     typeOneId: PokemonType.NORMAL,
@@ -1048,7 +1048,7 @@ export const Pokedex = {
   },
   41: {
     name: "Zubat",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Poison",
     typeTwo: "Flying",
     typeOneId: PokemonType.POISON,
@@ -1077,7 +1077,7 @@ export const Pokedex = {
   },
   42: {
     name: "Golbat",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Poison",
     typeTwo: "Flying",
     typeOneId: PokemonType.POISON,
@@ -1106,7 +1106,7 @@ export const Pokedex = {
   },
   43: {
     name: "Oddish",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Grass",
     typeTwo: "Poison",
     typeOneId: PokemonType.GRASS,
@@ -1134,7 +1134,7 @@ export const Pokedex = {
   },
   44: {
     name: "Gloom",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Grass",
     typeTwo: "Poison",
     typeOneId: PokemonType.GRASS,
@@ -1162,7 +1162,7 @@ export const Pokedex = {
   },
   45: {
     name: "Vileplume",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Grass",
     typeTwo: "Poison",
     typeOneId: PokemonType.GRASS,
@@ -1190,7 +1190,7 @@ export const Pokedex = {
   },
   46: {
     name: "Paras",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Bug",
     typeTwo: "Grass",
     typeOneId: PokemonType.BUG,
@@ -1220,7 +1220,7 @@ export const Pokedex = {
   },
   47: {
     name: "Parasect",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Bug",
     typeTwo: "Grass",
     typeOneId: PokemonType.BUG,
@@ -1250,7 +1250,7 @@ export const Pokedex = {
   },
   48: {
     name: "Venonat",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Bug",
     typeTwo: "Poison",
     typeOneId: PokemonType.BUG,
@@ -1278,7 +1278,7 @@ export const Pokedex = {
   },
   49: {
     name: "Venomoth",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Bug",
     typeTwo: "Poison",
     typeOneId: PokemonType.BUG,
@@ -1306,7 +1306,7 @@ export const Pokedex = {
   },
   50: {
     name: "Diglett",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Ground",
     typeTwo: null,
     typeOneId: PokemonType.GROUND,
@@ -1331,7 +1331,7 @@ export const Pokedex = {
   },
   51: {
     name: "Dugtrio",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Ground",
     typeTwo: null,
     typeOneId: PokemonType.GROUND,
@@ -1356,7 +1356,7 @@ export const Pokedex = {
   },
   52: {
     name: "Meowth",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Normal",
     typeTwo: null,
     typeOneId: PokemonType.NORMAL,
@@ -1377,7 +1377,7 @@ export const Pokedex = {
   },
   53: {
     name: "Persian",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Normal",
     typeTwo: null,
     typeOneId: PokemonType.NORMAL,
@@ -1398,7 +1398,7 @@ export const Pokedex = {
   },
   54: {
     name: "Psyduck",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Water",
     typeTwo: null,
     typeOneId: PokemonType.WATER,
@@ -1423,7 +1423,7 @@ export const Pokedex = {
   },
   55: {
     name: "Golduck",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Water",
     typeTwo: null,
     typeOneId: PokemonType.WATER,
@@ -1448,7 +1448,7 @@ export const Pokedex = {
   },
   56: {
     name: "Mankey",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Fighting",
     typeTwo: null,
     typeOneId: PokemonType.FIGHTING,
@@ -1473,7 +1473,7 @@ export const Pokedex = {
   },
   57: {
     name: "Primeape",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Fighting",
     typeTwo: null,
     typeOneId: PokemonType.FIGHTING,
@@ -1498,7 +1498,7 @@ export const Pokedex = {
   },
   58: {
     name: "Growlithe",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Fire",
     typeTwo: null,
     typeOneId: PokemonType.FIRE,
@@ -1526,7 +1526,7 @@ export const Pokedex = {
   },
   59: {
     name: "Arcanine",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Fire",
     typeTwo: null,
     typeOneId: PokemonType.FIRE,
@@ -1554,7 +1554,7 @@ export const Pokedex = {
   },
   60: {
     name: "Poliwag",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Water",
     typeTwo: null,
     typeOneId: PokemonType.WATER,
@@ -1579,7 +1579,7 @@ export const Pokedex = {
   },
   61: {
     name: "Poliwhirl",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Water",
     typeTwo: null,
     typeOneId: PokemonType.WATER,
@@ -1604,7 +1604,7 @@ export const Pokedex = {
   },
   62: {
     name: "Poliwrath",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Water",
     typeTwo: "Fighting",
     typeOneId: PokemonType.WATER,
@@ -1635,7 +1635,7 @@ export const Pokedex = {
   },
   63: {
     name: "Abra",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Psychic",
     typeTwo: null,
     typeOneId: PokemonType.PSYCHIC,
@@ -1659,7 +1659,7 @@ export const Pokedex = {
   },
   64: {
     name: "Kadabra",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Psychic",
     typeTwo: null,
     typeOneId: PokemonType.PSYCHIC,
@@ -1683,7 +1683,7 @@ export const Pokedex = {
   },
   65: {
     name: "Alakazam",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Psychic",
     typeTwo: null,
     typeOneId: PokemonType.PSYCHIC,
@@ -1707,7 +1707,7 @@ export const Pokedex = {
   },
   66: {
     name: "Machop",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Fighting",
     typeTwo: null,
     typeOneId: PokemonType.FIGHTING,
@@ -1732,7 +1732,7 @@ export const Pokedex = {
   },
   67: {
     name: "Machoke",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Fighting",
     typeTwo: null,
     typeOneId: PokemonType.FIGHTING,
@@ -1757,7 +1757,7 @@ export const Pokedex = {
   },
   68: {
     name: "Machamp",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Fighting",
     typeTwo: null,
     typeOneId: PokemonType.FIGHTING,
@@ -1782,7 +1782,7 @@ export const Pokedex = {
   },
   69: {
     name: "Bellsprout",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Grass",
     typeTwo: "Poison",
     typeOneId: PokemonType.GRASS,
@@ -1810,7 +1810,7 @@ export const Pokedex = {
   },
   70: {
     name: "Weepinbell",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Grass",
     typeTwo: "Poison",
     typeOneId: PokemonType.GRASS,
@@ -1838,7 +1838,7 @@ export const Pokedex = {
   },
   71: {
     name: "Victreebel",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Grass",
     typeTwo: "Poison",
     typeOneId: PokemonType.GRASS,
@@ -1866,7 +1866,7 @@ export const Pokedex = {
   },
   72: {
     name: "Tentacool",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Water",
     typeTwo: "Poison",
     typeOneId: PokemonType.WATER,
@@ -1896,7 +1896,7 @@ export const Pokedex = {
   },
   73: {
     name: "Tentacruel",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Water",
     typeTwo: "Poison",
     typeOneId: PokemonType.WATER,
@@ -1926,7 +1926,7 @@ export const Pokedex = {
   },
   74: {
     name: "Geodude",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Rock",
     typeTwo: "Ground",
     typeOneId: PokemonType.ROCK,
@@ -1957,7 +1957,7 @@ export const Pokedex = {
   },
   75: {
     name: "Graveler",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Rock",
     typeTwo: "Ground",
     typeOneId: PokemonType.ROCK,
@@ -1988,7 +1988,7 @@ export const Pokedex = {
   },
   76: {
     name: "Golem",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Rock",
     typeTwo: "Ground",
     typeOneId: PokemonType.ROCK,
@@ -2019,7 +2019,7 @@ export const Pokedex = {
   },
   77: {
     name: "Ponyta",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Fire",
     typeTwo: null,
     typeOneId: PokemonType.FIRE,
@@ -2047,7 +2047,7 @@ export const Pokedex = {
   },
   78: {
     name: "Rapidash",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Fire",
     typeTwo: null,
     typeOneId: PokemonType.FIRE,
@@ -2075,7 +2075,7 @@ export const Pokedex = {
   },
   79: {
     name: "Slowpoke",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Water",
     typeTwo: "Psychic",
     typeOneId: PokemonType.WATER,
@@ -2105,7 +2105,7 @@ export const Pokedex = {
   },
   80: {
     name: "Slowbro",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Water",
     typeTwo: "Psychic",
     typeOneId: PokemonType.WATER,
@@ -2135,7 +2135,7 @@ export const Pokedex = {
   },
   81: {
     name: "Magnemite",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Electric",
     typeTwo: "Steel",
     typeOneId: PokemonType.ELECTRIC,
@@ -2169,7 +2169,7 @@ export const Pokedex = {
   },
   82: {
     name: "Magneton",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Electric",
     typeTwo: "Steel",
     typeOneId: PokemonType.ELECTRIC,
@@ -2203,7 +2203,7 @@ export const Pokedex = {
   },
   83: {
     name: "Farfetch'd",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Normal",
     typeTwo: "Flying",
     typeOneId: PokemonType.NORMAL,
@@ -2229,7 +2229,7 @@ export const Pokedex = {
   },
   84: {
     name: "Doduo",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Normal",
     typeTwo: "Flying",
     typeOneId: PokemonType.NORMAL,
@@ -2255,7 +2255,7 @@ export const Pokedex = {
   },
   85: {
     name: "Dodrio",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Normal",
     typeTwo: "Flying",
     typeOneId: PokemonType.NORMAL,
@@ -2281,7 +2281,7 @@ export const Pokedex = {
   },
   86: {
     name: "Seel",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Water",
     typeTwo: null,
     typeOneId: PokemonType.WATER,
@@ -2306,7 +2306,7 @@ export const Pokedex = {
   },
   87: {
     name: "Dewgong",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Water",
     typeTwo: "Ice",
     typeOneId: PokemonType.WATER,
@@ -2331,7 +2331,7 @@ export const Pokedex = {
   },
   88: {
     name: "Grimer",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Poison",
     typeTwo: null,
     typeOneId: PokemonType.POISON,
@@ -2357,7 +2357,7 @@ export const Pokedex = {
   },
   89: {
     name: "Muk",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Poison",
     typeTwo: null,
     typeOneId: PokemonType.POISON,
@@ -2383,7 +2383,7 @@ export const Pokedex = {
   },
   90: {
     name: "Shellder",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Water",
     typeTwo: null,
     typeOneId: PokemonType.WATER,
@@ -2408,7 +2408,7 @@ export const Pokedex = {
   },
   91: {
     name: "Cloyster",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Water",
     typeTwo: "Ice",
     typeOneId: PokemonType.WATER,
@@ -2433,7 +2433,7 @@ export const Pokedex = {
   },
   92: {
     name: "Gastly",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Ghost",
     typeTwo: "Poison",
     typeOneId: PokemonType.GHOST,
@@ -2462,7 +2462,7 @@ export const Pokedex = {
   },
   93: {
     name: "Haunter",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Ghost",
     typeTwo: "Poison",
     typeOneId: PokemonType.GHOST,
@@ -2491,7 +2491,7 @@ export const Pokedex = {
   },
   94: {
     name: "Gengar",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Ghost",
     typeTwo: "Poison",
     typeOneId: PokemonType.GHOST,
@@ -2520,7 +2520,7 @@ export const Pokedex = {
   },
   95: {
     name: "Onix",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Rock",
     typeTwo: "Ground",
     typeOneId: PokemonType.ROCK,
@@ -2551,7 +2551,7 @@ export const Pokedex = {
   },
   96: {
     name: "Drowzee",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Psychic",
     typeTwo: null,
     typeOneId: PokemonType.PSYCHIC,
@@ -2575,7 +2575,7 @@ export const Pokedex = {
   },
   97: {
     name: "Hypno",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Psychic",
     typeTwo: null,
     typeOneId: PokemonType.PSYCHIC,
@@ -2599,7 +2599,7 @@ export const Pokedex = {
   },
   98: {
     name: "Krabby",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Water",
     typeTwo: null,
     typeOneId: PokemonType.WATER,
@@ -2624,7 +2624,7 @@ export const Pokedex = {
   },
   99: {
     name: "Kingler",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Water",
     typeTwo: null,
     typeOneId: PokemonType.WATER,
@@ -2649,7 +2649,7 @@ export const Pokedex = {
   },
   100: {
     name: "Voltorb",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Electric",
     typeTwo: null,
     typeOneId: PokemonType.ELECTRIC,
@@ -2672,7 +2672,7 @@ export const Pokedex = {
   },
   101: {
     name: "Electrode",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOnee: "Electric",
     typeTwo: null,
     typeOneId: PokemonType.ELECTRIC,
@@ -2695,7 +2695,7 @@ export const Pokedex = {
   },
   102: {
     name: "Exeggcute",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Grass",
     typeTwo: "Psychic",
     typeOneId: PokemonType.GRASS,
@@ -2726,7 +2726,7 @@ export const Pokedex = {
   },
   103: {
     name: "Exeggutor",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Grass",
     typeTwo: "Psychic",
     typeOneId: PokemonType.GRASS,
@@ -2757,7 +2757,7 @@ export const Pokedex = {
   },
   104: {
     name: "Cubone",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Ground",
     typeTwo: null,
     typeOneId: PokemonType.GROUND,
@@ -2782,7 +2782,7 @@ export const Pokedex = {
   },
   105: {
     name: "Marowak",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Ground",
     typeTwo: null,
     typeOneId: PokemonType.GROUND,
@@ -2807,7 +2807,7 @@ export const Pokedex = {
   },
   106: {
     name: "Hitmonlee",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Fighting",
     typeTwo: null,
     typeOneId: PokemonType.FIGHTING,
@@ -2832,7 +2832,7 @@ export const Pokedex = {
   },
   107: {
     name: "Hitmonchan",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Fighting",
     typeTwo: null,
     typeOneId: PokemonType.FIGHTING,
@@ -2857,7 +2857,7 @@ export const Pokedex = {
   },
   108: {
     name: "Lickitung",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Normal",
     typeTwo: null,
     typeOneId: PokemonType.NORMAL,
@@ -2878,7 +2878,7 @@ export const Pokedex = {
   },
   109: {
     name: "Koffing",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Poison",
     typeTwo: null,
     typeOneId: PokemonType.POISON,
@@ -2904,7 +2904,7 @@ export const Pokedex = {
   },
   110: {
     name: "Weezing",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Poison",
     typeTwo: null,
     typeOneId: PokemonType.POISON,
@@ -2930,7 +2930,7 @@ export const Pokedex = {
   },
   111: {
     name: "Rhyhorn",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Ground",
     typeTwo: "Rock",
     typeOneId: PokemonType.GROUND,
@@ -2961,7 +2961,7 @@ export const Pokedex = {
   },
   112: {
     name: "Rhydon",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Ground",
     typeTwo: "Rock",
     typeOneId: PokemonType.GROUND,
@@ -2992,7 +2992,7 @@ export const Pokedex = {
   },
   113: {
     name: "Chansey",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Normal",
     typeTwo: null,
     typeOneId: PokemonType.NORMAL,
@@ -3013,7 +3013,7 @@ export const Pokedex = {
   },
   113: {
     name: "Chansey",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Normal",
     typeTwo: null,
     typeOneId: PokemonType.NORMAL,
@@ -3034,7 +3034,7 @@ export const Pokedex = {
   },
   114: {
     name: "Tangela",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Grass",
     typeTwo: null,
     typeOneId: PokemonType.GRASS,
@@ -3062,7 +3062,7 @@ export const Pokedex = {
   },
   115: {
     name: "Kangaskhan",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Normal",
     typeTwo: null,
     typeOneId: PokemonType.NORMAL,
@@ -3083,7 +3083,7 @@ export const Pokedex = {
   },
   116: {
     name: "Horsea",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Water",
     typeTwo: null,
     typeOneId: PokemonType.WATER,
@@ -3108,7 +3108,7 @@ export const Pokedex = {
   },
   117: {
     name: "Seadra",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Water",
     typeTwo: null,
     typeOneId: PokemonType.WATER,
@@ -3133,7 +3133,7 @@ export const Pokedex = {
   },
   118: {
     name: "Goldeen",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Water",
     typeTwo: null,
     typeOneId: PokemonType.WATER,
@@ -3158,7 +3158,7 @@ export const Pokedex = {
   },
   119: {
     name: "Seaking",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Water",
     typeTwo: null,
     typeOneId: PokemonType.WATER,
@@ -3183,7 +3183,7 @@ export const Pokedex = {
   },
   120: {
     name: "Staryu",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Water",
     typeTwo: null,
     typeOneId: PokemonType.WATER,
@@ -3208,7 +3208,7 @@ export const Pokedex = {
   },
   121: {
     name: "Starmie",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Water",
     typeTwo: "Psychic",
     typeOneId: PokemonType.WATER,
@@ -3238,7 +3238,7 @@ export const Pokedex = {
   },
   122: {
     name: "Mr. Mime",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Psychic",
     typeTwo: "Fairy",
     typeOneId: PokemonType.PSYCHIC,
@@ -3263,7 +3263,7 @@ export const Pokedex = {
   },
   123: {
     name: "Scyther",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Bug",
     typeTwo: "Flying",
     typeOneId: PokemonType.BUG,
@@ -3291,7 +3291,7 @@ export const Pokedex = {
   },
   124: {
     name: "Jynx",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Ice",
     typeTwo: "Psychic",
     typeOneId: PokemonType.ICE,
@@ -3318,7 +3318,7 @@ export const Pokedex = {
   },
   125: {
     name: "Electabuzz",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Electric",
     typeTwo: null,
     typeOneId: PokemonType.ELECTRIC,
@@ -3343,7 +3343,7 @@ export const Pokedex = {
   },
   126: {
     name: "Magmar",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Fire",
     typeTwo: null,
     typeOneId: PokemonType.FIRE,
@@ -3371,7 +3371,7 @@ export const Pokedex = {
   },
   127: {
     name: "Pinsir",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Bug",
     typeTwo: null,
     typeOneId: PokemonType.BUG,
@@ -3396,7 +3396,7 @@ export const Pokedex = {
   },
   128: {
     name: "Tauros",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Normal",
     typeTwo: null,
     typeOneId: PokemonType.NORMAL,
@@ -3417,7 +3417,7 @@ export const Pokedex = {
   },
   129: {
     name: "Magikarp",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Water",
     typeTwo: null,
     typeOneId: PokemonType.WATER,
@@ -3442,7 +3442,7 @@ export const Pokedex = {
   },
   130: {
     name: "Gyarados",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Water",
     typeTwo: "Flying",
     typeOneId: PokemonType.WATER,
@@ -3469,7 +3469,7 @@ export const Pokedex = {
   },
   131: {
     name: "Lapras",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Water",
     typeTwo: "Ice",
     typeOneId: PokemonType.WATER,
@@ -3494,7 +3494,7 @@ export const Pokedex = {
   },
   132: {
     name: "Ditto",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Normal",
     typeTwo: null,
     typeOneId: PokemonType.NORMAL,
@@ -3515,7 +3515,7 @@ export const Pokedex = {
   },
   133: {
     name: "Eevee",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Normal",
     typeTwo: null,
     typeOneId: PokemonType.NORMAL,
@@ -3536,7 +3536,7 @@ export const Pokedex = {
   },
   134: {
     name: "Vaporeon",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Water",
     typeTwo: null,
     typeOneId: PokemonType.WATER,
@@ -3561,7 +3561,7 @@ export const Pokedex = {
   },
   135: {
     name: "Jolteon",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Electric",
     typeTwo: null,
     typeOneId: PokemonType.ELECTRIC,
@@ -3586,7 +3586,7 @@ export const Pokedex = {
   },
   136: {
     name: "Flareon",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Fire",
     typeTwo: null,
     typeOneId: PokemonType.FIRE,
@@ -3614,7 +3614,7 @@ export const Pokedex = {
   },
   137: {
     name: "Porygon",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Normal",
     typeTwo: null,
     typeOneId: PokemonType.NORMAL,
@@ -3635,7 +3635,7 @@ export const Pokedex = {
   },
   138: {
     name: "Omanyte",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Rock",
     typeTwo: "Water",
     typeOneId: PokemonType.ROCK,
@@ -3663,7 +3663,7 @@ export const Pokedex = {
   },
   139: {
     name: "Omastar",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Rock",
     typeTwo: "Water",
     typeOneId: PokemonType.ROCK,
@@ -3691,7 +3691,7 @@ export const Pokedex = {
   },
   140: {
     name: "Kabuto",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Rock",
     typeTwo: "Water",
     typeOneId: PokemonType.ROCK,
@@ -3719,7 +3719,7 @@ export const Pokedex = {
   },
   141: {
     name: "Kabutops",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Rock",
     typeTwo: "Water",
     typeOneId: PokemonType.ROCK,
@@ -3747,7 +3747,7 @@ export const Pokedex = {
   },
   142: {
     name: "Aerodactyl",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Rock",
     typeTwo: "Flying",
     typeOneId: PokemonType.ROCK,
@@ -3777,7 +3777,7 @@ export const Pokedex = {
   },
   143: {
     name: "Snorlax",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Normal",
     typeTwo: null,
     typeOneId: PokemonType.NORMAL,
@@ -3798,7 +3798,7 @@ export const Pokedex = {
   },
   144: {
     name: "Articuno",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Ice",
     typeTwo: "Flying",
     typeOneId: PokemonType.ICE,
@@ -3824,7 +3824,7 @@ export const Pokedex = {
   },
   145: {
     name: "Zapdos",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Electric",
     typeTwo: "Flying",
     typeOneId: PokemonType.ELECTRIC,
@@ -3851,7 +3851,7 @@ export const Pokedex = {
   },
   146: {
     name: "Moltres",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Fire",
     typeTwo: "Flying",
     typeOneId: PokemonType.FIRE,
@@ -3880,7 +3880,7 @@ export const Pokedex = {
   },
   147: {
     name: "Dratini",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Dragon",
     typeTwo: null,
     typeOneId: PokemonType.DRAGON,
@@ -3906,7 +3906,7 @@ export const Pokedex = {
   },
   148: {
     name: "Dragonair",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Dragon",
     typeTwo: null,
     typeOneId: PokemonType.DRAGON,
@@ -3932,7 +3932,7 @@ export const Pokedex = {
   },
   149: {
     name: "Dragonite",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Dragon",
     typeTwo: null,
     typeOneId: PokemonType.DRAGON,
@@ -3961,7 +3961,7 @@ export const Pokedex = {
   },
   150: {
     name: "Mewtwo",
-    sprite: require("../../assets/sprites/001.png"),
+    spriteId: "",
     typeOne: "Psychic",
     typeTwo: null,
     typeOneId: PokemonType.PSYCHIC,

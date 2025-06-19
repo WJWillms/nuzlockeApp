@@ -1,17 +1,26 @@
-import { useState } from "react";
-import { Pokedex } from "./Pokedex/sunMoonPokedex";
+import React, { useState } from 'react';
+import {
+  Dimensions,
+  Image,
+  Pressable,
+  ScrollView,
+  Text,
+  TextInput,
+  View
+} from 'react-native';
+import spriteMap from "./Pokedex/spriteMap";
+import { Pokedex } from './Pokedex/sunMoonPokedex';
+import nuzlockeStyles from "./styles/nuzlockeStyles";
+
+const screenWidth = Dimensions.get('window').width;
 
 const PokemonPicker = ({ onConfirm }) => {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [selected, setSelected] = useState(new Set());
 
   const handleToggle = (id) => {
     const newSelected = new Set(selected);
-    if (newSelected.has(id)) {
-      newSelected.delete(id);
-    } else {
-      newSelected.add(id);
-    }
+    newSelected.has(id) ? newSelected.delete(id) : newSelected.add(id);
     setSelected(newSelected);
   };
 
@@ -20,41 +29,52 @@ const PokemonPicker = ({ onConfirm }) => {
   );
 
   return (
-    <div className="p-4 max-w-4xl mx-auto">
-      <input
-        type="text"
-        className="w-full p-2 border rounded mb-4"
-        placeholder="Search Pokémon..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
+    <View style={nuzlockeStyles.container}>
+      {/* Search Bar */}
+      <View style={nuzlockeStyles.searchContainer}>
+        <TextInput
+          style={nuzlockeStyles.searchInput}
+          placeholder="Search Pokémon..."
+          value={search}
+          onChangeText={setSearch}
+        />
+      </View>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 max-h-[60vh] overflow-y-auto">
-        {filteredPokemon.map(([id, mon]) => (
-          <div
-            key={id}
-            onClick={() => handleToggle(id)}
-            className={`border rounded p-2 cursor-pointer flex flex-col items-center transition ${
-              selected.has(id) ? "bg-blue-100 border-blue-500" : "hover:bg-gray-100"
-            }`}
-          >
-            <img
-              src={mon.sprite}
-              alt={mon.name}
-              className="w-16 h-16 object-contain mb-2"
-            />
-            <span className="text-sm text-center">{mon.name}</span>
-          </div>
-        ))}
-      </div>
+      {/* Pokémon Grid */}
+      <ScrollView contentContainerStyle={nuzlockeStyles.grid}>
+        {filteredPokemon.map(([id, mon]) => {
+          const isSelected = selected.has(id);
+          return (
+            <Pressable
+              key={id}
+              onPress={() => handleToggle(id)}
+              style={[
+                nuzlockeStyles.card,
+                isSelected && nuzlockeStyles.cardSelected,
+              ]}
+            >
+              <Image
+                source={spriteMap[mon.spriteId]}
+                style={nuzlockeStyles.sprite}
+              />
+              <Text style={nuzlockeStyles.name}>{mon.name}</Text>
+            </Pressable>
+          );
+        })}
+      </ScrollView>
 
-      <button
-        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        onClick={() => onConfirm(Array.from(selected))}
-      >
-        Confirm Choices ({selected.size})
-      </button>
-    </div>
+      {/* Confirm Button */}
+      <View style={nuzlockeStyles.buttonContainer}>
+        <Pressable
+          onPress={() => onConfirm(Array.from(selected))}
+          style={nuzlockeStyles.button}
+        >
+          <Text style={nuzlockeStyles.buttonText}>
+            Confirm Choices ({selected.size})
+          </Text>
+        </Pressable>
+      </View>
+    </View>
   );
 };
 
