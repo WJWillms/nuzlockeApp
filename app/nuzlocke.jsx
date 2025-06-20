@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
   Dimensions,
@@ -17,6 +18,16 @@ const screenWidth = Dimensions.get('window').width;
 const PokemonPicker = ({ onConfirm }) => {
   const [search, setSearch] = useState('');
   const [selected, setSelected] = useState(new Set());
+
+  const router = useRouter();
+
+  const handleConfirm = () => {
+    const selectedArray = Array.from(selected);
+    router.push({
+      pathname: "/nuzlockeTeamBuilder",
+      params: { team: JSON.stringify(selectedArray) },
+    });
+  };
 
   const handleToggle = (id) => {
     const newSelected = new Set(selected);
@@ -65,10 +76,7 @@ const PokemonPicker = ({ onConfirm }) => {
 
       {/* Confirm Button */}
       <View style={nuzlockeStyles.buttonContainer}>
-        <Pressable
-          onPress={() => onConfirm(Array.from(selected))}
-          style={nuzlockeStyles.button}
-        >
+        <Pressable onPress={handleConfirm} style={nuzlockeStyles.button}>
           <Text style={nuzlockeStyles.buttonText}>
             Confirm Choices ({selected.size})
           </Text>
