@@ -57,7 +57,20 @@ const nuzlockeStyles = StyleSheet.create({
         fontSize: 13,
         textAlign: 'center',
     },
+    typeIconRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 4,
+        marginBottom: 12,
+        paddingHorizontal: 12,
+    },
 
+    typeIcon: {
+        width: 32,
+        height: 32,
+        resizeMode: 'contain',
+        marginHorizontal: 4,
+    },
 
 
 });

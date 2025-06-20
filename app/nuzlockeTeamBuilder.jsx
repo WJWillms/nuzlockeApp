@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
 import spriteMap from "./Pokedex/spriteMap";
 import { Pokedex } from './Pokedex/sunMoonPokedex';
+import typeIconMap from './Pokedex/typeIconMap';
 import nuzlockeTBStyles from "./styles/nuzlockeTBStyles";
 
 const NuzlockeTeamBuilder = () => {
@@ -55,36 +56,62 @@ const NuzlockeTeamBuilder = () => {
           <Pressable onPress={() => setTeamIndex((prev) => prev - 1)}>
             <Text style={nuzlockeTBStyles.navButton}>← Previous Team</Text>
           </Pressable>
-        ) : <View style={nuzlockeTBStyles.placeholder} />}
-
+        ) : (
+          <View style={nuzlockeTBStyles.placeholder} />
+        )}
+  
         <Text style={nuzlockeTBStyles.teamTitle}>
           Team {teamIndex + 1} of {allValidTeams.length}
         </Text>
-
+  
         {teamIndex < allValidTeams.length - 1 ? (
           <Pressable onPress={() => setTeamIndex((prev) => prev + 1)}>
             <Text style={nuzlockeTBStyles.navButton}>Next Team →</Text>
           </Pressable>
-        ) : <View style={nuzlockeTBStyles.placeholder} />}
+        ) : (
+          <View style={nuzlockeTBStyles.placeholder} />
+        )}
       </View>
-
+  
       {/* Sprite Display */}
       <View style={nuzlockeTBStyles.teamContainer}>
         {currentTeam.map((id) => {
-          const paddedId = id.toString().padStart(3, '0'); // 🔥 key fix here
+          const paddedId = id.toString().padStart(3, '0');
           const pokemon = Pokedex[id];
           const sprite = spriteMap[paddedId];
-
+  
           return (
-            <View key={id} style={nuzlockeTBStyles.pokemonSlot}>
-              <Image source={sprite} style={nuzlockeTBStyles.sprite} />
-              <Text style={nuzlockeTBStyles.name}>{pokemon.name}</Text>
+            <View key={id} style={{ alignItems: 'center' }}>
+              <View style={nuzlockeTBStyles.pokemonSlot}>
+                <Image source={sprite} style={nuzlockeTBStyles.sprite} />
+                <Text style={nuzlockeTBStyles.name}>{pokemon.name}</Text>
+              </View>
+  
+              {/* Type Icons Below Sprite */}
+              <View
+                style={[
+                  nuzlockeTBStyles.typeIconRow,
+                  !pokemon.typeTwo && { justifyContent: 'center' },
+                ]}
+              >
+                <Image
+                  source={typeIconMap[pokemon.typeOneId]}
+                  style={nuzlockeTBStyles.typeIcon}
+                />
+                {pokemon.typeTwo && (
+                  <Image
+                    source={typeIconMap[pokemon.typeTwoId]}
+                    style={nuzlockeTBStyles.typeIcon}
+                  />
+                )}
+              </View>
             </View>
           );
         })}
       </View>
     </View>
   );
+  
 };
 
 export default NuzlockeTeamBuilder;
