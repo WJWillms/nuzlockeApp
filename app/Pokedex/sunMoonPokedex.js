@@ -1849,7 +1849,7 @@ export const Pokedex = {
     specialAttack: 100,
     specialDefense: 70,
     speed: 70,
-    TotalBaseStats: 490,
+    totalBaseStats: 490,
     weaknesses: {
       Fire: 2,
       Ice: 2,
@@ -1877,7 +1877,7 @@ export const Pokedex = {
     specialAttack: 50,
     specialDefense: 100,
     speed: 70,
-    TotalBaseStats: 335,
+    totalBaseStats: 335,
     weaknesses: {
       Electric: 2,
       Ground: 2,
@@ -1907,7 +1907,7 @@ export const Pokedex = {
     specialAttack: 80,
     specialDefense: 120,
     speed: 100,
-    TotalBaseStats: 515,
+    totalBaseStats: 515,
     weaknesses: {
       Electric: 2,
       Ground: 2,
@@ -1937,7 +1937,7 @@ export const Pokedex = {
     specialAttack: 30,
     specialDefense: 30,
     speed: 20,
-    TotalBaseStats: 300,
+    totalBaseStats: 300,
     weaknesses: {
       Water: 4,
       Grass: 4,
@@ -1968,7 +1968,7 @@ export const Pokedex = {
     specialAttack: 45,
     specialDefense: 45,
     speed: 35,
-    TotalBaseStats: 390,
+    totalBaseStats: 390,
     weaknesses: {
       Water: 4,
       Grass: 4,
@@ -1999,7 +1999,7 @@ export const Pokedex = {
     specialAttack: 55,
     specialDefense: 65,
     speed: 45,
-    TotalBaseStats: 495,
+    totalBaseStats: 495,
     weaknesses: {
       Water: 4,
       Grass: 4,
@@ -2030,7 +2030,7 @@ export const Pokedex = {
     specialAttack: 65,
     specialDefense: 65,
     speed: 90,
-    TotalBaseStats: 410,
+    totalBaseStats: 410,
     weaknesses: {
       Water: 2,
       Ground: 2,
@@ -2058,7 +2058,7 @@ export const Pokedex = {
     specialAttack: 80,
     specialDefense: 80,
     speed: 105,
-    TotalBaseStats: 500,
+    totalBaseStats: 500,
     weaknesses: {
       Water: 2,
       Ground: 2,
@@ -2086,7 +2086,7 @@ export const Pokedex = {
     specialAttack: 40,
     specialDefense: 40,
     speed: 15,
-    TotalBaseStats: 315,
+    totalBaseStats: 315,
     weaknesses: {
       Electric: 2,
       Grass: 2,
@@ -2116,7 +2116,7 @@ export const Pokedex = {
     specialAttack: 130,
     specialDefense: 80,
     speed: 30,
-    TotalBaseStats: 590,
+    totalBaseStats: 590,
     weaknesses: {
       Electric: 2,
       Grass: 2,
@@ -3740,7 +3740,7 @@ export const Pokedex = {
     totalBaseStats: 515,
     weaknesses: {
       Electric: 2,
-      Water: 4,
+      Water: 2,
       Ice: 2,
       Rock: 2,
       Steel: 2
@@ -3913,7 +3913,7 @@ export const Pokedex = {
     name: "Dragonite",
     spriteId: "149",
     typeOne: "Dragon",
-    typeTwo: null,
+    typeTwo: "Flying",
     typeOneId: PokemonType.DRAGON,
     typeTwoId: PokemonType.FLYING,
     hp: 91,

@@ -115,17 +115,53 @@ const nuzlockeStyles = StyleSheet.create({
         paddingHorizontal: 12,
         marginTop: 24,
         gap: 12,
-      },
-      
-      column: {
+    },
+
+    column: {
         flex: 1,
         padding: 8,
         borderWidth: 1,
         borderColor: '#ccc',
         borderRadius: 8,
         backgroundColor: '#f9f9f9',
-      },
-      
+    },
+
+    statText: {
+        fontSize: 16,
+        textAlign: 'center',
+        marginVertical: 2,
+        color: '#333',
+    },
+    statsTotalsContainer: {
+        marginTop: 10,
+        alignItems: 'center',
+    },
+
+    statRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: 300, // adjust if needed
+        marginVertical: 2,
+    },
+
+    statLabel: {
+        flex: 1,
+        textAlign: 'left',
+        fontSize: 16,
+        color: '#333',
+    },
+
+    statValue: {
+        flex: 1,
+        textAlign: 'right',
+        fontSize: 16,
+        color: '#333',
+    },
+
+    statValueBold: {
+        fontWeight: 'bold',
+    },
+
 
 });
 

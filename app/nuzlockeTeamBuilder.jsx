@@ -1,11 +1,13 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Dimensions, Image, Pressable, Text, View } from 'react-native';
+import RadarChart from '../components/RadarChart';
 import { PokemonType } from './Pokedex/PokemonType';
 import spriteMap from "./Pokedex/spriteMap";
 import { Pokedex } from './Pokedex/sunMoonPokedex';
 import typeIconMap from './Pokedex/typeIconMap';
 import nuzlockeTBStyles from "./styles/nuzlockeTBStyles";
+
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -183,7 +185,7 @@ const NuzlockeTeamBuilder = () => {
             <View style={nuzlockeTBStyles.bottomSection}>
                 {/* Column 1: Resistances */}
                 <View style={nuzlockeTBStyles.column}>
-                    <Text style={nuzlockeTBStyles.sectionHeader}>Resistances</Text>
+                    <Text style={nuzlockeTBStyles.sectionHeader}>RESISTANCES</Text>
 
                     {Object.keys(resistanceSummary.immune).length > 0 && (
                         <View>
@@ -272,13 +274,51 @@ const NuzlockeTeamBuilder = () => {
 
                 {/* Column 2: Stats */}
                 <View style={nuzlockeTBStyles.column}>
-                    <Text style={[nuzlockeTBStyles.sectionHeader, { textAlign: 'center' }]}>Stats</Text>
+                    <Text style={nuzlockeTBStyles.sectionHeader}>STATS</Text>
+
+                    <RadarChart
+                        stats={[
+                            teamStats.hp,
+                            teamStats.attack,
+                            teamStats.defense,
+                            teamStats.speed,
+                            teamStats.specialDefense,
+                            teamStats.specialAttack,
+                        ]}
+                        labels={['HP', 'ATK', 'DEF', 'SPD', 'SpD', 'SpA']}
+                        size={180}
+                    />
+
+                    <View style={nuzlockeTBStyles.statsTotalsContainer}>
+                        {[
+                            ['HP:', teamStats.hp],
+                            ['Attack:', teamStats.attack],
+                            ['Defense:', teamStats.defense],
+                            ['Special Attack:', teamStats.specialAttack],
+                            ['Special Defense:', teamStats.specialDefense],
+                            ['Speed:', teamStats.speed],
+                            ['Total Base Stats:', teamStats.totalBaseStats],
+                        ].map(([label, value]) => (
+                            <View key={label} style={nuzlockeTBStyles.statRow}>
+                                <Text style={nuzlockeTBStyles.statLabel}>{label}</Text>
+                                <Text
+                                    style={[
+                                        nuzlockeTBStyles.statValue,
+                                        label === 'Total Base Stats:' && nuzlockeTBStyles.statValueBold,
+                                    ]}
+                                >
+                                    {value}
+                                </Text>
+                            </View>
+                        ))}
+                    </View>
                 </View>
+
 
 
                 {/* Column 3: Weaknesses */}
                 <View style={nuzlockeTBStyles.column}>
-                    <Text style={nuzlockeTBStyles.sectionHeader}>Weaknesses</Text>
+                    <Text style={nuzlockeTBStyles.sectionHeader}>WEAKNESSES</Text>
                     <View>
                         {Object.keys(weaknessSummary.x4).length > 0 && (
                             <View>
