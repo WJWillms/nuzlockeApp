@@ -18,12 +18,20 @@ const NuzlockeTeamBuilder = () => {
     const allValidTeams = getTeamsFromSelection(parsedTeam);
     const [teamIndex, setTeamIndex] = useState(0);
     const currentTeam = allValidTeams[teamIndex];
+    const [activeCharts, setActiveCharts] = useState(['Total']);
+    const individualColors = ['#f87171', '#34d399', '#60a5fa', '#facc15', '#a78bfa', '#fb923c']; //Colors for Charts
+
+
 
     const typeNameToId = Object.fromEntries(
         Object.entries(PokemonType).map(([key, value]) => [key.toUpperCase(), value])
     );
 
-    // Collect resistances for the current team
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    //                                   Resistances
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////
     const resistanceSummary = {
         immune: {},
         quarter: {},
@@ -47,6 +55,12 @@ const NuzlockeTeamBuilder = () => {
         });
     });
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    //                                   Weaknesses
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
     const weaknessSummary = {
         x2: {},
         x4: {},
@@ -65,6 +79,12 @@ const NuzlockeTeamBuilder = () => {
             }
         });
     });
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    //                                   Stats/Charts
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////
 
     const teamStats = {
         hp: 0,
@@ -86,6 +106,82 @@ const NuzlockeTeamBuilder = () => {
         teamStats.specialDefense += p.specialDefense;
         teamStats.speed += p.speed;
         teamStats.totalBaseStats += p.totalBaseStats;
+    });
+
+    const chartOptions = [
+        {
+          label: 'Total',
+          stats: [
+            teamStats.hp,
+            teamStats.attack,
+            teamStats.defense,
+            teamStats.speed,
+            teamStats.specialDefense,
+            teamStats.specialAttack,
+          ],
+          color: '#007AFF',
+        },
+        ...currentTeam.map((id, idx) => {
+          const p = Pokedex[id];
+          const colors = ['#FF3B30', '#34C759', '#FF9500', '#AF52DE', '#5AC8FA', '#5856D6'];
+          return {
+            label: p.name,
+            stats: [
+              p.hp,
+              p.attack,
+              p.defense,
+              p.speed,
+              p.specialDefense,
+              p.specialAttack,
+            ],
+            color: colors[idx % colors.length],
+          };
+        }),
+      ];
+
+    const toggleChart = (key) => {
+        setActiveCharts(prev =>
+            prev.includes(key)
+                ? prev.filter(k => k !== key)
+                : [...prev, key]
+        );
+    };
+
+    const radarSeries = [];
+
+    if (activeCharts.includes('total')) {
+        radarSeries.push({
+            label: 'Total',
+            color: '#8884d8',
+            stats: [
+                teamStats.hp,
+                teamStats.attack,
+                teamStats.defense,
+                teamStats.speed,
+                teamStats.specialDefense,
+                teamStats.specialAttack,
+            ],
+        });
+    }
+
+    currentTeam.forEach((id, idx) => {
+        const mon = Pokedex[id];
+        if (!mon) return;
+        const key = `p${idx}`;
+        if (activeCharts.includes(key)) {
+            radarSeries.push({
+                label: mon.name,
+                color: individualColors[idx % individualColors.length],
+                stats: [
+                    mon.hp,
+                    mon.attack,
+                    mon.defense,
+                    mon.speed,
+                    mon.specialDefense,
+                    mon.specialAttack,
+                ],
+            });
+        }
     });
 
     // Helper function: generates all combinations of a given length
@@ -118,6 +214,14 @@ const NuzlockeTeamBuilder = () => {
         }
         return [];
     }
+
+    const displayedStats = chartOptions
+        .filter(entry => activeCharts.includes(entry.label))
+        .map(entry => ({
+            stats: entry.stats,
+            color: entry.color,
+        }));
+
 
     return (
         <View style={{ flex: 1 }}>
@@ -276,19 +380,33 @@ const NuzlockeTeamBuilder = () => {
                 <View style={nuzlockeTBStyles.column}>
                     <Text style={nuzlockeTBStyles.sectionHeader}>STATS</Text>
 
-                    <RadarChart
-                        stats={[
-                            teamStats.hp,
-                            teamStats.attack,
-                            teamStats.defense,
-                            teamStats.speed,
-                            teamStats.specialDefense,
-                            teamStats.specialAttack,
-                        ]}
-                        labels={['HP', 'ATK', 'DEF', 'SPD', 'SpD', 'SpA']}
-                        size={180}
-                    />
+                    <View style={nuzlockeTBStyles.chartWithButtons}>
+                        {/* Radar Chart */}
+                        <RadarChart
+                            data={displayedStats} // ← active overlays (team + toggled Pokémon)
+                            labels={['HP', 'ATK', 'DEF', 'SPD', 'SpD', 'SpA']}
+                            size={180}
+                        />
 
+                        {/* Buttons */}
+                        <View style={nuzlockeTBStyles.chartButtonContainer}>
+                            {chartOptions.map((entry, index) => (
+                                <Pressable
+                                    key={index}
+                                    onPress={() => toggleChart(entry.label)}
+                                    style={[
+                                        nuzlockeTBStyles.chartButton,
+                                        { backgroundColor: entry.color + 'cc' }, // translucent color
+                                        activeCharts.includes(entry.label) && nuzlockeTBStyles.chartButtonActive,
+                                    ]}
+                                >
+                                    <Text style={nuzlockeTBStyles.chartButtonText}>{entry.label}</Text>
+                                </Pressable>
+                            ))}
+                        </View>
+                    </View>
+
+                    {/* Stat Totals Below */}
                     <View style={nuzlockeTBStyles.statsTotalsContainer}>
                         {[
                             ['HP:', teamStats.hp],

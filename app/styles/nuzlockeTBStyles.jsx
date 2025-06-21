@@ -1,6 +1,7 @@
 import { Dimensions, StyleSheet } from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
+const screenHeight = Dimensions.get('window').height;
 
 const nuzlockeStyles = StyleSheet.create({
     banner: {
@@ -124,6 +125,7 @@ const nuzlockeStyles = StyleSheet.create({
         borderColor: '#ccc',
         borderRadius: 8,
         backgroundColor: '#f9f9f9',
+        minHeight: screenHeight - 300,
     },
 
     statText: {
@@ -161,6 +163,40 @@ const nuzlockeStyles = StyleSheet.create({
     statValueBold: {
         fontWeight: 'bold',
     },
+    chartWithButtons: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    chartButtonContainer: {
+        marginLeft: 16,
+        justifyContent: 'center',
+    },
+
+    chartButton: {
+        paddingVertical: 6,
+        paddingHorizontal: 12,
+        borderRadius: 8,
+        marginBottom: 8,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.2,
+        shadowRadius: 2,
+        elevation: 3,
+    },
+
+    chartButtonActive: {
+        borderWidth: 2,
+        borderColor: '#333',
+    },
+
+    chartButtonText: {
+        color: '#fff',
+        fontWeight: '600',
+        textAlign: 'center',
+    },
+
 
 
 });
