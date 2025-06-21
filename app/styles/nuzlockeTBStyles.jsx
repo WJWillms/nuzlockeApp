@@ -71,7 +71,61 @@ const nuzlockeStyles = StyleSheet.create({
         resizeMode: 'contain',
         marginHorizontal: 4,
     },
+    resistancesSection: {
+        marginTop: 20,
+        paddingHorizontal: 16,
+    },
 
+    sectionHeader: {
+        fontSize: 40,
+        fontWeight: 'bold',
+        marginBottom: 8,
+        textAlign: 'center',
+    },
+
+    subHeader: {
+        fontSize: 16,
+        fontWeight: '600',
+        marginTop: 12,
+        marginBottom: 6,
+    },
+
+    resistRow: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+    },
+
+    resistEntry: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginRight: 12,
+        marginBottom: 6,
+    },
+
+    typeIconSmall: {
+        width: 48,
+        height: 48,
+        marginRight: 2,
+        resizeMode: 'contain',
+    },
+    bottomSection: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 12,
+        marginTop: 24,
+        gap: 12,
+      },
+      
+      column: {
+        flex: 1,
+        padding: 8,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 8,
+        backgroundColor: '#f9f9f9',
+      },
+      
 
 });
 
