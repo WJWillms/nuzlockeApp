@@ -196,6 +196,17 @@ const nuzlockeStyles = StyleSheet.create({
         fontWeight: '600',
         textAlign: 'center',
     },
+    dropdownContainer: {
+        paddingLeft: 16,
+        justifyContent: 'flex-start',
+    },
+
+    pickerBox: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 8,
+        width: 180,
+    },
 
 
 

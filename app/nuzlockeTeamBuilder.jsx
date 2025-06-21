@@ -1,5 +1,6 @@
+import { Picker } from '@react-native-picker/picker';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dimensions, Image, Pressable, Text, View } from 'react-native';
 import RadarChart from '../components/RadarChart';
 import { PokemonType } from './Pokedex/PokemonType';
@@ -15,12 +16,13 @@ const NuzlockeTeamBuilder = () => {
     const router = useRouter();
     const { team } = useLocalSearchParams();
     const parsedTeam = JSON.parse(team); // array of selected Pokémon IDs
-    const allValidTeams = getTeamsFromSelection(parsedTeam);
     const [teamIndex, setTeamIndex] = useState(0);
-    const currentTeam = allValidTeams[teamIndex];
+    
     const [activeCharts, setActiveCharts] = useState(['Total']);
     const individualColors = ['#f87171', '#34d399', '#60a5fa', '#facc15', '#a78bfa', '#fb923c']; //Colors for Charts
-
+    const [selectedOption, setSelectedOption] = useState('none'); //For sorting picker
+    const allValidTeams = getTeamsFromSelection(parsedTeam, 6, selectedOption);
+    const currentTeam = allValidTeams[teamIndex];
 
 
     const typeNameToId = Object.fromEntries(
@@ -110,34 +112,34 @@ const NuzlockeTeamBuilder = () => {
 
     const chartOptions = [
         {
-          label: 'Total',
-          stats: [
-            teamStats.hp,
-            teamStats.attack,
-            teamStats.defense,
-            teamStats.speed,
-            teamStats.specialDefense,
-            teamStats.specialAttack,
-          ],
-          color: '#007AFF',
+            label: 'Total',
+            stats: [
+                teamStats.hp,
+                teamStats.attack,
+                teamStats.defense,
+                teamStats.speed,
+                teamStats.specialDefense,
+                teamStats.specialAttack,
+            ],
+            color: '#007AFF',
         },
         ...currentTeam.map((id, idx) => {
-          const p = Pokedex[id];
-          const colors = ['#FF3B30', '#34C759', '#FF9500', '#AF52DE', '#5AC8FA', '#5856D6'];
-          return {
-            label: p.name,
-            stats: [
-              p.hp,
-              p.attack,
-              p.defense,
-              p.speed,
-              p.specialDefense,
-              p.specialAttack,
-            ],
-            color: colors[idx % colors.length],
-          };
+            const p = Pokedex[id];
+            const colors = ['#FF3B30', '#34C759', '#FF9500', '#AF52DE', '#5AC8FA', '#5856D6'];
+            return {
+                label: p.name,
+                stats: [
+                    p.hp,
+                    p.attack,
+                    p.defense,
+                    p.speed,
+                    p.specialDefense,
+                    p.specialAttack,
+                ],
+                color: colors[idx % colors.length],
+            };
         }),
-      ];
+    ];
 
     const toggleChart = (key) => {
         setActiveCharts(prev =>
@@ -202,18 +204,66 @@ const NuzlockeTeamBuilder = () => {
         return result;
     }
 
-    function getTeamsFromSelection(selectedIds, maxTeamSize = 6) {
+    function getTeamsFromSelection(selectedIds, maxTeamSize = 6, sortOption = "none") {
         const n = selectedIds.length;
         const size = Math.min(maxTeamSize, n);
 
         for (let k = size; k >= 1; k--) {
             const combos = getCombinations(selectedIds, k);
             if (combos.length > 0) {
-                return combos;
+                return sortTeams(combos, sortOption);  // <- sort here
             }
         }
         return [];
     }
+
+    function sortTeams(teams, option) {
+        const getStatTotal = (team, key) => team.reduce((sum, id) => sum + (Pokedex[id]?.[key] || 0), 0);
+
+        const getResistanceScore = (team) => {
+            let score = 0;
+            team.forEach(id => {
+                const res = Pokedex[id]?.resistances || {};
+                Object.values(res).forEach(val => {
+                    if (val === 0) score += 3;
+                    else if (val === 0.25) score += 2;
+                    else if (val === 0.5) score += 1;
+                });
+            });
+            return score;
+        };
+
+        const getWeaknessScore = (team) => {
+            let score = 0;
+            team.forEach(id => {
+                const weak = Pokedex[id]?.weaknesses || {};
+                Object.values(weak).forEach(val => {
+                    if (val === 4) score += 2;
+                    else if (val === 2) score += 1;
+                });
+            });
+            return score;
+        };
+
+        switch (option) {
+            case "total": return teams.sort((a, b) => getStatTotal(b, "totalBaseStats") - getStatTotal(a, "totalBaseStats"));
+            case "attack": return teams.sort((a, b) => getStatTotal(b, "attack") - getStatTotal(a, "attack"));
+            case "spatk": return teams.sort((a, b) => getStatTotal(b, "specialAttack") - getStatTotal(a, "specialAttack"));
+            case "defense": return teams.sort((a, b) => getStatTotal(b, "defense") - getStatTotal(a, "defense"));
+            case "spdef": return teams.sort((a, b) => getStatTotal(b, "specialDefense") - getStatTotal(a, "specialDefense"));
+            case "speed": return teams.sort((a, b) => getStatTotal(b, "speed") - getStatTotal(a, "speed"));
+            case "resist": return teams.sort((a, b) => getResistanceScore(b) - getResistanceScore(a));
+            case "weak": return teams.sort((a, b) => getWeaknessScore(a) - getWeaknessScore(b));
+            default: return teams;
+        }
+    }
+
+    //Use Effect puts user back on the 1st team after selecting a new sort.
+    useEffect(() => {
+        setTeamIndex(0);
+    }, [selectedOption]);
+
+
 
     const displayedStats = chartOptions
         .filter(entry => activeCharts.includes(entry.label))
@@ -249,41 +299,90 @@ const NuzlockeTeamBuilder = () => {
             </View>
 
             {/* Sprite Display */}
-            <View style={nuzlockeTBStyles.teamContainer}>
-                {currentTeam.map((id) => {
-                    const paddedId = id.toString().padStart(3, '0');
-                    const pokemon = Pokedex[id];
-                    const sprite = spriteMap[paddedId];
+            <View style={{ width: '100%', marginLeft: 120, alignItems: 'center' }}>
+                <View style={{ flexDirection: 'row', position: 'relative' }}>
+                    {/* Sprite Display Block */}
+                    <View style={{ alignItems: 'center' }}>
+                        <View style={nuzlockeTBStyles.teamContainer}>
+                            {currentTeam.map((id) => {
+                                const paddedId = id.toString().padStart(3, '0');
+                                const pokemon = Pokedex[id];
+                                const sprite = spriteMap[paddedId];
 
-                    return (
-                        <View key={id} style={{ alignItems: 'center' }}>
-                            <View style={nuzlockeTBStyles.pokemonSlot}>
-                                <Image source={sprite} style={nuzlockeTBStyles.sprite} />
-                                <Text style={nuzlockeTBStyles.name}>{pokemon.name}</Text>
-                            </View>
+                                return (
+                                    <View key={id} style={{ alignItems: 'center' }}>
+                                        <View style={nuzlockeTBStyles.pokemonSlot}>
+                                            <Image source={sprite} style={nuzlockeTBStyles.sprite} />
+                                            <Text style={nuzlockeTBStyles.name}>{pokemon.name}</Text>
+                                        </View>
 
-                            {/* Type Icons Below Sprite */}
-                            <View
-                                style={[
-                                    nuzlockeTBStyles.typeIconRow,
-                                    !pokemon.typeTwo && { justifyContent: 'center' },
-                                ]}
-                            >
-                                <Image
-                                    source={typeIconMap[pokemon.typeOneId]}
-                                    style={nuzlockeTBStyles.typeIcon}
-                                />
-                                {pokemon.typeTwo && (
-                                    <Image
-                                        source={typeIconMap[pokemon.typeTwoId]}
-                                        style={nuzlockeTBStyles.typeIcon}
-                                    />
-                                )}
-                            </View>
+                                        {/* Type Icons */}
+                                        <View
+                                            style={[
+                                                nuzlockeTBStyles.typeIconRow,
+                                                !pokemon.typeTwo && { justifyContent: 'center' },
+                                            ]}
+                                        >
+                                            <Image
+                                                source={typeIconMap[pokemon.typeOneId]}
+                                                style={nuzlockeTBStyles.typeIcon}
+                                            />
+                                            {pokemon.typeTwo && (
+                                                <Image
+                                                    source={typeIconMap[pokemon.typeTwoId]}
+                                                    style={nuzlockeTBStyles.typeIcon}
+                                                />
+                                            )}
+                                        </View>
+                                    </View>
+                                );
+                            })}
                         </View>
-                    );
-                })}
+                    </View>
+
+                    {/* Dropdown - shifted just right of sprites */}
+                    <View
+                        style={{
+                            marginLeft: 100, // Adjust as needed
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Text style={{ fontWeight: 'bold', marginBottom: 4 }}>Sort Options</Text>
+                        <View
+                            style={{
+                                borderWidth: 1,
+                                borderColor: '#ccc',
+                                borderRadius: 8,
+                                overflow: 'hidden',
+                                width: 140,
+                            }}
+                        >
+                            <Picker
+                                selectedValue={selectedOption}
+                                onValueChange={(itemValue) => setSelectedOption(itemValue)}
+                                style={{
+                                    height: 40,
+                                    width: '100%',
+                                }}
+                            >
+                                <Picker.Item label="None" value="none" />
+                                <Picker.Item label="Total Stats" value="total" />
+                                <Picker.Item label="Highest Attack" value="attack" />
+                                <Picker.Item label="Highest Special Attack" value="spatk" />
+                                <Picker.Item label="Highest Defense" value="defense" />
+                                <Picker.Item label="Highest Special Defense" value="spdef" />
+                                <Picker.Item label="Highest Speed" value="speed" />
+                                <Picker.Item label="Most Resistances" value="resist" />
+                                <Picker.Item label="Least Weaknesses" value="weak" />
+                            </Picker>
+                        </View>
+                    </View>
+                </View>
             </View>
+
+
+
 
             {/* Bottom 3-column Section */}
             <View style={nuzlockeTBStyles.bottomSection}>
