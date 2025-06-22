@@ -52,27 +52,29 @@ const PokemonPicker = ({ onConfirm }) => {
       </View>
 
       {/* Pokémon Grid */}
-      <ScrollView contentContainerStyle={nuzlockeStyles.grid}>
-        {filteredPokemon.map(([id, mon]) => {
-          const isSelected = selected.has(id);
-          return (
-            <Pressable
-              key={id}
-              onPress={() => handleToggle(id)}
-              style={[
-                nuzlockeStyles.card,
-                isSelected && nuzlockeStyles.cardSelected,
-              ]}
-            >
-              <Image
-                source={spriteMap[mon.spriteId]}
-                style={nuzlockeStyles.sprite}
-              />
-              <Text style={nuzlockeStyles.name}>{mon.name}</Text>
-            </Pressable>
-          );
-        })}
-      </ScrollView>
+      <View style={nuzlockeStyles.gridWrapper}>
+        <ScrollView contentContainerStyle={nuzlockeStyles.gridScrollContent}>
+          {filteredPokemon.map(([id, mon]) => {
+            const isSelected = selected.has(id);
+            return (
+              <Pressable
+                key={id}
+                onPress={() => handleToggle(id)}
+                style={[
+                  nuzlockeStyles.card,
+                  isSelected && nuzlockeStyles.cardSelected,
+                ]}
+              >
+                <Image
+                  source={spriteMap[mon.spriteId]}
+                  style={nuzlockeStyles.sprite}
+                />
+                <Text style={nuzlockeStyles.name}>{mon.name}</Text>
+              </Pressable>
+            );
+          })}
+        </ScrollView>
+      </View>
 
       {/* Confirm Button */}
       <View style={nuzlockeStyles.buttonContainer}>

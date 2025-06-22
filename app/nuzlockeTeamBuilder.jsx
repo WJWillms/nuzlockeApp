@@ -3,10 +3,10 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { Dimensions, Image, Pressable, Text, View } from 'react-native';
 import RadarChart from '../components/RadarChart';
+import TypePill from '../components/TypePill';
 import { PokemonType } from './Pokedex/PokemonType';
 import spriteMap from "./Pokedex/spriteMap";
 import { Pokedex } from './Pokedex/sunMoonPokedex';
-import typeIconMap from './Pokedex/typeIconMap';
 import nuzlockeTBStyles from "./styles/nuzlockeTBStyles";
 
 
@@ -323,15 +323,9 @@ const NuzlockeTeamBuilder = () => {
                                                 !pokemon.typeTwo && { justifyContent: 'center' },
                                             ]}
                                         >
-                                            <Image
-                                                source={typeIconMap[pokemon.typeOneId]}
-                                                style={nuzlockeTBStyles.typeIcon}
-                                            />
+                                            <TypePill type={pokemon.typeOne} />
                                             {pokemon.typeTwo && (
-                                                <Image
-                                                    source={typeIconMap[pokemon.typeTwoId]}
-                                                    style={nuzlockeTBStyles.typeIcon}
-                                                />
+                                                <TypePill type={pokemon.typeTwo} />
                                             )}
                                         </View>
                                     </View>
@@ -406,10 +400,7 @@ const NuzlockeTeamBuilder = () => {
                                                 marginBottom: 8,
                                             }}
                                         >
-                                            <Image
-                                                source={typeIconMap[typeId]}
-                                                style={nuzlockeTBStyles.typeIconSmall}
-                                            />
+                                            <TypePill type={type} />
                                             <Text style={{ marginLeft: 6 }}>x{count}</Text>
                                         </View>
                                     );
@@ -434,10 +425,7 @@ const NuzlockeTeamBuilder = () => {
                                                 marginBottom: 8,
                                             }}
                                         >
-                                            <Image
-                                                source={typeIconMap[typeId]}
-                                                style={nuzlockeTBStyles.typeIconSmall}
-                                            />
+                                            <TypePill type={type} />
                                             <Text style={{ marginLeft: 6 }}>x{count}</Text>
                                         </View>
                                     );
@@ -462,10 +450,7 @@ const NuzlockeTeamBuilder = () => {
                                                 marginBottom: 8,
                                             }}
                                         >
-                                            <Image
-                                                source={typeIconMap[typeId]}
-                                                style={nuzlockeTBStyles.typeIconSmall}
-                                            />
+                                            <TypePill type={type} />
                                             <Text style={{ marginLeft: 6 }}>x{count}</Text>
                                         </View>
                                     );
@@ -553,10 +538,7 @@ const NuzlockeTeamBuilder = () => {
                                                     marginBottom: 8,
                                                 }}
                                             >
-                                                <Image
-                                                    source={typeIconMap[typeId]}
-                                                    style={nuzlockeTBStyles.typeIconSmall}
-                                                />
+                                                <TypePill type={type} />
                                                 <Text style={{ marginLeft: 6 }}>x{count}</Text>
                                             </View>
                                         );
@@ -581,10 +563,7 @@ const NuzlockeTeamBuilder = () => {
                                                     marginBottom: 8,
                                                 }}
                                             >
-                                                <Image
-                                                    source={typeIconMap[typeId]}
-                                                    style={nuzlockeTBStyles.typeIconSmall}
-                                                />
+                                                <TypePill type={type} />
                                                 <Text style={{ marginLeft: 6 }}>x{count}</Text>
                                             </View>
                                         );

@@ -76,6 +76,19 @@ const nuzlockeStyles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
   },
+  gridWrapper: {
+    flex: 1,
+    backgroundColor: '#999',
+  },
+  
+  gridScrollContent: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+    paddingTop: 12,
+    paddingLeft: 80,
+  },
+  
 });
 
 export default nuzlockeStyles;
