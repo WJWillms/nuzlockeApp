@@ -125,7 +125,7 @@ const nuzlockeStyles = StyleSheet.create({
         borderColor: '#ccc',
         borderRadius: 8,
         backgroundColor: '#f9f9f9',
-        minHeight: screenHeight - 300,
+        minHeight: screenHeight - 315,
     },
 
     statText: {
@@ -196,17 +196,58 @@ const nuzlockeStyles = StyleSheet.create({
         fontWeight: '600',
         textAlign: 'center',
     },
-    dropdownContainer: {
-        paddingLeft: 16,
-        justifyContent: 'flex-start',
-    },
-
     pickerBox: {
         borderWidth: 1,
         borderColor: '#ccc',
         borderRadius: 8,
-        width: 180,
+        width: 200,
     },
+    homeButton: {
+        backgroundColor: '#4CAF50',
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        borderRadius: 8,
+    },
+    homeButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+    },
+    spriteDisplayWrapper: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',             // 👈 allows wrapping for smaller widths
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 20,                      // RN 0.71+, fallback to margins if needed
+        width: '100%',
+        paddingVertical: 10,
+    },
+    
+    homeButtonContainer: {
+        alignItems: 'center',
+        flexShrink: 1,
+        flexGrow: 0,
+        paddingLeft: 90
+    },
+    
+    spriteTeamContainer: {
+        flexGrow: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingLeft: 50
+    },
+    
+    dropdownContainer: {
+        alignItems: 'center',
+        flexShrink: 1,
+        flexGrow: 0,
+        paddingRight: 80
+    },
+    
+    sortHeader: {
+        fontWeight: 'bold',
+        marginBottom: 4,
+    },
+    
 
 
 
