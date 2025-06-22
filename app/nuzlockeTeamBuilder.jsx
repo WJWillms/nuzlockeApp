@@ -17,7 +17,7 @@ const NuzlockeTeamBuilder = () => {
     const { team } = useLocalSearchParams();
     const parsedTeam = JSON.parse(team); // array of selected Pokémon IDs
     const [teamIndex, setTeamIndex] = useState(0);
-    
+
     const [activeCharts, setActiveCharts] = useState(['Total']);
     const individualColors = ['#f87171', '#34d399', '#60a5fa', '#facc15', '#a78bfa', '#fb923c']; //Colors for Charts
     const [selectedOption, setSelectedOption] = useState('none'); //For sorting picker
@@ -522,12 +522,20 @@ const NuzlockeTeamBuilder = () => {
                 <View style={nuzlockeTBStyles.column}>
                     <Text style={nuzlockeTBStyles.sectionHeader}>WEAKNESSES</Text>
                     <View>
+                        {/* 4× Weaknesses */}
                         {Object.keys(weaknessSummary.x4).length > 0 && (
                             <View>
                                 <Text style={nuzlockeTBStyles.subHeader}>4× Weaknesses:</Text>
                                 <View style={[nuzlockeTBStyles.resistRow, { flexWrap: 'wrap' }]}>
                                     {Object.entries(weaknessSummary.x4).map(([type, count]) => {
                                         const typeId = typeNameToId[type];
+
+                                        // Check if this type is covered in any resistance
+                                        const isCovered =
+                                            resistanceSummary.immune[type] ||
+                                            resistanceSummary.half[type] ||
+                                            resistanceSummary.quarter[type];
+
                                         return (
                                             <View
                                                 key={type}
@@ -538,7 +546,7 @@ const NuzlockeTeamBuilder = () => {
                                                     marginBottom: 8,
                                                 }}
                                             >
-                                                <TypePill type={type} />
+                                                <TypePill type={type} glow={!isCovered} />
                                                 <Text style={{ marginLeft: 6 }}>x{count}</Text>
                                             </View>
                                         );
@@ -547,12 +555,19 @@ const NuzlockeTeamBuilder = () => {
                             </View>
                         )}
 
+                        {/* 2× Weaknesses */}
                         {Object.keys(weaknessSummary.x2).length > 0 && (
                             <View>
                                 <Text style={nuzlockeTBStyles.subHeader}>2× Weaknesses:</Text>
                                 <View style={[nuzlockeTBStyles.resistRow, { flexWrap: 'wrap' }]}>
                                     {Object.entries(weaknessSummary.x2).map(([type, count]) => {
                                         const typeId = typeNameToId[type];
+
+                                        const isCovered =
+                                            resistanceSummary.immune[type] ||
+                                            resistanceSummary.half[type] ||
+                                            resistanceSummary.quarter[type];
+
                                         return (
                                             <View
                                                 key={type}
@@ -563,7 +578,7 @@ const NuzlockeTeamBuilder = () => {
                                                     marginBottom: 8,
                                                 }}
                                             >
-                                                <TypePill type={type} />
+                                                <TypePill type={type} glow={!isCovered} />
                                                 <Text style={{ marginLeft: 6 }}>x{count}</Text>
                                             </View>
                                         );
@@ -572,8 +587,8 @@ const NuzlockeTeamBuilder = () => {
                             </View>
                         )}
                     </View>
-
                 </View>
+
             </View>
         </View>
     );
