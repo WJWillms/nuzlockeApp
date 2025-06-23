@@ -40,7 +40,7 @@ export default function HomeScreen() {
 
   const handleChoice = (isSoulocke) => {
     router.push({
-      pathname: '/nuzlocke',
+      pathname: isSoulocke ? '/soulocke' : '/nuzlocke',
       params: { soulocke: isSoulocke },
     });
   };
