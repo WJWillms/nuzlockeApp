@@ -360,6 +360,209 @@ const soulockeTBStyles = StyleSheet.create({
         color: '#007AFF',
     },
 
+    modalOverlay: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: 'rgba(0,0,0,0.4)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 1000,
+    },
+    flyerModal: {
+        backgroundColor: '#fff',
+        padding: 20,
+        borderRadius: 12,
+        width: '35%',
+        height: '65%',
+        alignItems: 'center',
+    },
+    flyerTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 20,
+    },
+    modalButtonRow: {
+        paddingTop: 15,
+        flexDirection: 'row',
+        gap: 16,
+    },
+    cancelButton: {
+        backgroundColor: '#999',
+        paddingVertical: 10,
+        paddingHorizontal: 16,
+        borderRadius: 8,
+    },
+    applyButton: {
+        backgroundColor: '#4CAF50',
+        paddingVertical: 10,
+        paddingHorizontal: 16,
+        borderRadius: 8,
+    },
+    modalButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+    },
+    glowHighlight: {
+        shadowColor: '#00f0ff',
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.8,
+        shadowRadius: 10,
+        elevation: 10, // Android shadow
+        borderColor: '#00f0ff',
+        borderWidth: 2,
+        borderRadius: 999,
+    },
+    spriteFrame: {
+        padding: 4,
+        borderRadius: 12,
+        borderWidth: 2,
+        borderColor: '#888',
+        backgroundColor: '#fff',
+    },
+
+    glowFrame: {
+        width: 120,
+        height: 120, // just enough to hold sprite and name comfortably
+        padding: 4,
+        borderRadius: 8,
+        borderWidth: 2,
+        borderColor: '#cc0000',
+        backgroundColor: '#fff',
+        shadowColor: '#cc0000',
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.9,
+        shadowRadius: 8,
+        elevation: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    monLabelInsideGlow: {
+        fontSize: 12,
+        color: '#cc0000',
+        fontWeight: '600',
+        marginTop: 2,
+        textAlign: 'center',
+        marginBottom: 2
+    },
+
+
+
+    pairHeaderRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 8,
+        marginBottom: 6,
+        width: '70%'
+    },
+
+    pairHeaderText: {
+        flex: 1,
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 14,
+        color: '#444',
+        paddingRight: 30
+    },
+    pairHeaderTextTOne: {
+        flex: 1,
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 14,
+        color: '#444',
+        paddingLeft: 30
+    },
+
+    pairHeaderTextRight: {
+        flex: 1,
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 14,
+        color: '#444',
+        paddingRight: 12,
+    },
+
+    flyerRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingRight: 12,
+    },
+
+    toggleContainer: {
+        paddingLeft: 12,
+    },
+    scrollList: {
+        width: '60%',         // Stretch to fit modal width, OR override to a fixed width
+        alignSelf: 'center',  // Optional, ensures full width of parent
+        paddingHorizontal: 8,  // Add/remove this for spacing inside
+    },
+    spriteWithLabel: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginHorizontal: 4,
+    },
+
+    monLabel: {
+        marginTop: 2,
+        fontSize: 12,
+        color: '#444',
+        fontWeight: '500',
+    },
+
+    spriteWithLabel: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginHorizontal: 4,
+    },
+
+    originalMonLabel: {
+        fontSize: 12,
+        fontWeight: '600',
+        color: '#333',
+        marginBottom: 2,
+        textAlign: 'center',
+    },
+
+    typePillRow: {
+        flexDirection: 'row',
+        gap: 4,
+        marginTop: 4,
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+    },
+
+    typePill: {
+        paddingHorizontal: 6,
+        paddingVertical: 2,
+        borderRadius: 12,
+        fontSize: 10,
+        fontWeight: '600',
+        color: 'white',
+        overflow: 'hidden',
+    },
+    pillRowContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        gap: 4,
+        marginTop: 4,
+        maxWidth: 80,
+        overflow: 'hidden',
+    },
+
+    
+
+
+
+
+
+
 
 
 

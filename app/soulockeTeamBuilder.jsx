@@ -1,6 +1,7 @@
+import { Picker } from '@react-native-picker/picker';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { Dimensions, Image, Pressable, ScrollView, Text, View } from 'react-native';
+import { Dimensions, Image, Pressable, ScrollView, Switch, Text, View } from 'react-native';
 import RadarChart from '../components/RadarChart';
 import TypePill from '../components/TypePill';
 import spriteMap from "./Pokedex/spriteMap";
@@ -19,15 +20,45 @@ const soulockeTeamBuilder = () => {
 
     const [teamIndex, setTeamIndex] = useState(0);
     const [validCombos, setValidCombos] = useState([]);
+    const [sortOption, setSortOption] = useState('none');
 
-    const currentIndices = validCombos[teamIndex] || [];
+    // Inside your component function, near the top (before using team1/team2)
+    const sortedCombos = sortCombosByOption(
+        validCombos,
+        parsedTrainerOneTeam,
+        parsedTrainerTwoTeam,
+        sortOption
+    );
+
+    // Then use sortedCombos to get current indices:
+    const currentIndices = sortedCombos[teamIndex] || [];
 
     const team1 = currentIndices.map(i => parsedTrainerOneTeam[i]);
     const team2 = currentIndices.map(i => parsedTrainerTwoTeam[i]);
 
+
     const [activeCharts, setActiveCharts] = useState(['T1_Total', 'T2_Total']);
 
     const individualColors = ['#f87171', '#34d399', '#60a5fa', '#facc15', '#a78bfa', '#fb923c']; //Colors for Charts
+
+    const [showFlyerModal, setShowFlyerModal] = useState(false);
+    const [flyingTypePairs, setFlyingTypePairs] = useState([]);
+    const [toggleStates, setToggleStates] = useState({});
+    const [flyerTypeOverrides, setFlyerTypeOverrides] = useState({});
+    const [tempOverrides, setTempOverrides] = useState({});
+
+    const [ruleBreakingOption, setRuleBreakingOption] = useState('no'); // default to "no"
+
+    const [focusPair, setFocusPair] = useState(null);
+    const [allPairs, setAllPairs] = useState([]);
+
+    
+
+
+
+
+
+
 
 
     // You now have Trainer 1 and 2's Pokémon IDs for this combo
@@ -45,32 +76,51 @@ const soulockeTeamBuilder = () => {
                 const allCombos = getCombinations(indexList, currentSize);
 
                 const validCombos = allCombos.filter((combo) => {
-                    const seenTypes = new Set();
+                    // If a focus pair is selected, skip combos that don't include it
+                    const focusIndex = focusPair !== null ? Number(focusPair) : null;
+                    if (focusIndex !== null && !combo.includes(focusIndex)) {
+                        return false;
+                    }
+
+
+
+                    const typeCounts = {};
 
                     for (let i = 0; i < combo.length; i++) {
                         const idx = combo[i];
 
-                        const mon1 = Pokedex[parsedTrainerOneTeam[idx]];
-                        const mon2 = Pokedex[parsedTrainerTwoTeam[idx]];
+                        const mon1Id = parsedTrainerOneTeam[idx];
+                        const mon2Id = parsedTrainerTwoTeam[idx];
 
-                        if (
-                            seenTypes.has(mon1.typeOneId) ||
-                            seenTypes.has(mon2.typeOneId)
-                        ) {
-                            return false;
-                        }
+                        const mon1 = Pokedex[mon1Id];
+                        const mon2 = Pokedex[mon2Id];
 
-                        seenTypes.add(mon1.typeOneId);
-                        seenTypes.add(mon2.typeOneId);
+                        const key1 = `T1-${idx}`;
+                        const key2 = `T2-${idx}`;
+
+                        const mon1Type = flyerTypeOverrides[key1] ? mon1.typeTwoId : mon1.typeOneId;
+                        const mon2Type = flyerTypeOverrides[key2] ? mon2.typeTwoId : mon2.typeOneId;
+
+                        // Track type usage
+                        typeCounts[mon1Type] = (typeCounts[mon1Type] || 0) + 1;
+                        typeCounts[mon2Type] = (typeCounts[mon2Type] || 0) + 1;
                     }
 
-                    return true;
+                    const typeFrequencies = Object.values(typeCounts);
+
+                    if (ruleBreakingOption === 'yes') {
+                        const numTwos = typeFrequencies.filter((count) => count === 2).length;
+                        const hasThreesOrMore = typeFrequencies.some((count) => count > 2);
+                        return numTwos <= 1 && !hasThreesOrMore;
+                    } else {
+                        return typeFrequencies.every((count) => count === 1);
+                    }
                 });
 
                 if (validCombos.length > 0) {
                     maxValidCombos = validCombos;
                 } else {
-                    currentSize--; // Try smaller teams
+                    currentSize--;
                 }
             }
 
@@ -78,8 +128,64 @@ const soulockeTeamBuilder = () => {
         };
 
         buildValidCombos();
-    }, [trainerOneTeam, trainerTwoTeam]);
+    }, [
+        trainerOneTeam,
+        trainerTwoTeam,
+        flyerTypeOverrides,
+        ruleBreakingOption,
+        focusPair
+    ]);
 
+
+
+
+    //Build Flying pairs
+    useEffect(() => {
+
+        const newFlyingMonEntries = [];
+
+        parsedTrainerOneTeam.forEach((id1, index) => {
+            const id2 = parsedTrainerTwoTeam[index];
+            const mon1 = Pokedex[id1];
+            const mon2 = Pokedex[id2];
+
+            const isMon1Flying = mon1?.typeOne === 'Flying' || mon1?.typeTwo === 'Flying';
+            const isMon2Flying = mon2?.typeOne === 'Flying' || mon2?.typeTwo === 'Flying';
+
+            if (isMon1Flying) {
+                newFlyingMonEntries.push({
+                    index,
+                    flyingMon: id1,
+                    partnerMon: id2,
+                    focus: 't1', // Trainer 1 is the flyer
+                });
+            }
+
+            if (isMon2Flying) {
+                newFlyingMonEntries.push({
+                    index,
+                    flyingMon: id2,
+                    partnerMon: id1,
+                    focus: 't2', // Trainer 2 is the flyer
+                });
+            }
+        });
+
+        setFlyingTypePairs(newFlyingMonEntries);
+    }, []);
+
+
+    useEffect(() => {
+        const pairs = parsedTrainerOneTeam.map((mon1Id, idx) => {
+            const mon2Id = parsedTrainerTwoTeam[idx];
+            return {
+                index: idx,
+                label: `${Pokedex[mon1Id].name} / ${Pokedex[mon2Id].name}`,
+            };
+        });
+
+        setAllPairs(pairs);
+    }, [trainerOneTeam, trainerTwoTeam]);
 
     const getCombinations = (arr, k) => {
         const result = [];
@@ -100,6 +206,9 @@ const soulockeTeamBuilder = () => {
         recurse(0);
         return result;
     };
+
+
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -695,13 +804,76 @@ const soulockeTeamBuilder = () => {
         );
     };
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    //                                   Sorts
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////
 
+    function sortCombosByOption(combos, trainerOneTeam, trainerTwoTeam, sortOption) {
+        const getStatTotal = (team, key) =>
+            team.reduce((sum, id) => sum + (Pokedex[id]?.[key] || 0), 0);
+
+        const getResistanceScore = (team) => {
+            let score = 0;
+            team.forEach(id => {
+                const res = Pokedex[id]?.resistances || {};
+                Object.values(res).forEach(val => {
+                    if (val === 0) score += 3;
+                    else if (val === 0.25) score += 2;
+                    else if (val === 0.5) score += 1;
+                });
+            });
+            return score;
+        };
+
+        const getWeaknessScore = (team) => {
+            let score = 0;
+            team.forEach(id => {
+                const weak = Pokedex[id]?.weaknesses || {};
+                Object.values(weak).forEach(val => {
+                    if (val === 4) score += 2;
+                    else if (val === 2) score += 1;
+                });
+            });
+            return score;
+        };
+
+        const getAverageScore = (combo, key) => {
+            const t1 = combo.map(i => trainerOneTeam[i]);
+            const t2 = combo.map(i => trainerTwoTeam[i]);
+
+            if (key === 'resist') {
+                return (getResistanceScore(t1) + getResistanceScore(t2)) / 2;
+            } else if (key === 'weak') {
+                return (getWeaknessScore(t1) + getWeaknessScore(t2)) / 2;
+            } else {
+                const t1Total = getStatTotal(t1, key);
+                const t2Total = getStatTotal(t2, key);
+                return (t1Total + t2Total) / 2;
+            }
+        };
+
+        if (sortOption === 'none') return combos;
+
+        return [...combos].sort((a, b) => {
+            const aScore = getAverageScore(a, sortOption);
+            const bScore = getAverageScore(b, sortOption);
+            return bScore - aScore; // descending
+        });
+    }
+
+
+
+    useEffect(() => {
+        setTeamIndex(0);
+    }, [sortOption]);
 
 
 
     return (
         <View style={soulockeTBStyles.overallContainer}>
-            {validCombos.length > 0 && (
+            {sortedCombos.length > 0 && (
                 <View style={soulockeTBStyles.banner}>
                     {teamIndex > 0 ? (
                         <Pressable onPress={() => setTeamIndex((prev) => prev - 1)}>
@@ -712,10 +884,10 @@ const soulockeTeamBuilder = () => {
                     )}
 
                     <Text style={soulockeTBStyles.teamTitle}>
-                        Team {teamIndex + 1} of {validCombos.length}
+                        Team {teamIndex + 1} of {sortedCombos.length}
                     </Text>
 
-                    {teamIndex < validCombos.length - 1 ? (
+                    {teamIndex < sortedCombos.length - 1 ? (
                         <Pressable onPress={() => setTeamIndex((prev) => prev + 1)}>
                             <Text style={soulockeTBStyles.navButton}>Next Team →</Text>
                         </Pressable>
@@ -733,7 +905,172 @@ const soulockeTeamBuilder = () => {
                 >
                     <Text style={soulockeTBStyles.optionsButtonText}>Return to Home</Text>
                 </Pressable>
+
+                <Pressable
+                    onPress={() => setShowFlyerModal(true)}
+                    style={soulockeTBStyles.optionsButton}
+                >
+                    <Text style={soulockeTBStyles.optionsButtonText}>Flyer Edits</Text>
+                </Pressable>
+
+                <View style={soulockeTBStyles.pickerWrapper}>
+                    <Text style={soulockeTBStyles.pickerLabel}>Rule Breaking Pair</Text>
+                    <Picker
+                        selectedValue={ruleBreakingOption}
+                        onValueChange={(itemValue) => setRuleBreakingOption(itemValue)}
+                        style={soulockeTBStyles.picker}
+                        dropdownIconColor="#333"
+                    >
+                        <Picker.Item label="No" value="no" />
+                        <Picker.Item label="Yes" value="yes" />
+                    </Picker>
+                </View>
+
+                <View >
+                    <Text >Focus</Text>
+                    <Picker
+                        selectedValue={focusPair}
+                        onValueChange={(itemValue) => setFocusPair(itemValue)}
+                        dropdownIconColor="#333"
+                    >
+                        <Picker.Item label="None" value={null} />
+                        {allPairs.map(({ index, label }) => (
+                            <Picker.Item key={index} label={label} value={index} /> // index is already a number
+                        ))}
+
+                    </Picker>
+                </View>
+                <View>
+                    <Text>Sort By</Text>
+                    <Picker
+                        selectedValue={sortOption}
+                        onValueChange={(itemValue) => setSortOption(itemValue)}
+                        dropdownIconColor="#333"
+                    >
+                        <Picker.Item label="None" value="none" />
+                        <Picker.Item label="Total" value="total" />
+                        <Picker.Item label="Attack" value="attack" />
+                        <Picker.Item label="Sp. Atk" value="spatk" />
+                        <Picker.Item label="Defense" value="defense" />
+                        <Picker.Item label="Sp. Def" value="spdef" />
+                        <Picker.Item label="Speed" value="speed" />
+                        <Picker.Item label="Resistances" value="resist" />
+                        <Picker.Item label="Weaknesses" value="weak" />
+                    </Picker>
+                </View>
+
             </View>
+
+
+
+            {/* Flyer Edits Modal */}
+            {showFlyerModal && (
+                <View style={soulockeTBStyles.modalOverlay}>
+                    <View style={soulockeTBStyles.flyerModal}>
+                        <Text style={soulockeTBStyles.flyerTitle}>Flying-Type Pairs</Text>
+
+                        {/* Header Row */}
+                        <View style={soulockeTBStyles.pairHeaderRow}>
+                            <Text style={soulockeTBStyles.pairHeaderText}>Trainer 1</Text>
+                            <Text style={soulockeTBStyles.pairHeaderText}>Trainer 2</Text>
+                            <Text style={soulockeTBStyles.pairHeaderTextRight}>
+                                Swap Primary &{'\n'}Secondary Typing
+                            </Text>
+                        </View>
+
+                        {/* Scrollable List of Pairs */}
+                        <ScrollView
+                            style={soulockeTBStyles.scrollList}
+                            contentContainerStyle={{ paddingBottom: 12 }}
+                        >
+                            {flyingTypePairs.map(({ index, flyingMon, partnerMon, focus }) => {
+                                const key = `${focus === 't1' ? 'T1' : 'T2'}-${index}`;
+                                const isFocusT1 = focus === 't1';
+                                const mon1 = Pokedex[isFocusT1 ? flyingMon : partnerMon];
+                                const mon2 = Pokedex[isFocusT1 ? partnerMon : flyingMon];
+
+                                const isToggled = tempOverrides[key] || false;
+
+                                return (
+                                    <View key={key} style={soulockeTBStyles.flyerRow}>
+                                        <View style={soulockeTBStyles.spritePairBox}>
+                                            <Text style={soulockeTBStyles.chainOverlay}>🔗</Text>
+                                            <View style={soulockeTBStyles.spritePair}>
+                                                {/* Trainer 1 Side */}
+                                                {isFocusT1 ? (
+                                                    <View style={soulockeTBStyles.glowFrame}>
+                                                        <Image source={spriteMap[mon1.spriteId]} style={soulockeTBStyles.sprite} />
+                                                        <Text style={soulockeTBStyles.monLabelInsideGlow}>{mon1.name}</Text>
+                                                    </View>
+                                                ) : (
+                                                    <View style={soulockeTBStyles.spriteWithLabel}>
+                                                        <Image source={spriteMap[mon1.spriteId]} style={soulockeTBStyles.sprite} />
+                                                        <Text style={soulockeTBStyles.monLabel}>{mon1.name}</Text>
+                                                    </View>
+                                                )}
+
+                                                <View style={soulockeTBStyles.fullVerticalDivider} />
+
+                                                {/* Trainer 2 Side */}
+                                                {!isFocusT1 ? (
+                                                    <View style={soulockeTBStyles.glowFrame}>
+                                                        <Image source={spriteMap[mon2.spriteId]} style={soulockeTBStyles.sprite} />
+                                                        <Text style={[soulockeTBStyles.monLabel, soulockeTBStyles.monLabelInsideGlow]}>{mon2.name}</Text>
+                                                    </View>
+                                                ) : (
+                                                    <View style={soulockeTBStyles.spriteWithLabel}>
+                                                        <Image source={spriteMap[mon2.spriteId]} style={soulockeTBStyles.sprite} />
+                                                        <Text style={soulockeTBStyles.monLabel}>{mon2.name}</Text>
+                                                    </View>
+                                                )}
+                                            </View>
+                                        </View>
+
+                                        {/* Toggle Switch */}
+                                        <View style={soulockeTBStyles.toggleContainer}>
+                                            <Switch
+                                                value={isToggled}
+                                                onValueChange={(newVal) =>
+                                                    setTempOverrides((prev) => ({
+                                                        ...prev,
+                                                        [key]: newVal,
+                                                    }))
+                                                }
+                                            />
+                                        </View>
+                                    </View>
+                                );
+                            })}
+                        </ScrollView>
+
+                        {/* Modal Action Buttons */}
+                        <View style={soulockeTBStyles.modalButtonRow}>
+                            <Pressable
+                                onPress={() => {
+                                    setShowFlyerModal(false);
+                                    setTempOverrides({}); // discard changes
+                                }}
+                                style={soulockeTBStyles.cancelButton}
+                            >
+                                <Text style={soulockeTBStyles.modalButtonText}>Cancel</Text>
+                            </Pressable>
+                            <Pressable
+                                onPress={() => {
+                                    setFlyerTypeOverrides(tempOverrides); // save changes
+                                    setShowFlyerModal(false);
+                                }}
+                                style={soulockeTBStyles.applyButton}
+                            >
+                                <Text style={soulockeTBStyles.modalButtonText}>Apply</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                </View>
+            )}
+
+
+
+
 
             {/* Bottom Grid Area */}
             <ScrollView
@@ -758,7 +1095,7 @@ const soulockeTeamBuilder = () => {
                                 {renderResistanceRowT1(resistanceSummaryTrainer1)}
                             </View>
                             <Text style={soulockeTBStyles.sectionHeader}>Stats</Text>
-                            <View style={soulockeTBStyles.placeholderBox} >
+                            <View style={soulockeTBStyles.placeholderBox}>
                                 {renderStatsSection(team1, 'T1')}
                             </View>
                             <Text style={soulockeTBStyles.sectionHeader}>Weaknesses</Text>
@@ -766,7 +1103,6 @@ const soulockeTeamBuilder = () => {
                                 {renderWeaknessRowT1(weaknessSummaryTrainer1, resistanceSummaryTrainer1)}
                             </View>
                         </View>
-
 
                         {/* Sprites Column */}
                         <View style={soulockeTBStyles.spriteColumn}>
@@ -779,17 +1115,31 @@ const soulockeTeamBuilder = () => {
                                     <View key={index} style={soulockeTBStyles.spritePairBox}>
                                         <Text style={soulockeTBStyles.chainOverlay}>🔗</Text>
                                         <View style={soulockeTBStyles.spritePair}>
-                                            <Image
-                                                source={spriteMap[mon1.spriteId]}
-                                                style={soulockeTBStyles.sprite}
-                                            />
+                                            {/* Trainer 1 */}
+                                            <View style={soulockeTBStyles.spriteWithLabel}>
+                                                <Image
+                                                    source={spriteMap[mon1.spriteId]}
+                                                    style={soulockeTBStyles.sprite}
+                                                />
+                                                <Text style={soulockeTBStyles.monLabel}>{mon1.name}</Text>
+                                            </View>
+
+
+
                                             <View style={soulockeTBStyles.fullVerticalDivider} />
-                                            <Image
-                                                source={spriteMap[mon2.spriteId]}
-                                                style={soulockeTBStyles.sprite}
-                                            />
+
+                                            {/* Trainer 2 */}
+                                            <View style={soulockeTBStyles.spriteWithLabel}>
+                                                <Image
+                                                    source={spriteMap[mon2.spriteId]}
+                                                    style={soulockeTBStyles.sprite}
+                                                />
+                                                <Text style={soulockeTBStyles.monLabel}>{mon2.name}</Text>
+                                            </View>
+
                                         </View>
                                     </View>
+
                                 );
                             })}
                         </View>
@@ -801,7 +1151,7 @@ const soulockeTeamBuilder = () => {
                                 {renderResistanceRowT2(resistanceSummaryTrainer2)}
                             </View>
                             <Text style={soulockeTBStyles.sectionHeader}>Stats</Text>
-                            <View style={soulockeTBStyles.placeholderBox} >
+                            <View style={soulockeTBStyles.placeholderBox}>
                                 {renderStatsSectionTTwo(team2, 'T2')}
                             </View>
                             <Text style={soulockeTBStyles.sectionHeader}>Weaknesses</Text>
@@ -809,12 +1159,12 @@ const soulockeTeamBuilder = () => {
                                 {renderWeaknessRowT2(weaknessSummaryTrainer2, resistanceSummaryTrainer2)}
                             </View>
                         </View>
-
                     </View>
                 </View>
             </ScrollView>
         </View>
     );
+
 
 
 };
