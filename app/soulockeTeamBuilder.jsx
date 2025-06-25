@@ -52,7 +52,7 @@ const soulockeTeamBuilder = () => {
     const [focusPair, setFocusPair] = useState(null);
     const [allPairs, setAllPairs] = useState([]);
 
-    
+
 
 
 
@@ -262,18 +262,24 @@ const soulockeTeamBuilder = () => {
         };
 
         return (
-            <View style={soulockeTBStyles.resistancesRow}>
-                {categories.map(({ label, key }) => {
+            <View style={[soulockeTBStyles.resistancesRow, { flexDirection: 'row' }]}>
+                {categories.map(({ label, key }, index) => {
                     const entries = Object.entries(summary[key] || {});
-                    const columns = groupIntoColumns(entries, 5); // Limit 4 per column
+                    const columns = groupIntoColumns(entries, 6);
 
-                    const isImmunities = label === 'Immunities';
+                    // Apply flex values instead of width percentages
+                    let columnStyle = {};
+                    if (label === '0.5×') {
+                        columnStyle = { flex: 2 };
+                    } else if (label === 'Immunities') {
+                        columnStyle = { flex: 1, paddingLeft: 8 }; // 👈 nudge right
+                    } else {
+                        columnStyle = { flex: 1 };
+                    }
+
 
                     return (
-                        <View key={key} style={[
-                            soulockeTBStyles.resistancesColumn,
-                            isImmunities && { marginLeft: 8 }, // Add small space to the Left
-                        ]}>
+                        <View key={key} style={[soulockeTBStyles.resistancesColumn, columnStyle]}>
                             <Text style={soulockeTBStyles.subHeader}>{label}</Text>
                             <View style={soulockeTBStyles.resistancesGrid}>
                                 {columns.map((col, colIndex) => (
@@ -294,6 +300,7 @@ const soulockeTeamBuilder = () => {
         );
     };
 
+
     const renderResistanceRowT1 = (summary) => {
         const categories = [
             { label: '0.5×', key: 'half' },
@@ -313,15 +320,20 @@ const soulockeTeamBuilder = () => {
             <View style={soulockeTBStyles.resistancesRow}>
                 {categories.map(({ label, key }) => {
                     const entries = Object.entries(summary[key] || {});
-                    const columns = groupIntoColumns(entries, 5); // Limit 5 per column
+                    const columns = groupIntoColumns(entries, 6); // Limit 5 per column
 
-                    const isImmunities = label === 'Immunities';
+                    // Assign flex widths and optional padding for alignment
+                    let columnStyle = {};
+                    if (label === '0.5×') {
+                        columnStyle = { flex: 2 }; // widest
+                    } else if (label === 'Immunities') {
+                        columnStyle = { flex: 1, paddingRight: 8 }; // 👈 nudge left slightly
+                    } else {
+                        columnStyle = { flex: 1 };
+                    }
 
                     return (
-                        <View key={key} style={[
-                            soulockeTBStyles.resistancesColumn,
-                            isImmunities && { marginRight: 8 }, // Add small space to the right
-                        ]}>
+                        <View key={key} style={[soulockeTBStyles.resistancesColumn, columnStyle]}>
                             <Text style={soulockeTBStyles.subHeaderTOne}>{label}</Text>
                             <View style={soulockeTBStyles.resistancesGridTOne}>
                                 {columns.map((col, colIndex) => (
@@ -341,6 +353,7 @@ const soulockeTeamBuilder = () => {
             </View>
         );
     };
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -393,7 +406,7 @@ const soulockeTeamBuilder = () => {
             <View style={soulockeTBStyles.resistancesRow}>
                 {categories.map(({ label, key }) => {
                     const entries = Object.entries(summary[key] || {});
-                    const columns = groupIntoColumns(entries);
+                    const columns = groupIntoColumns(entries, 6);
 
                     const isTwoX = label === '2x';
                     const isFourX = label === '4x';
@@ -407,8 +420,8 @@ const soulockeTeamBuilder = () => {
                                 isFourX && { marginLeft: 160 }
                             ]}
                         >
-                            <Text style={soulockeTBStyles.subHeader}>{label}</Text>
-                            <View style={soulockeTBStyles.resistancesGrid}>
+                            <Text style={soulockeTBStyles.subHeaderTOne}>{label}</Text>
+                            <View style={soulockeTBStyles.resistancesGridTOne}>
                                 {columns.map((col, colIndex) => (
                                     <View key={colIndex} style={soulockeTBStyles.resistanceGroup}>
                                         {col.map(([type, count]) => {
@@ -418,7 +431,7 @@ const soulockeTeamBuilder = () => {
                                                 resistanceSummary.quarter[type];
 
                                             return (
-                                                <View key={type} style={soulockeTBStyles.typeRowWeak}>
+                                                <View key={type} style={soulockeTBStyles.typeRow}>
                                                     <TypePill type={type} glow={!isCovered} />
                                                     <Text style={soulockeTBStyles.weaknessCountText}>
                                                         x{count}
@@ -455,7 +468,7 @@ const soulockeTeamBuilder = () => {
             <View style={soulockeTBStyles.resistancesRow}>
                 {categories.map(({ label, key }) => {
                     const entries = Object.entries(summary[key] || {});
-                    const columns = groupIntoColumns(entries, 5); // Left-to-right for T2
+                    const columns = groupIntoColumns(entries, 6); // Left-to-right for T2
 
                     const isTwoX = label === '2x';
                     const isFourX = label === '4x';
@@ -472,7 +485,7 @@ const soulockeTeamBuilder = () => {
                             <Text style={soulockeTBStyles.subHeaderTOne}>{label}</Text>
                             <View style={soulockeTBStyles.resistancesGridTOne}>
                                 {columns.map((col, colIndex) => (
-                                    <View key={colIndex} style={soulockeTBStyles.resistanceGroupTOne}>
+                                    <View key={colIndex} style={soulockeTBStyles.resistanceGroup}>
                                         {col.map(([type, count]) => {
                                             const isCovered =
                                                 resistanceSummary?.immune?.[type] ||
@@ -813,7 +826,7 @@ const soulockeTeamBuilder = () => {
     function sortCombosByOption(combos, trainerOneTeam, trainerTwoTeam, sortOption) {
         const getStatTotal = (team, key) =>
             team.reduce((sum, id) => sum + (Pokedex[id]?.[key] || 0), 0);
-
+    
         const getResistanceScore = (team) => {
             let score = 0;
             team.forEach(id => {
@@ -826,7 +839,7 @@ const soulockeTeamBuilder = () => {
             });
             return score;
         };
-
+    
         const getWeaknessScore = (team) => {
             let score = 0;
             team.forEach(id => {
@@ -838,36 +851,47 @@ const soulockeTeamBuilder = () => {
             });
             return score;
         };
-
+    
         const getAverageScore = (combo, key) => {
             const t1 = combo.map(i => trainerOneTeam[i]);
             const t2 = combo.map(i => trainerTwoTeam[i]);
-
+    
             if (key === 'resist') {
-                return (getResistanceScore(t1) + getResistanceScore(t2)) / 2;
+                return getResistanceScore(t1) + getResistanceScore(t2);
             } else if (key === 'weak') {
-                return (getWeaknessScore(t1) + getWeaknessScore(t2)) / 2;
+                // Match single-team behavior: ascending order, so invert sorting logic accordingly
+                return getWeaknessScore(t1) + getWeaknessScore(t2);
             } else {
-                const t1Total = getStatTotal(t1, key);
-                const t2Total = getStatTotal(t2, key);
-                return (t1Total + t2Total) / 2;
+                // Use totalBaseStats for total sorting
+                const statKey = key === 'total' ? 'totalBaseStats' : key;
+                return getStatTotal(t1, statKey) + getStatTotal(t2, statKey);
             }
         };
-
+    
         if (sortOption === 'none') return combos;
-
+    
+        // For weaknesses, you might want ascending, so handle that:
+        if (sortOption === 'weak') {
+            return [...combos].sort((a, b) => {
+                const aScore = getAverageScore(a, sortOption);
+                const bScore = getAverageScore(b, sortOption);
+                return aScore - bScore; // ascending
+            });
+        }
+    
         return [...combos].sort((a, b) => {
             const aScore = getAverageScore(a, sortOption);
             const bScore = getAverageScore(b, sortOption);
             return bScore - aScore; // descending
         });
     }
+    
 
 
 
     useEffect(() => {
         setTeamIndex(0);
-    }, [sortOption]);
+    }, [sortOption, focusPair, ruleBreakingOption, flyerTypeOverrides]);
 
 
 
@@ -1170,4 +1194,3 @@ const soulockeTeamBuilder = () => {
 };
 
 export default soulockeTeamBuilder;
-

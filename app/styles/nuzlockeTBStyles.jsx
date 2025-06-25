@@ -10,7 +10,7 @@ const nuzlockeStyles = StyleSheet.create({
         alignItems: 'center',
         paddingVertical: 12,
         paddingHorizontal: 16,
-        backgroundColor: '#f0f0f0',
+        backgroundColor: '#ddd',
         borderBottomWidth: 1,
         borderColor: '#ccc',
     },
@@ -214,10 +214,10 @@ const nuzlockeStyles = StyleSheet.create({
     },
     spriteDisplayWrapper: {
         flexDirection: 'row',
-        flexWrap: 'wrap',             // 👈 allows wrapping for smaller widths
+        flexWrap: 'wrap',         
         justifyContent: 'center',
         alignItems: 'center',
-        gap: 20,                      // RN 0.71+, fallback to margins if needed
+        gap: 20,             
         width: '100%',
         paddingVertical: 10,
     },
@@ -233,7 +233,7 @@ const nuzlockeStyles = StyleSheet.create({
         flexGrow: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        paddingLeft: 50
+        paddingLeft: 10
     },
     
     dropdownContainer: {
@@ -246,6 +246,29 @@ const nuzlockeStyles = StyleSheet.create({
     sortHeader: {
         fontWeight: 'bold',
         marginBottom: 4,
+    },
+    optionsBarContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 50,
+        paddingHorizontal: 12,
+        backgroundColor: '#f2f2f2',
+        borderBottomWidth: 1,
+        borderColor: '#ccc',
+        gap: 12,
+        width: '100%',
+    },
+
+    optionsButton: {
+        backgroundColor: '#4CAF50',
+        paddingVertical: 6,
+        paddingHorizontal: 14,
+        borderRadius: 8,
+    },
+
+    optionsButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
     },
     
 

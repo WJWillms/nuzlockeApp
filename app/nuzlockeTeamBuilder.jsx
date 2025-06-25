@@ -17,17 +17,39 @@ const NuzlockeTeamBuilder = () => {
     const { team } = useLocalSearchParams();
     const parsedTeam = JSON.parse(team); // array of selected Pokémon IDs
     const [teamIndex, setTeamIndex] = useState(0);
+    const [focus, setFocus] = useState(null);
+    const [allChoices, setAllChoices] = useState([]);
 
     const [activeCharts, setActiveCharts] = useState(['Total']);
     const individualColors = ['#f87171', '#34d399', '#60a5fa', '#facc15', '#a78bfa', '#fb923c']; //Colors for Charts
     const [selectedOption, setSelectedOption] = useState('none'); //For sorting picker
-    const allValidTeams = getTeamsFromSelection(parsedTeam, 6, selectedOption);
+    const allValidTeams = getTeamsFromSelection(parsedTeam, 6, selectedOption, focus);
     const currentTeam = allValidTeams[teamIndex];
+
 
 
     const typeNameToId = Object.fromEntries(
         Object.entries(PokemonType).map(([key, value]) => [key.toUpperCase(), value])
     );
+
+    useEffect(() => {
+        if (!team) return;
+
+        const teamIds = JSON.parse(team); // ["001", "004", "007"]
+        const parsedChoices = teamIds
+            .map((id) => {
+                const mon = Pokedex[id];
+                if (!mon) return null;
+                return {
+                    label: mon.name,
+                    value: id,
+                };
+            })
+            .filter(Boolean);
+
+        setAllChoices(parsedChoices);
+    }, [team]);
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -204,18 +226,26 @@ const NuzlockeTeamBuilder = () => {
         return result;
     }
 
-    function getTeamsFromSelection(selectedIds, maxTeamSize = 6, sortOption = "none") {
+    function getTeamsFromSelection(selectedIds, maxTeamSize = 6, sortOption = "none", focus = null) {
         const n = selectedIds.length;
         const size = Math.min(maxTeamSize, n);
-
+    
         for (let k = size; k >= 1; k--) {
-            const combos = getCombinations(selectedIds, k);
+            let combos = getCombinations(selectedIds, k);
+    
+            // ✅ If a focus is selected, filter combinations to only those that include it
+            if (focus && focus !== "none") {
+                combos = combos.filter(team => team.includes(focus));
+            }
+            
+    
             if (combos.length > 0) {
-                return sortTeams(combos, sortOption);  // <- sort here
+                return sortTeams(combos, sortOption);
             }
         }
         return [];
     }
+    
 
     const getTeamStats = (team) => {
         return team.reduce((acc, id) => {
@@ -291,84 +321,7 @@ const NuzlockeTeamBuilder = () => {
             return score;
         };
 
-        const getDragunknightScore = (team) => {
-            const stats = getTeamStats(team);
-            const resistanceScore = getResistanceScore(team);
-            const weaknessScore = getWeaknessScore(team);
-
-            const typeCounts = {};
-            const weaknesses = new Set();
-            const resistances = new Set();
-            const uniqueTypes = new Set();
-
-            team.forEach(id => {
-                const mon = Pokedex[id];
-                if (!mon) return;
-
-                // Use your pokedex structure here
-                const types = [mon.typeOne, mon.typeTwo].filter(Boolean);
-
-                types.forEach(type => {
-                    const lowerType = type.toLowerCase();
-                    uniqueTypes.add(lowerType);
-                    typeCounts[lowerType] = (typeCounts[lowerType] || 0) + 1;
-                });
-
-                Object.entries(mon.weaknesses || {}).forEach(([type, val]) => {
-                    if (val >= 2) weaknesses.add(type.toLowerCase());
-                });
-
-                Object.entries(mon.resistances || {}).forEach(([type, val]) => {
-                    if (val <= 0.5) resistances.add(type.toLowerCase());
-                });
-            });
-
-            log("typeCounts:", typeCounts);
-            const duplicatePenalty = Object.values(typeCounts)
-                .map(count => count > 1 ? (count - 1) ** 2 : 0)
-                .reduce((sum, val) => sum + val, 0);
-
-            log(`Duplicate Score: ${duplicatePenalty}`);
-
-            let uncoveredWeaknessCount = 0;
-            weaknesses.forEach(type => {
-                if (!resistances.has(type)) uncoveredWeaknessCount++;
-            });
-
-            log(`Team Score Breakdown (Team: [${team.join(', ')}])`);
-            log(`→ Base Stat Total: ${stats.totalBaseStats}`);
-            console.log(`→ Tank Stats (DEF + SpD): ${(stats.defense + stats.specialDefense)} * 1.25 = ${(stats.defense + stats.specialDefense) * 1.25}`);
-            console.log(`→ Offensive Stats (ATK + SpA + SPD): ${(stats.attack + stats.specialAttack + stats.speed)} * 1.35 = ${(stats.attack + stats.specialAttack + stats.speed) * 1.35}`);
-            console.log(`→ Resistance Score: ${resistanceScore} * 5 = ${resistanceScore * 5}`);
-            console.log(`→ Weakness Score: ${weaknessScore} * -4 = ${-weaknessScore * 4}`);
-            console.log(`→ Unique Type Bonus: ${uniqueTypes.size} * 100 = ${uniqueTypes.size * 100}`);
-            console.log(`→ Duplicate Type Penalty: ${duplicatePenalty} * -8000 = ${-duplicatePenalty * 8000}`);
-            console.log(`→ Uncovered Weaknesses Penalty: ${uncoveredWeaknessCount} * -100 = ${-uncoveredWeaknessCount * 100}`);
-
-            const finalScore =
-                stats.totalBaseStats +
-                (stats.defense + stats.specialDefense) * 1.25 +
-                (stats.attack + stats.specialAttack + stats.speed) * 1.35 +
-                resistanceScore * 5 -
-                weaknessScore * 4 +
-                uniqueTypes.size * 100 -
-                duplicatePenalty * 8000 -
-                uncoveredWeaknessCount * 100;
-
-            console.log(`==> Final Score: ${finalScore}`);
-            console.log('──────────────────────────────');
-
-            return (
-                stats.totalBaseStats +
-                (stats.defense + stats.specialDefense) * 1.25 +
-                (stats.attack + stats.specialAttack + stats.speed) * 1.35 +
-                resistanceScore * 5 -
-                weaknessScore * 2 +
-                uniqueTypes.size * 150 -          // encourage type diversity
-                duplicatePenalty * 50 -           // discourage duplicates
-                uncoveredWeaknessCount * 100      // penalize uncovered weaknesses
-            );
-        };
+        
 
 
 
@@ -382,7 +335,6 @@ const NuzlockeTeamBuilder = () => {
             case "speed": return teams.sort((a, b) => getStatTotal(b, "speed") - getStatTotal(a, "speed"));
             case "resist": return teams.sort((a, b) => getResistanceScore(b) - getResistanceScore(a));
             case "weak": return teams.sort((a, b) => getWeaknessScore(a) - getWeaknessScore(b));
-            case "dragun": return teams.sort((a, b) => getDragunknightScore(b) - getDragunknightScore(a));
             default: return teams;
         }
     }
@@ -391,7 +343,7 @@ const NuzlockeTeamBuilder = () => {
     //Use Effect puts user back on the 1st team after selecting a new sort.
     useEffect(() => {
         setTeamIndex(0);
-    }, [selectedOption]);
+    }, [selectedOption, focus,]);
 
     useEffect(() => {
         const team = allValidTeams[currentTeam];
@@ -434,15 +386,53 @@ const NuzlockeTeamBuilder = () => {
                 )}
             </View>
 
+            {/* Options Bar */}
+            <View style={nuzlockeTBStyles.optionsBarContainer}>
+                <Pressable
+                    onPress={() => router.push('/')}
+                    style={nuzlockeTBStyles.optionsButton}
+                >
+                    <Text style={nuzlockeTBStyles.optionsButtonText}>Return to Home</Text>
+                </Pressable>
+                <View >
+                    <Text >Focus</Text>
+                    <Picker
+                        selectedValue={focus}
+                        onValueChange={(itemValue) => setFocus(itemValue)}
+                        dropdownIconColor="#333"
+                    >
+                        <Picker.Item label="None" value="none" />
+                        {allChoices.map(({ value, label }) => (
+                            <Picker.Item key={value} label={label} value={value} />
+                        ))}
+                    </Picker>
+
+                </View>
+                <View>
+                    <Text>Sort Options</Text>
+                    <View>
+                        <Picker
+                            selectedValue={selectedOption}
+                            onValueChange={(itemValue) => setSelectedOption(itemValue)}
+                            dropdownIconColor="#333"
+                        >
+                            <Picker.Item label="None" value="none" />
+                            <Picker.Item label="Total Stats" value="total" />
+                            <Picker.Item label="Highest Attack" value="attack" />
+                            <Picker.Item label="Highest Special Attack" value="spatk" />
+                            <Picker.Item label="Highest Defense" value="defense" />
+                            <Picker.Item label="Highest Special Defense" value="spdef" />
+                            <Picker.Item label="Highest Speed" value="speed" />
+                            <Picker.Item label="Most Resistances" value="resist" />
+                            <Picker.Item label="Least Weaknesses" value="weak" />
+                        </Picker>
+                    </View>
+                </View>
+
+            </View>
+
             {/* Sprite Display Wrapper */}
             <View style={nuzlockeTBStyles.spriteDisplayWrapper}>
-
-                {/* 🏠 Home Button */}
-                <View style={nuzlockeTBStyles.homeButtonContainer}>
-                    <Pressable onPress={() => router.push('/')} style={nuzlockeTBStyles.homeButton}>
-                        <Text style={nuzlockeTBStyles.homeButtonText}>Return to Home</Text>
-                    </Pressable>
-                </View>
 
                 {/* Pokémon Sprites */}
                 <View style={nuzlockeTBStyles.spriteTeamContainer}>
@@ -470,29 +460,6 @@ const NuzlockeTeamBuilder = () => {
                                 </View>
                             );
                         })}
-                    </View>
-                </View>
-
-                {/* Sort Dropdown */}
-                <View style={nuzlockeTBStyles.dropdownContainer}>
-                    <Text style={nuzlockeTBStyles.sortHeader}>Sort Options</Text>
-                    <View style={nuzlockeTBStyles.pickerBox}>
-                        <Picker
-                            selectedValue={selectedOption}
-                            onValueChange={(itemValue) => setSelectedOption(itemValue)}
-                            style={{ height: 40, width: '100%' }}
-                        >
-                            <Picker.Item label="None" value="none" />
-                            <Picker.Item label="Total Stats" value="total" />
-                            <Picker.Item label="Highest Attack" value="attack" />
-                            <Picker.Item label="Highest Special Attack" value="spatk" />
-                            <Picker.Item label="Highest Defense" value="defense" />
-                            <Picker.Item label="Highest Special Defense" value="spdef" />
-                            <Picker.Item label="Highest Speed" value="speed" />
-                            <Picker.Item label="Most Resistances" value="resist" />
-                            <Picker.Item label="Least Weaknesses" value="weak" />
-                            <Picker.Item label="Dragunknight Formula" value="dragun" />
-                        </Picker>
                     </View>
                 </View>
 

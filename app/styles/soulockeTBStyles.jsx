@@ -258,7 +258,7 @@ const soulockeTBStyles = StyleSheet.create({
 
     resistancesColumn: {
         flex: 1,
-        marginTop: 8
+        marginTop: 7
     },
 
     resistancesGrid: {
@@ -288,7 +288,7 @@ const soulockeTBStyles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between', // Pushes count to the right
-        marginBottom: 4,
+        marginBottom: 0,
         width: '100%',
     },
 
@@ -556,7 +556,69 @@ const soulockeTBStyles = StyleSheet.create({
         overflow: 'hidden',
     },
 
-    
+    weaknessRowContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        flexWrap: 'nowrap',
+        paddingHorizontal: 8,
+        gap: 16,
+    },
+
+    weaknessColumn: {
+        flexShrink: 1,
+        flexGrow: 0,
+        minWidth: 120,
+        maxWidth: 200,
+    },
+
+    weaknessHeader: {
+        fontWeight: 'bold',
+        fontSize: 14,
+        marginBottom: 4,
+        marginLeft: 4,
+    },
+
+    weaknessesRow: {
+        flexDirection: 'row',    // Make categories sit horizontally
+        width: '100%',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        flexWrap: 'nowrap',      // No wrapping to next line unless you want it
+    },
+
+    weaknessColumnGroup: {
+        flexDirection: 'column', // Stack contents vertically
+        flexGrow: 1,             // Grow to fill available horizontal space equally
+        flexBasis: '45%',        // Take up about half width per category (adjust as needed)
+        marginRight: 12,
+        minWidth: 140,           // Prevent from becoming too narrow
+    },
+
+    weaknessGrid: {
+        flexDirection: 'column', // Stack groups vertically
+    },
+
+    weaknessGroup: {
+        flexDirection: 'column',
+        marginBottom: 8,
+    },
+
+    weaknessRow: {
+        flexDirection: 'row',    // icon and text side by side
+        alignItems: 'center',
+        marginBottom: 6,
+    },
+
+    weaknessCount: {
+        marginLeft: 6,
+        textAlign: 'right',
+        flexShrink: 0,
+    },
+
+
+
+
 
 
 
