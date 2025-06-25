@@ -615,6 +615,36 @@ const soulockeTBStyles = StyleSheet.create({
         textAlign: 'right',
         flexShrink: 0,
     },
+    weaknessesGridTTwo: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'flex-start', // line up cleanly
+        alignItems: 'flex-start',     // prevent vertical stretching
+        gap: 8,
+        width: '100%',
+    },
+
+    weaknessHeaderTTwo: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 6,
+        color: '#444',
+        textAlign: 'left',
+    },
+    weaknessGroupTTwo: {
+        flexDirection: 'column',
+        gap: 6,
+        flexShrink: 1,      // allow shrinking
+        minWidth: 90,       // prevent columns from becoming too narrow
+        maxWidth: 120,      // optional: help browser enforce limit
+    },
+    weaknessesRowTTwo: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        gap: 8,
+    },
+
 
 
 

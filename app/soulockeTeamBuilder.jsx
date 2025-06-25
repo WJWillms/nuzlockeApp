@@ -417,7 +417,7 @@ const soulockeTeamBuilder = () => {
                             style={[
                                 soulockeTBStyles.resistancesColumn,
                                 isTwoX && { marginRight: 20 },
-                                isFourX && { marginLeft: 160 }
+                                isFourX && { marginLeft: 40 }
                             ]}
                         >
                             <Text style={soulockeTBStyles.subHeaderTOne}>{label}</Text>
@@ -465,10 +465,10 @@ const soulockeTeamBuilder = () => {
         };
 
         return (
-            <View style={soulockeTBStyles.resistancesRow}>
+            <View style={soulockeTBStyles.weaknessesRowTTwo}>
                 {categories.map(({ label, key }) => {
-                    const entries = Object.entries(summary[key] || {});
-                    const columns = groupIntoColumns(entries, 6); // Left-to-right for T2
+                    const entries = Object.entries(summary?.[key] || {});
+                    const columns = groupIntoColumns(entries, 6); // adjust 6 to balance your rows
 
                     const isTwoX = label === '2x';
                     const isFourX = label === '4x';
@@ -479,13 +479,13 @@ const soulockeTeamBuilder = () => {
                             style={[
                                 soulockeTBStyles.resistancesColumn,
                                 isTwoX && { marginLeft: 20 },
-                                isFourX && { marginRight: 160 } // Slight nudge for 4× column
+                                isFourX && { marginRight: 40 },
                             ]}
                         >
-                            <Text style={soulockeTBStyles.subHeaderTOne}>{label}</Text>
-                            <View style={soulockeTBStyles.resistancesGridTOne}>
+                            <Text style={soulockeTBStyles.weaknessHeaderTTwo}>{label}</Text>
+                            <View style={soulockeTBStyles.weaknessesGridTTwo}>
                                 {columns.map((col, colIndex) => (
-                                    <View key={colIndex} style={soulockeTBStyles.resistanceGroup}>
+                                    <View key={colIndex} style={soulockeTBStyles.weaknessGroupTTwo}>
                                         {col.map(([type, count]) => {
                                             const isCovered =
                                                 resistanceSummary?.immune?.[type] ||
@@ -495,7 +495,9 @@ const soulockeTeamBuilder = () => {
                                             return (
                                                 <View key={type} style={soulockeTBStyles.typeRow}>
                                                     <TypePill type={type} glow={!isCovered} />
-                                                    <Text style={soulockeTBStyles.weaknessCountText}>x{count}</Text>
+                                                    <Text style={soulockeTBStyles.weaknessCountText}>
+                                                        x{count}
+                                                    </Text>
                                                 </View>
                                             );
                                         })}
@@ -508,6 +510,7 @@ const soulockeTeamBuilder = () => {
             </View>
         );
     };
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -826,7 +829,7 @@ const soulockeTeamBuilder = () => {
     function sortCombosByOption(combos, trainerOneTeam, trainerTwoTeam, sortOption) {
         const getStatTotal = (team, key) =>
             team.reduce((sum, id) => sum + (Pokedex[id]?.[key] || 0), 0);
-    
+
         const getResistanceScore = (team) => {
             let score = 0;
             team.forEach(id => {
@@ -839,7 +842,7 @@ const soulockeTeamBuilder = () => {
             });
             return score;
         };
-    
+
         const getWeaknessScore = (team) => {
             let score = 0;
             team.forEach(id => {
@@ -851,41 +854,90 @@ const soulockeTeamBuilder = () => {
             });
             return score;
         };
-    
+
+        const getTrainerScoreDragunknight = (team) => {
+            let resistScore = 0;
+            let weaknessPenalty = 0;
+            let attackScore = 0;
+            let defenseScore = 0;
+            let speedHpScore = 0;
+            let baseStatBonus = 0;
+
+            team.forEach(id => {
+                const mon = Pokedex[id];
+                if (!mon) return;
+
+                Object.values(mon.resistances || {}).forEach(val => {
+                    if (val === 0) resistScore += 5;
+                    else if (val === 0.25) resistScore += 2;
+                    else if (val === 0.5) resistScore += 1;
+                });
+
+                Object.values(mon.weaknesses || {}).forEach(val => {
+                    if (val === 4) weaknessPenalty += 4;
+                    else if (val === 2) weaknessPenalty += 1;
+                });
+
+                attackScore += (mon.attack + mon.specialAttack) * 0.5;
+                defenseScore += (mon.defense + mon.specialDefense) * 0.75;
+                speedHpScore += mon.speed * 0.1 + mon.hp;
+
+                const total = mon.totalBaseStats;
+                if (total >= 600) baseStatBonus += 35;
+                else if (total >= 550) baseStatBonus += 22;
+                else if (total >= 500) baseStatBonus += 10;
+            });
+
+            return (
+                resistScore +
+                attackScore +
+                defenseScore +
+                speedHpScore +
+                baseStatBonus -
+                weaknessPenalty
+            );
+        };
+
         const getAverageScore = (combo, key) => {
             const t1 = combo.map(i => trainerOneTeam[i]);
             const t2 = combo.map(i => trainerTwoTeam[i]);
-    
+
             if (key === 'resist') {
                 return getResistanceScore(t1) + getResistanceScore(t2);
             } else if (key === 'weak') {
-                // Match single-team behavior: ascending order, so invert sorting logic accordingly
                 return getWeaknessScore(t1) + getWeaknessScore(t2);
+            } else if (key === 'dragunknight') {
+                const score1 = getTrainerScoreDragunknight(t1);
+                const score2 = getTrainerScoreDragunknight(t2);
+                const imbalancePenalty = Math.abs(score1 - score2) * 0.75;
+                return score1 + score2 - imbalancePenalty;
             } else {
-                // Use totalBaseStats for total sorting
-                const statKey = key === 'total' ? 'totalBaseStats' : key;
+                const validKeys = {
+                    total: 'totalBaseStats',
+                    attack: 'attack',
+                    spatk: 'specialAttack',
+                    defense: 'defense',
+                    spdef: 'specialDefense',
+                    speed: 'speed'
+                };
+                const statKey = validKeys[key];
+                if (!statKey) return 0;
                 return getStatTotal(t1, statKey) + getStatTotal(t2, statKey);
             }
         };
-    
+
         if (sortOption === 'none') return combos;
-    
-        // For weaknesses, you might want ascending, so handle that:
-        if (sortOption === 'weak') {
-            return [...combos].sort((a, b) => {
-                const aScore = getAverageScore(a, sortOption);
-                const bScore = getAverageScore(b, sortOption);
-                return aScore - bScore; // ascending
-            });
-        }
-    
+
+        const isAscending = sortOption === 'weak';
+
         return [...combos].sort((a, b) => {
             const aScore = getAverageScore(a, sortOption);
             const bScore = getAverageScore(b, sortOption);
-            return bScore - aScore; // descending
+            return isAscending ? aScore - bScore : bScore - aScore;
         });
     }
-    
+
+
 
 
 
@@ -954,15 +1006,17 @@ const soulockeTeamBuilder = () => {
                     <Text >Focus</Text>
                     <Picker
                         selectedValue={focusPair}
-                        onValueChange={(itemValue) => setFocusPair(itemValue)}
+                        onValueChange={(itemValue) => {
+                            setFocusPair(itemValue === "none" ? null : Number(itemValue));
+                        }}
                         dropdownIconColor="#333"
                     >
-                        <Picker.Item label="None" value={null} />
+                        <Picker.Item label="None" value="none" />
                         {allPairs.map(({ index, label }) => (
-                            <Picker.Item key={index} label={label} value={index} /> // index is already a number
+                            <Picker.Item key={index} label={label} value={index.toString()} />
                         ))}
-
                     </Picker>
+
                 </View>
                 <View>
                     <Text>Sort By</Text>
@@ -980,6 +1034,7 @@ const soulockeTeamBuilder = () => {
                         <Picker.Item label="Speed" value="speed" />
                         <Picker.Item label="Resistances" value="resist" />
                         <Picker.Item label="Weaknesses" value="weak" />
+                        <Picker.Item label="Dragunknight Formula" value="dragunknight" />
                     </Picker>
                 </View>
 
@@ -1097,95 +1152,103 @@ const soulockeTeamBuilder = () => {
 
 
             {/* Bottom Grid Area */}
-            <ScrollView
-                style={soulockeTBStyles.scrollWrapper}
-                contentContainerStyle={soulockeTBStyles.scrollContentContainer}
-            >
-                <View style={soulockeTBStyles.labelWrapper}>
-                    {/* Floating Labels */}
-                    <View style={soulockeTBStyles.trainer1Label}>
-                        <Text style={soulockeTBStyles.trainerLabelText}>Trainer 1</Text>
-                    </View>
-                    <View style={soulockeTBStyles.trainer2Label}>
-                        <Text style={soulockeTBStyles.trainerLabelText}>Trainer 2</Text>
-                    </View>
-
-                    {/* Main Row Section */}
-                    <View style={soulockeTBStyles.rowSection}>
-                        {/* Trainer 1 Column */}
-                        <View style={soulockeTBStyles.trainerColumn}>
-                            <Text style={soulockeTBStyles.sectionHeader}>Resistances</Text>
-                            <View style={soulockeTBStyles.placeholderBox}>
-                                {renderResistanceRowT1(resistanceSummaryTrainer1)}
-                            </View>
-                            <Text style={soulockeTBStyles.sectionHeader}>Stats</Text>
-                            <View style={soulockeTBStyles.placeholderBox}>
-                                {renderStatsSection(team1, 'T1')}
-                            </View>
-                            <Text style={soulockeTBStyles.sectionHeader}>Weaknesses</Text>
-                            <View style={soulockeTBStyles.placeholderBox}>
-                                {renderWeaknessRowT1(weaknessSummaryTrainer1, resistanceSummaryTrainer1)}
-                            </View>
-                        </View>
-
-                        {/* Sprites Column */}
-                        <View style={soulockeTBStyles.spriteColumn}>
-                            {team1.map((id1, index) => {
-                                const id2 = team2[index];
-                                const mon1 = Pokedex[id1];
-                                const mon2 = Pokedex[id2];
-
-                                return (
-                                    <View key={index} style={soulockeTBStyles.spritePairBox}>
-                                        <Text style={soulockeTBStyles.chainOverlay}>🔗</Text>
-                                        <View style={soulockeTBStyles.spritePair}>
-                                            {/* Trainer 1 */}
-                                            <View style={soulockeTBStyles.spriteWithLabel}>
-                                                <Image
-                                                    source={spriteMap[mon1.spriteId]}
-                                                    style={soulockeTBStyles.sprite}
-                                                />
-                                                <Text style={soulockeTBStyles.monLabel}>{mon1.name}</Text>
-                                            </View>
-
-
-
-                                            <View style={soulockeTBStyles.fullVerticalDivider} />
-
-                                            {/* Trainer 2 */}
-                                            <View style={soulockeTBStyles.spriteWithLabel}>
-                                                <Image
-                                                    source={spriteMap[mon2.spriteId]}
-                                                    style={soulockeTBStyles.sprite}
-                                                />
-                                                <Text style={soulockeTBStyles.monLabel}>{mon2.name}</Text>
-                                            </View>
-
-                                        </View>
-                                    </View>
-
-                                );
-                            })}
-                        </View>
-
-                        {/* Trainer 2 Column */}
-                        <View style={soulockeTBStyles.trainerColumn}>
-                            <Text style={soulockeTBStyles.sectionHeader}>Resistances</Text>
-                            <View style={soulockeTBStyles.placeholderBox}>
-                                {renderResistanceRowT2(resistanceSummaryTrainer2)}
-                            </View>
-                            <Text style={soulockeTBStyles.sectionHeader}>Stats</Text>
-                            <View style={soulockeTBStyles.placeholderBox}>
-                                {renderStatsSectionTTwo(team2, 'T2')}
-                            </View>
-                            <Text style={soulockeTBStyles.sectionHeader}>Weaknesses</Text>
-                            <View style={soulockeTBStyles.placeholderBox}>
-                                {renderWeaknessRowT2(weaknessSummaryTrainer2, resistanceSummaryTrainer2)}
-                            </View>
-                        </View>
-                    </View>
+            {sortedCombos.length === 0 ? (
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 }}>
+                    <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center', color: '#444' }}>
+                        No Valid Team Combinations Available
+                    </Text>
                 </View>
-            </ScrollView>
+            ) : (
+                <ScrollView
+                    style={soulockeTBStyles.scrollWrapper}
+                    contentContainerStyle={soulockeTBStyles.scrollContentContainer}
+                >
+                    <View style={soulockeTBStyles.labelWrapper}>
+                        {/* Floating Labels */}
+                        <View style={soulockeTBStyles.trainer1Label}>
+                            <Text style={soulockeTBStyles.trainerLabelText}>Trainer 1</Text>
+                        </View>
+                        <View style={soulockeTBStyles.trainer2Label}>
+                            <Text style={soulockeTBStyles.trainerLabelText}>Trainer 2</Text>
+                        </View>
+
+                        {/* Main Row Section */}
+                        <View style={soulockeTBStyles.rowSection}>
+                            {/* Trainer 1 Column */}
+                            <View style={soulockeTBStyles.trainerColumn}>
+                                <Text style={soulockeTBStyles.sectionHeader}>Resistances</Text>
+                                <View style={soulockeTBStyles.placeholderBox}>
+                                    {renderResistanceRowT1(resistanceSummaryTrainer1)}
+                                </View>
+                                <Text style={soulockeTBStyles.sectionHeader}>Stats</Text>
+                                <View style={soulockeTBStyles.placeholderBox}>
+                                    {renderStatsSection(team1, 'T1')}
+                                </View>
+                                <Text style={soulockeTBStyles.sectionHeader}>Weaknesses</Text>
+                                <View style={soulockeTBStyles.placeholderBox}>
+                                    {renderWeaknessRowT1(weaknessSummaryTrainer1, resistanceSummaryTrainer1)}
+                                </View>
+                            </View>
+
+                            {/* Sprites Column */}
+                            <View style={soulockeTBStyles.spriteColumn}>
+                                {team1.map((id1, index) => {
+                                    const id2 = team2[index];
+                                    const mon1 = Pokedex[id1];
+                                    const mon2 = Pokedex[id2];
+
+                                    return (
+                                        <View key={index} style={soulockeTBStyles.spritePairBox}>
+                                            <Text style={soulockeTBStyles.chainOverlay}>🔗</Text>
+                                            <View style={soulockeTBStyles.spritePair}>
+                                                {/* Trainer 1 */}
+                                                <View style={soulockeTBStyles.spriteWithLabel}>
+                                                    <Image
+                                                        source={spriteMap[mon1.spriteId]}
+                                                        style={soulockeTBStyles.sprite}
+                                                    />
+                                                    <Text style={soulockeTBStyles.monLabel}>{mon1.name}</Text>
+                                                </View>
+
+
+
+                                                <View style={soulockeTBStyles.fullVerticalDivider} />
+
+                                                {/* Trainer 2 */}
+                                                <View style={soulockeTBStyles.spriteWithLabel}>
+                                                    <Image
+                                                        source={spriteMap[mon2.spriteId]}
+                                                        style={soulockeTBStyles.sprite}
+                                                    />
+                                                    <Text style={soulockeTBStyles.monLabel}>{mon2.name}</Text>
+                                                </View>
+
+                                            </View>
+                                        </View>
+
+                                    );
+                                })}
+                            </View>
+
+                            {/* Trainer 2 Column */}
+                            <View style={soulockeTBStyles.trainerColumn}>
+                                <Text style={soulockeTBStyles.sectionHeader}>Resistances</Text>
+                                <View style={soulockeTBStyles.placeholderBox}>
+                                    {renderResistanceRowT2(resistanceSummaryTrainer2)}
+                                </View>
+                                <Text style={soulockeTBStyles.sectionHeader}>Stats</Text>
+                                <View style={soulockeTBStyles.placeholderBox}>
+                                    {renderStatsSectionTTwo(team2, 'T2')}
+                                </View>
+                                <Text style={soulockeTBStyles.sectionHeader}>Weaknesses</Text>
+                                <View style={soulockeTBStyles.placeholderBox}>
+                                    {renderWeaknessRowT2(weaknessSummaryTrainer2, resistanceSummaryTrainer2)}
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                </ScrollView>
+            )}
         </View>
     );
 
