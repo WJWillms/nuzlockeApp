@@ -170,6 +170,21 @@ const spriteMap = {
     "169": require("../../assets/sprites/169.png"),
     "170": require("../../assets/sprites/170.png"),
     "171": require("../../assets/sprites/171.png"),
+    "172": require("../../assets/sprites/172.png"),
+    "173": require("../../assets/sprites/173.png"),
+    "174": require("../../assets/sprites/174.png"),
+    "175": require("../../assets/sprites/175.png"),
+    "176": require("../../assets/sprites/176.png"),
+    "177": require("../../assets/sprites/177.png"),
+    "178": require("../../assets/sprites/178.png"),
+    "179": require("../../assets/sprites/179.png"),
+    "180": require("../../assets/sprites/180.png"),
+    "181": require("../../assets/sprites/181.png"),
+    "182": require("../../assets/sprites/182.png"),
+    "183": require("../../assets/sprites/183.png"),
+    "184": require("../../assets/sprites/184.png"),
+    "185": require("../../assets/sprites/185.png"),
+
 
 
     // Add all your sprites here...
