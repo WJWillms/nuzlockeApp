@@ -184,6 +184,22 @@ const spriteMap = {
     "183": require("../../assets/sprites/183.png"),
     "184": require("../../assets/sprites/184.png"),
     "185": require("../../assets/sprites/185.png"),
+    "186": require("../../assets/sprites/186.png"),
+    "187": require("../../assets/sprites/187.png"),
+    "188": require("../../assets/sprites/188.png"),
+    "189": require("../../assets/sprites/189.png"),
+    "190": require("../../assets/sprites/190.png"),
+    "191": require("../../assets/sprites/191.png"),
+    "192": require("../../assets/sprites/192.png"),
+    "193": require("../../assets/sprites/193.png"),
+    "194": require("../../assets/sprites/194.png"),
+    "195": require("../../assets/sprites/195.png"),
+    "196": require("../../assets/sprites/196.png"),
+    "197": require("../../assets/sprites/197.png"),
+    "198": require("../../assets/sprites/198.png"),
+    "199": require("../../assets/sprites/199.png"),
+    "200": require("../../assets/sprites/200.png"),
+
 
 
 
