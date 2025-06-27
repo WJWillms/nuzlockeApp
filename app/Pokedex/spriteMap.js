@@ -229,6 +229,28 @@ const spriteMap = {
     "228": require("../../assets/sprites/228.png"),
     "229": require("../../assets/sprites/229.png"),
     "230": require("../../assets/sprites/230.png"),
+    "231": require("../../assets/sprites/231.png"),
+    "232": require("../../assets/sprites/232.png"),
+    "233": require("../../assets/sprites/233.png"),
+    "234": require("../../assets/sprites/234.png"),
+    "235": require("../../assets/sprites/235.png"),
+    "236": require("../../assets/sprites/236.png"),
+    "237": require("../../assets/sprites/237.png"),
+    "238": require("../../assets/sprites/238.png"),
+    "239": require("../../assets/sprites/239.png"),
+    "240": require("../../assets/sprites/240.png"),
+    "241": require("../../assets/sprites/241.png"),
+    "242": require("../../assets/sprites/242.png"),
+    "243": require("../../assets/sprites/243.png"),
+    "244": require("../../assets/sprites/244.png"),
+    "245": require("../../assets/sprites/245.png"),
+    "246": require("../../assets/sprites/246.png"),
+    "247": require("../../assets/sprites/247.png"),
+    "248": require("../../assets/sprites/248.png"),
+    "249": require("../../assets/sprites/249.png"),
+    "250": require("../../assets/sprites/250.png"),
+    "251": require("../../assets/sprites/251.png"),
+
 
 
 
