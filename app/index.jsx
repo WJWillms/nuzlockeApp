@@ -28,7 +28,7 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <HoverButton label="Nuzlocke" href="/nuzlocke" backgroundColor="#D0E8FF" />
-      <HoverButton label="Soulocke" href="/soulocke" backgroundColor="#FFD0D0" />
+      <HoverButton label="Soulocke" href="/nuzlockeweb/soulocke" backgroundColor="#FFD0D0" />
     </View>
   );
 }
