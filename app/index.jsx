@@ -5,6 +5,7 @@ import { Animated, Platform, Pressable, StyleSheet, View } from 'react-native';
 function HoverButton({ label, onPress, backgroundColor }) {
   const scale = useRef(new Animated.Value(1)).current;
   const router = useRouter();
+  
 
   const handleHoverIn = () => {
     Animated.spring(scale, {
@@ -25,12 +26,12 @@ function HoverButton({ label, onPress, backgroundColor }) {
     <Pressable
       style={[styles.half, { backgroundColor }]}
       onPress={onPress}
-      onHoverIn={Platform.OS === 'web' ? handleHoverIn : undefined}
-      onHoverOut={Platform.OS === 'web' ? handleHoverOut : undefined}
+      //onHoverIn={Platform.OS === 'web' ? handleHoverIn : undefined}
+      //onHoverOut={Platform.OS === 'web' ? handleHoverOut : undefined}
     >
-      <Animated.Text style={[styles.text, { transform: [{ scale }] }]}>
-        {label}
-      </Animated.Text>
+      {label}
+        
+
     </Pressable>
   );
 }
