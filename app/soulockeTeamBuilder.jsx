@@ -62,6 +62,9 @@ const soulockeTeamBuilder = () => {
 
 
 
+
+
+
     // You now have Trainer 1 and 2's Pokémon IDs for this combo
 
 
@@ -519,6 +522,9 @@ const soulockeTeamBuilder = () => {
     ////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
+
     const buildStatsSummary = (team, labelPrefix = '') => {
         const stats = {
             hp: 0,
@@ -566,9 +572,45 @@ const soulockeTeamBuilder = () => {
     const renderStatsSection = (team, labelPrefix) => {
         const { stats, chartOptions } = buildStatsSummary(team, labelPrefix);
 
+        const computeSelectedStats = () => {
+            const selected = chartOptions.filter(o => activeCharts.includes(o.label));
+            const selectedNonTotal = selected.filter(o => o.displayLabel !== 'Total');
+            const isTotalIncluded = selected.some(o => o.displayLabel === 'Total');
+
+            // Default case: only Total or nothing
+            if (selectedNonTotal.length === 0) {
+                return {
+                    showCombined: false,
+                    stats: stats,
+                };
+            }
+
+            // Combine selected non-total entries
+            const combinedStats = {
+                hp: 0, attack: 0, defense: 0, specialAttack: 0, specialDefense: 0, speed: 0, totalBaseStats: 0,
+            };
+
+            selectedNonTotal.forEach(entry => {
+                const [hp, atk, def, spd, spDef, spAtk] = entry.stats;
+                combinedStats.hp += hp;
+                combinedStats.attack += atk;
+                combinedStats.defense += def;
+                combinedStats.speed += spd;
+                combinedStats.specialDefense += spDef;
+                combinedStats.specialAttack += spAtk;
+                combinedStats.totalBaseStats += hp + atk + def + spd + spDef + spAtk;
+            });
+
+            return {
+                showCombined: isTotalIncluded,
+                stats: combinedStats,
+            };
+        };
+
+        const { showCombined, stats: displayedStats } = computeSelectedStats();
+
         return (
             <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginTop: 30, marginLeft: 20 }}>
-
                 {/* Radar Chart (left) */}
                 <RadarChart
                     data={chartOptions.filter(o => activeCharts.includes(o.label))}
@@ -578,12 +620,9 @@ const soulockeTeamBuilder = () => {
 
                 {/* Buttons + Stats Column */}
                 <View style={{ flexDirection: 'row', flex: 1, marginLeft: 62 }}>
-
-                    {/* Buttons Grid (center) */}
                     {/* Buttons Grid (center) */}
                     <View style={{ flex: 0.4 }}>
-
-                        {/* Total Button (own centered row) */}
+                        {/* Total Button */}
                         <View style={{ alignItems: 'center', marginBottom: 12 }}>
                             {chartOptions
                                 .filter(o => o.displayLabel === 'Total')
@@ -605,162 +644,9 @@ const soulockeTeamBuilder = () => {
                                 ))}
                         </View>
 
-                        {/* Pokémon Buttons in Grid */}
+                        {/* Pokémon Buttons */}
                         <View style={{ flexDirection: 'column' }}>
-                            {
-                                // Group into rows of 2
-                                Array.from({ length: 3 }).map((_, rowIndex) => (
-                                    <View
-                                        key={rowIndex}
-                                        style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}
-                                    >
-                                        {[0, 1].map(colIndex => {
-                                            const buttonIndex = rowIndex * 2 + colIndex;
-                                            const entry = chartOptions.filter(o => o.displayLabel !== 'Total')[buttonIndex];
-                                            if (!entry) return <View key={colIndex} style={{ width: '48%' }} />;
-                                            return (
-                                                <Pressable
-                                                    key={entry.label}
-                                                    onPress={() => toggleChart(entry.label)}
-                                                    style={[
-                                                        soulockeTBStyles.chartButton,
-                                                        {
-                                                            backgroundColor: entry.color + 'cc',
-                                                            width: '48%',
-                                                        },
-                                                        activeCharts.includes(entry.label) && soulockeTBStyles.chartButtonActive,
-                                                    ]}
-                                                >
-                                                    <Text style={soulockeTBStyles.chartButtonText}>{entry.displayLabel}</Text>
-                                                </Pressable>
-                                            );
-                                        })}
-                                    </View>
-                                ))
-                            }
-                        </View>
-                    </View>
-
-
-
-                    {/* Stat Totals (right of buttons) */}
-                    <View style={{ marginLeft: 140, flex: 0.2 }}>
-                        {[
-                            ['HP:', stats.hp],
-                            ['Attack:', stats.attack],
-                            ['Defense:', stats.defense],
-                            ['Sp. Atk:', stats.specialAttack],
-                            ['Sp. Def:', stats.specialDefense],
-                            ['Speed:', stats.speed],
-                            ['Total:', stats.totalBaseStats],
-                        ].map(([label, value]) => (
-                            <View
-                                key={label}
-                                style={{
-                                    flexDirection: 'row',
-                                    justifyContent: 'space-between',
-                                    marginBottom: 4,
-                                    width: 140,
-                                }}
-                            >
-                                <Text style={[soulockeTBStyles.statLabel, { textAlign: 'left', flex: 1, fontSize: 16 }]}>
-                                    {label}
-                                </Text>
-                                <Text
-                                    style={[
-                                        soulockeTBStyles.statValue,
-                                        label === 'Total:' && soulockeTBStyles.statValueBold,
-                                        { textAlign: 'right', width: 40 },
-                                    ]}
-                                >
-                                    {value}
-                                </Text>
-                            </View>
-                        ))}
-                    </View>
-
-
-                </View>
-            </View>
-
-
-
-        );
-    };
-
-    const renderStatsSectionTTwo = (team, labelPrefix) => {
-        const { stats, chartOptions } = buildStatsSummary(team, labelPrefix);
-
-        return (
-            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginTop: 30, marginLeft: 20 }}>
-
-                {/* Stat Totals (left) */}
-                <View style={{ marginLeft: 92, marginRight: 92, flex: 0.3 }}>
-                    {[
-                        ['HP:', stats.hp],
-                        ['Attack:', stats.attack],
-                        ['Defense:', stats.defense],
-                        ['Sp. Atk:', stats.specialAttack],
-                        ['Sp. Def:', stats.specialDefense],
-                        ['Speed:', stats.speed],
-                        ['Total:', stats.totalBaseStats],
-                    ].map(([label, value]) => (
-                        <View
-                            key={label}
-                            style={{
-                                flexDirection: 'row',
-                                justifyContent: 'space-between',
-                                marginBottom: 4,
-                                width: 140,
-                            }}
-                        >
-                            <Text style={[soulockeTBStyles.statLabel, { textAlign: 'left', flex: 1, fontSize: 16 }]}>
-                                {label}
-                            </Text>
-                            <Text
-                                style={[
-                                    soulockeTBStyles.statValue,
-                                    label === 'Total:' && soulockeTBStyles.statValueBold,
-                                    { textAlign: 'right', width: 40 },
-                                ]}
-                            >
-                                {value}
-                            </Text>
-                        </View>
-                    ))}
-                </View>
-
-                {/* Buttons Grid (center) */}
-                {/* Buttons Grid (center) */}
-                <View style={{ flex: 0.4 }}>
-
-                    {/* Total Button (own centered row) */}
-                    <View style={{ alignItems: 'center', marginBottom: 12 }}>
-                        {chartOptions
-                            .filter(o => o.displayLabel === 'Total')
-                            .map((entry, index) => (
-                                <Pressable
-                                    key={index}
-                                    onPress={() => toggleChart(entry.label)}
-                                    style={[
-                                        soulockeTBStyles.chartButton,
-                                        {
-                                            backgroundColor: entry.color + 'cc',
-                                            width: '50%',
-                                        },
-                                        activeCharts.includes(entry.label) && soulockeTBStyles.chartButtonActive,
-                                    ]}
-                                >
-                                    <Text style={soulockeTBStyles.chartButtonText}>{entry.displayLabel}</Text>
-                                </Pressable>
-                            ))}
-                    </View>
-
-                    {/* Pokémon Buttons in Grid */}
-                    <View style={{ flexDirection: 'column' }}>
-                        {
-                            // Group into rows of 2
-                            Array.from({ length: 3 }).map((_, rowIndex) => (
+                            {Array.from({ length: 3 }).map((_, rowIndex) => (
                                 <View
                                     key={rowIndex}
                                     style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}
@@ -787,11 +673,218 @@ const soulockeTeamBuilder = () => {
                                         );
                                     })}
                                 </View>
-                            ))
-                        }
+                            ))}
+                        </View>
+                    </View>
+
+                    {/* Stat Totals (right) */}
+                    <View style={{ marginLeft: 140, flex: 0.2 }}>
+                        {[
+                            ['HP:', displayedStats.hp],
+                            ['Attack:', displayedStats.attack],
+                            ['Defense:', displayedStats.defense],
+                            ['Sp. Atk:', displayedStats.specialAttack],
+                            ['Sp. Def:', displayedStats.specialDefense],
+                            ['Speed:', displayedStats.speed],
+                            ['Total:', null], // We'll custom-render this row
+                        ].map(([statLabel, value]) => {
+                            const isTotalRow = statLabel === 'Total:';
+                            let displayValue = value;
+
+                            if (isTotalRow) {
+                                const selected = chartOptions.filter(o => activeCharts.includes(o.label));
+                                const totalIncluded = selected.some(o => o.displayLabel === 'Total');
+                                const nonTotalSelected = selected.filter(o => o.displayLabel !== 'Total');
+
+                                if (nonTotalSelected.length > 0 && totalIncluded) {
+                                    displayValue = `${displayedStats.totalBaseStats} / ${stats.totalBaseStats}`;
+                                } else if (nonTotalSelected.length > 0) {
+                                    displayValue = displayedStats.totalBaseStats;
+                                } else {
+                                    displayValue = stats.totalBaseStats;
+                                }
+                            }
+
+                            return (
+                                <View
+                                    key={statLabel}
+                                    style={{
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        marginBottom: 4,
+                                        width: 140,
+                                    }}
+                                >
+                                    <Text
+                                        style={[soulockeTBStyles.statLabel, { textAlign: 'left', flex: 1, fontSize: 16 }]}
+                                    >
+                                        {statLabel}
+                                    </Text>
+                                    <Text
+                                        style={[
+                                            soulockeTBStyles.statValue,
+                                            isTotalRow && soulockeTBStyles.statValueBold,
+                                            { textAlign: 'right', width: 80 },
+                                        ]}
+                                    >
+                                        {displayValue}
+                                    </Text>
+                                </View>
+                            );
+                        })}
                     </View>
                 </View>
+            </View>
+        );
+    };
 
+
+    const renderStatsSectionTTwo = (team, labelPrefix) => {
+        const { stats: totalStats, chartOptions } = buildStatsSummary(team, labelPrefix);
+
+        const computeSelectedStats = () => {
+            const selected = chartOptions.filter(o => activeCharts.includes(o.label));
+            const selectedNonTotal = selected.filter(o => o.displayLabel !== 'Total');
+            const isTotalIncluded = selected.some(o => o.displayLabel === 'Total');
+
+            // Only total or nothing
+            if (selectedNonTotal.length === 0) {
+                return {
+                    showCombined: false,
+                    stats: totalStats,
+                    label: 'Total',
+                };
+            }
+
+            // Combine selected
+            const combinedStats = {
+                hp: 0, attack: 0, defense: 0, specialAttack: 0, specialDefense: 0, speed: 0, totalBaseStats: 0,
+            };
+
+            selectedNonTotal.forEach(entry => {
+                const [hp, atk, def, spd, spDef, spAtk] = entry.stats;
+                combinedStats.hp += hp;
+                combinedStats.attack += atk;
+                combinedStats.defense += def;
+                combinedStats.speed += spd;
+                combinedStats.specialDefense += spDef;
+                combinedStats.specialAttack += spAtk;
+                combinedStats.totalBaseStats += hp + atk + def + spd + spDef + spAtk;
+            });
+
+            return {
+                showCombined: isTotalIncluded,
+                stats: combinedStats,
+                label: isTotalIncluded ? 'Combined / Total' : 'Combined',
+            };
+        };
+
+        const { showCombined, stats: displayedStats } = computeSelectedStats();
+
+        const getTotalDisplay = () => {
+            if (!showCombined) return displayedStats.totalBaseStats;
+            return `${displayedStats.totalBaseStats} / ${totalStats.totalBaseStats}`;
+        };
+
+        return (
+            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginTop: 30, marginLeft: 20 }}>
+                {/* Stat Totals (left) */}
+                <View style={{ marginLeft: 92, marginRight: 92, flex: 0.3 }}>
+                    {[
+                        ['HP:', displayedStats.hp],
+                        ['Attack:', displayedStats.attack],
+                        ['Defense:', displayedStats.defense],
+                        ['Sp. Atk:', displayedStats.specialAttack],
+                        ['Sp. Def:', displayedStats.specialDefense],
+                        ['Speed:', displayedStats.speed],
+                        ['Total:', getTotalDisplay()],
+                    ].map(([label, value]) => (
+                        <View
+                            key={label}
+                            style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                marginBottom: 4,
+                                width: 140,
+                            }}
+                        >
+                            <Text style={[soulockeTBStyles.statLabel, { textAlign: 'left', flex: 1, fontSize: 16 }]}>
+                                {label}
+                            </Text>
+                            <Text
+                                style={[
+                                    soulockeTBStyles.statValue,
+                                    label === 'Total:' && soulockeTBStyles.statValueBold,
+                                    {
+                                        textAlign: 'right',
+                                        minWidth: 80,
+                                        flexShrink: 0,
+                                        flexWrap: 'nowrap',
+                                    },
+                                ]}
+                            >
+                                {value}
+                            </Text>
+                        </View>
+                    ))}
+                </View>
+
+                {/* Buttons Grid (center) */}
+                <View style={{ flex: 0.4 }}>
+                    {/* Total Button */}
+                    <View style={{ alignItems: 'center', marginBottom: 12 }}>
+                        {chartOptions
+                            .filter(o => o.displayLabel === 'Total')
+                            .map((entry, index) => (
+                                <Pressable
+                                    key={index}
+                                    onPress={() => toggleChart(entry.label)}
+                                    style={[
+                                        soulockeTBStyles.chartButton,
+                                        {
+                                            backgroundColor: entry.color + 'cc',
+                                            width: '50%',
+                                        },
+                                        activeCharts.includes(entry.label) && soulockeTBStyles.chartButtonActive,
+                                    ]}
+                                >
+                                    <Text style={soulockeTBStyles.chartButtonText}>{entry.displayLabel}</Text>
+                                </Pressable>
+                            ))}
+                    </View>
+
+                    {/* Pokémon Buttons in Grid */}
+                    <View style={{ flexDirection: 'column' }}>
+                        {Array.from({ length: 3 }).map((_, rowIndex) => (
+                            <View
+                                key={rowIndex}
+                                style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}
+                            >
+                                {[0, 1].map(colIndex => {
+                                    const buttonIndex = rowIndex * 2 + colIndex;
+                                    const entry = chartOptions.filter(o => o.displayLabel !== 'Total')[buttonIndex];
+                                    if (!entry) return <View key={colIndex} style={{ width: '48%' }} />;
+                                    return (
+                                        <Pressable
+                                            key={entry.label}
+                                            onPress={() => toggleChart(entry.label)}
+                                            style={[
+                                                soulockeTBStyles.chartButton,
+                                                {
+                                                    backgroundColor: entry.color + 'cc',
+                                                    width: '48%',
+                                                },
+                                                activeCharts.includes(entry.label) && soulockeTBStyles.chartButtonActive,
+                                            ]}
+                                        >
+                                            <Text style={soulockeTBStyles.chartButtonText}>{entry.displayLabel}</Text>
+                                        </Pressable>
+                                    );
+                                })}
+                            </View>
+                        ))}
+                    </View>
+                </View>
 
                 {/* Radar Chart (right) */}
                 <View style={{ width: 140, paddingLeft: 12, alignItems: 'flex-start' }}>
@@ -801,14 +894,10 @@ const soulockeTeamBuilder = () => {
                         size={120}
                     />
                 </View>
-
             </View>
-
-
-
-
         );
     };
+
 
 
     const toggleChart = (key) => {
