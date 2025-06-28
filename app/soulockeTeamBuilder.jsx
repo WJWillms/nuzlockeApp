@@ -10,6 +10,7 @@ import soulockeTBStyles from "./styles/soulockeTBStyles";
 
 
 const screenWidth = Dimensions.get('window').width;
+const screenHeight = Dimensions.get('window').height;
 
 const soulockeTeamBuilder = () => {
     const router = useRouter();
@@ -566,170 +567,17 @@ const soulockeTeamBuilder = () => {
         const { stats, chartOptions } = buildStatsSummary(team, labelPrefix);
 
         return (
-            <View style={soulockeTBStyles.placeholderBox}>
-                <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginTop: 30, marginLeft: 20 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginTop: 30, marginLeft: 20 }}>
 
-                    {/* Radar Chart (left) */}
-                    <RadarChart
-                        data={chartOptions.filter(o => activeCharts.includes(o.label))}
-                        labels={['HP', 'ATK', 'DEF', 'SPD', 'SpD', 'SpA']}
-                        size={120}
-                    />
+                {/* Radar Chart (left) */}
+                <RadarChart
+                    data={chartOptions.filter(o => activeCharts.includes(o.label))}
+                    labels={['HP', 'ATK', 'DEF', 'SPD', 'SpD', 'SpA']}
+                    size={120}
+                />
 
-                    {/* Buttons + Stats Column */}
-                    <View style={{ flexDirection: 'row', flex: 1, marginLeft: 62 }}>
-
-                        {/* Buttons Grid (center) */}
-                        {/* Buttons Grid (center) */}
-                        <View style={{ flex: 0.4 }}>
-
-                            {/* Total Button (own centered row) */}
-                            <View style={{ alignItems: 'center', marginBottom: 12 }}>
-                                {chartOptions
-                                    .filter(o => o.displayLabel === 'Total')
-                                    .map((entry, index) => (
-                                        <Pressable
-                                            key={index}
-                                            onPress={() => toggleChart(entry.label)}
-                                            style={[
-                                                soulockeTBStyles.chartButton,
-                                                {
-                                                    backgroundColor: entry.color + 'cc',
-                                                    width: '50%',
-                                                },
-                                                activeCharts.includes(entry.label) && soulockeTBStyles.chartButtonActive,
-                                            ]}
-                                        >
-                                            <Text style={soulockeTBStyles.chartButtonText}>{entry.displayLabel}</Text>
-                                        </Pressable>
-                                    ))}
-                            </View>
-
-                            {/* Pokémon Buttons in Grid */}
-                            <View style={{ flexDirection: 'column' }}>
-                                {
-                                    // Group into rows of 2
-                                    Array.from({ length: 3 }).map((_, rowIndex) => (
-                                        <View
-                                            key={rowIndex}
-                                            style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}
-                                        >
-                                            {[0, 1].map(colIndex => {
-                                                const buttonIndex = rowIndex * 2 + colIndex;
-                                                const entry = chartOptions.filter(o => o.displayLabel !== 'Total')[buttonIndex];
-                                                if (!entry) return <View key={colIndex} style={{ width: '48%' }} />;
-                                                return (
-                                                    <Pressable
-                                                        key={entry.label}
-                                                        onPress={() => toggleChart(entry.label)}
-                                                        style={[
-                                                            soulockeTBStyles.chartButton,
-                                                            {
-                                                                backgroundColor: entry.color + 'cc',
-                                                                width: '48%',
-                                                            },
-                                                            activeCharts.includes(entry.label) && soulockeTBStyles.chartButtonActive,
-                                                        ]}
-                                                    >
-                                                        <Text style={soulockeTBStyles.chartButtonText}>{entry.displayLabel}</Text>
-                                                    </Pressable>
-                                                );
-                                            })}
-                                        </View>
-                                    ))
-                                }
-                            </View>
-                        </View>
-
-
-
-                        {/* Stat Totals (right of buttons) */}
-                        <View style={{ marginLeft: 140, flex: 0.2 }}>
-                            {[
-                                ['HP:', stats.hp],
-                                ['Attack:', stats.attack],
-                                ['Defense:', stats.defense],
-                                ['Sp. Atk:', stats.specialAttack],
-                                ['Sp. Def:', stats.specialDefense],
-                                ['Speed:', stats.speed],
-                                ['Total:', stats.totalBaseStats],
-                            ].map(([label, value]) => (
-                                <View
-                                    key={label}
-                                    style={{
-                                        flexDirection: 'row',
-                                        justifyContent: 'space-between',
-                                        marginBottom: 4,
-                                        width: 140,
-                                    }}
-                                >
-                                    <Text style={[soulockeTBStyles.statLabel, { textAlign: 'left', flex: 1, fontSize: 16 }]}>
-                                        {label}
-                                    </Text>
-                                    <Text
-                                        style={[
-                                            soulockeTBStyles.statValue,
-                                            label === 'Total:' && soulockeTBStyles.statValueBold,
-                                            { textAlign: 'right', width: 40 },
-                                        ]}
-                                    >
-                                        {value}
-                                    </Text>
-                                </View>
-                            ))}
-                        </View>
-
-
-                    </View>
-                </View>
-            </View>
-
-
-        );
-    };
-
-    const renderStatsSectionTTwo = (team, labelPrefix) => {
-        const { stats, chartOptions } = buildStatsSummary(team, labelPrefix);
-
-        return (
-            <View style={soulockeTBStyles.placeholderBox}>
-                <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginTop: 30, marginLeft: 20 }}>
-
-                    {/* Stat Totals (left) */}
-                    <View style={{ marginLeft: 92, marginRight: 92, flex: 0.3 }}>
-                        {[
-                            ['HP:', stats.hp],
-                            ['Attack:', stats.attack],
-                            ['Defense:', stats.defense],
-                            ['Sp. Atk:', stats.specialAttack],
-                            ['Sp. Def:', stats.specialDefense],
-                            ['Speed:', stats.speed],
-                            ['Total:', stats.totalBaseStats],
-                        ].map(([label, value]) => (
-                            <View
-                                key={label}
-                                style={{
-                                    flexDirection: 'row',
-                                    justifyContent: 'space-between',
-                                    marginBottom: 4,
-                                    width: 140,
-                                }}
-                            >
-                                <Text style={[soulockeTBStyles.statLabel, { textAlign: 'left', flex: 1, fontSize: 16 }]}>
-                                    {label}
-                                </Text>
-                                <Text
-                                    style={[
-                                        soulockeTBStyles.statValue,
-                                        label === 'Total:' && soulockeTBStyles.statValueBold,
-                                        { textAlign: 'right', width: 40 },
-                                    ]}
-                                >
-                                    {value}
-                                </Text>
-                            </View>
-                        ))}
-                    </View>
+                {/* Buttons + Stats Column */}
+                <View style={{ flexDirection: 'row', flex: 1, marginLeft: 62 }}>
 
                     {/* Buttons Grid (center) */}
                     {/* Buttons Grid (center) */}
@@ -794,17 +642,168 @@ const soulockeTeamBuilder = () => {
                     </View>
 
 
-                    {/* Radar Chart (right) */}
-                    <View style={{ width: 140, paddingLeft: 12, alignItems: 'flex-start' }}>
-                        <RadarChart
-                            data={chartOptions.filter(o => activeCharts.includes(o.label))}
-                            labels={['HP', 'ATK', 'DEF', 'SPD', 'SpD', 'SpA']}
-                            size={120}
-                        />
+
+                    {/* Stat Totals (right of buttons) */}
+                    <View style={{ marginLeft: 140, flex: 0.2 }}>
+                        {[
+                            ['HP:', stats.hp],
+                            ['Attack:', stats.attack],
+                            ['Defense:', stats.defense],
+                            ['Sp. Atk:', stats.specialAttack],
+                            ['Sp. Def:', stats.specialDefense],
+                            ['Speed:', stats.speed],
+                            ['Total:', stats.totalBaseStats],
+                        ].map(([label, value]) => (
+                            <View
+                                key={label}
+                                style={{
+                                    flexDirection: 'row',
+                                    justifyContent: 'space-between',
+                                    marginBottom: 4,
+                                    width: 140,
+                                }}
+                            >
+                                <Text style={[soulockeTBStyles.statLabel, { textAlign: 'left', flex: 1, fontSize: 16 }]}>
+                                    {label}
+                                </Text>
+                                <Text
+                                    style={[
+                                        soulockeTBStyles.statValue,
+                                        label === 'Total:' && soulockeTBStyles.statValueBold,
+                                        { textAlign: 'right', width: 40 },
+                                    ]}
+                                >
+                                    {value}
+                                </Text>
+                            </View>
+                        ))}
                     </View>
+
 
                 </View>
             </View>
+
+
+
+        );
+    };
+
+    const renderStatsSectionTTwo = (team, labelPrefix) => {
+        const { stats, chartOptions } = buildStatsSummary(team, labelPrefix);
+
+        return (
+            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginTop: 30, marginLeft: 20 }}>
+
+                {/* Stat Totals (left) */}
+                <View style={{ marginLeft: 92, marginRight: 92, flex: 0.3 }}>
+                    {[
+                        ['HP:', stats.hp],
+                        ['Attack:', stats.attack],
+                        ['Defense:', stats.defense],
+                        ['Sp. Atk:', stats.specialAttack],
+                        ['Sp. Def:', stats.specialDefense],
+                        ['Speed:', stats.speed],
+                        ['Total:', stats.totalBaseStats],
+                    ].map(([label, value]) => (
+                        <View
+                            key={label}
+                            style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                marginBottom: 4,
+                                width: 140,
+                            }}
+                        >
+                            <Text style={[soulockeTBStyles.statLabel, { textAlign: 'left', flex: 1, fontSize: 16 }]}>
+                                {label}
+                            </Text>
+                            <Text
+                                style={[
+                                    soulockeTBStyles.statValue,
+                                    label === 'Total:' && soulockeTBStyles.statValueBold,
+                                    { textAlign: 'right', width: 40 },
+                                ]}
+                            >
+                                {value}
+                            </Text>
+                        </View>
+                    ))}
+                </View>
+
+                {/* Buttons Grid (center) */}
+                {/* Buttons Grid (center) */}
+                <View style={{ flex: 0.4 }}>
+
+                    {/* Total Button (own centered row) */}
+                    <View style={{ alignItems: 'center', marginBottom: 12 }}>
+                        {chartOptions
+                            .filter(o => o.displayLabel === 'Total')
+                            .map((entry, index) => (
+                                <Pressable
+                                    key={index}
+                                    onPress={() => toggleChart(entry.label)}
+                                    style={[
+                                        soulockeTBStyles.chartButton,
+                                        {
+                                            backgroundColor: entry.color + 'cc',
+                                            width: '50%',
+                                        },
+                                        activeCharts.includes(entry.label) && soulockeTBStyles.chartButtonActive,
+                                    ]}
+                                >
+                                    <Text style={soulockeTBStyles.chartButtonText}>{entry.displayLabel}</Text>
+                                </Pressable>
+                            ))}
+                    </View>
+
+                    {/* Pokémon Buttons in Grid */}
+                    <View style={{ flexDirection: 'column' }}>
+                        {
+                            // Group into rows of 2
+                            Array.from({ length: 3 }).map((_, rowIndex) => (
+                                <View
+                                    key={rowIndex}
+                                    style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}
+                                >
+                                    {[0, 1].map(colIndex => {
+                                        const buttonIndex = rowIndex * 2 + colIndex;
+                                        const entry = chartOptions.filter(o => o.displayLabel !== 'Total')[buttonIndex];
+                                        if (!entry) return <View key={colIndex} style={{ width: '48%' }} />;
+                                        return (
+                                            <Pressable
+                                                key={entry.label}
+                                                onPress={() => toggleChart(entry.label)}
+                                                style={[
+                                                    soulockeTBStyles.chartButton,
+                                                    {
+                                                        backgroundColor: entry.color + 'cc',
+                                                        width: '48%',
+                                                    },
+                                                    activeCharts.includes(entry.label) && soulockeTBStyles.chartButtonActive,
+                                                ]}
+                                            >
+                                                <Text style={soulockeTBStyles.chartButtonText}>{entry.displayLabel}</Text>
+                                            </Pressable>
+                                        );
+                                    })}
+                                </View>
+                            ))
+                        }
+                    </View>
+                </View>
+
+
+                {/* Radar Chart (right) */}
+                <View style={{ width: 140, paddingLeft: 12, alignItems: 'flex-start' }}>
+                    <RadarChart
+                        data={chartOptions.filter(o => activeCharts.includes(o.label))}
+                        labels={['HP', 'ATK', 'DEF', 'SPD', 'SpD', 'SpA']}
+                        size={120}
+                    />
+                </View>
+
+            </View>
+
 
 
 
@@ -1173,79 +1172,81 @@ const soulockeTeamBuilder = () => {
                         </View>
 
                         {/* Main Row Section */}
-                        <View style={soulockeTBStyles.rowSection}>
-                            {/* Trainer 1 Column */}
-                            <View style={soulockeTBStyles.trainerColumn}>
-                                <Text style={soulockeTBStyles.sectionHeader}>Resistances</Text>
-                                <View style={soulockeTBStyles.placeholderBox}>
-                                    {renderResistanceRowT1(resistanceSummaryTrainer1)}
+                        <ScrollView horizontal>
+                            <View style={soulockeTBStyles.rowSection}>
+                                {/* Trainer 1 Column */}
+                                <View style={soulockeTBStyles.trainerColumn}>
+                                    <Text style={soulockeTBStyles.sectionHeader}>Resistances</Text>
+                                    <View style={soulockeTBStyles.placeholderBox}>
+                                        {renderResistanceRowT1(resistanceSummaryTrainer1)}
+                                    </View>
+                                    <Text style={soulockeTBStyles.sectionHeader}>Stats</Text>
+                                    <View style={soulockeTBStyles.placeholderBox}>
+                                        {renderStatsSection(team1, 'T1')}
+                                    </View>
+                                    <Text style={soulockeTBStyles.sectionHeader}>Weaknesses</Text>
+                                    <View style={soulockeTBStyles.placeholderBox}>
+                                        {renderWeaknessRowT1(weaknessSummaryTrainer1, resistanceSummaryTrainer1)}
+                                    </View>
                                 </View>
-                                <Text style={soulockeTBStyles.sectionHeader}>Stats</Text>
-                                <View style={soulockeTBStyles.placeholderBox}>
-                                    {renderStatsSection(team1, 'T1')}
-                                </View>
-                                <Text style={soulockeTBStyles.sectionHeader}>Weaknesses</Text>
-                                <View style={soulockeTBStyles.placeholderBox}>
-                                    {renderWeaknessRowT1(weaknessSummaryTrainer1, resistanceSummaryTrainer1)}
-                                </View>
-                            </View>
 
-                            {/* Sprites Column */}
-                            <View style={soulockeTBStyles.spriteColumn}>
-                                {team1.map((id1, index) => {
-                                    const id2 = team2[index];
-                                    const mon1 = Pokedex[id1];
-                                    const mon2 = Pokedex[id2];
+                                {/* Sprites Column */}
+                                <View style={soulockeTBStyles.spriteColumn}>
+                                    {team1.map((id1, index) => {
+                                        const id2 = team2[index];
+                                        const mon1 = Pokedex[id1];
+                                        const mon2 = Pokedex[id2];
 
-                                    return (
-                                        <View key={index} style={soulockeTBStyles.spritePairBox}>
-                                            <Text style={soulockeTBStyles.chainOverlay}>🔗</Text>
-                                            <View style={soulockeTBStyles.spritePair}>
-                                                {/* Trainer 1 */}
-                                                <View style={soulockeTBStyles.spriteWithLabel}>
-                                                    <Image
-                                                        source={spriteMap[mon1.spriteId]}
-                                                        style={soulockeTBStyles.sprite}
-                                                    />
-                                                    <Text style={soulockeTBStyles.monLabel}>{mon1.name}</Text>
+                                        return (
+                                            <View key={index} style={soulockeTBStyles.spritePairBox}>
+                                                <Text style={soulockeTBStyles.chainOverlay}>🔗</Text>
+                                                <View style={soulockeTBStyles.spritePair}>
+                                                    {/* Trainer 1 */}
+                                                    <View style={soulockeTBStyles.spriteWithLabel}>
+                                                        <Image
+                                                            source={spriteMap[mon1.spriteId]}
+                                                            style={soulockeTBStyles.sprite}
+                                                        />
+                                                        <Text style={soulockeTBStyles.monLabel}>{mon1.name}</Text>
+                                                    </View>
+
+
+
+                                                    <View style={soulockeTBStyles.fullVerticalDivider} />
+
+                                                    {/* Trainer 2 */}
+                                                    <View style={soulockeTBStyles.spriteWithLabel}>
+                                                        <Image
+                                                            source={spriteMap[mon2.spriteId]}
+                                                            style={soulockeTBStyles.sprite}
+                                                        />
+                                                        <Text style={soulockeTBStyles.monLabel}>{mon2.name}</Text>
+                                                    </View>
+
                                                 </View>
-
-
-
-                                                <View style={soulockeTBStyles.fullVerticalDivider} />
-
-                                                {/* Trainer 2 */}
-                                                <View style={soulockeTBStyles.spriteWithLabel}>
-                                                    <Image
-                                                        source={spriteMap[mon2.spriteId]}
-                                                        style={soulockeTBStyles.sprite}
-                                                    />
-                                                    <Text style={soulockeTBStyles.monLabel}>{mon2.name}</Text>
-                                                </View>
-
                                             </View>
-                                        </View>
 
-                                    );
-                                })}
-                            </View>
+                                        );
+                                    })}
+                                </View>
 
-                            {/* Trainer 2 Column */}
-                            <View style={soulockeTBStyles.trainerColumn}>
-                                <Text style={soulockeTBStyles.sectionHeader}>Resistances</Text>
-                                <View style={soulockeTBStyles.placeholderBox}>
-                                    {renderResistanceRowT2(resistanceSummaryTrainer2)}
-                                </View>
-                                <Text style={soulockeTBStyles.sectionHeader}>Stats</Text>
-                                <View style={soulockeTBStyles.placeholderBox}>
-                                    {renderStatsSectionTTwo(team2, 'T2')}
-                                </View>
-                                <Text style={soulockeTBStyles.sectionHeader}>Weaknesses</Text>
-                                <View style={soulockeTBStyles.placeholderBox}>
-                                    {renderWeaknessRowT2(weaknessSummaryTrainer2, resistanceSummaryTrainer2)}
+                                {/* Trainer 2 Column */}
+                                <View style={soulockeTBStyles.trainerColumn}>
+                                    <Text style={soulockeTBStyles.sectionHeader}>Resistances</Text>
+                                    <View style={soulockeTBStyles.placeholderBox}>
+                                        {renderResistanceRowT2(resistanceSummaryTrainer2)}
+                                    </View>
+                                    <Text style={soulockeTBStyles.sectionHeader}>Stats</Text>
+                                    <View style={soulockeTBStyles.placeholderBox}>
+                                        {renderStatsSectionTTwo(team2, 'T2')}
+                                    </View>
+                                    <Text style={soulockeTBStyles.sectionHeader}>Weaknesses</Text>
+                                    <View style={soulockeTBStyles.placeholderBox}>
+                                        {renderWeaknessRowT2(weaknessSummaryTrainer2, resistanceSummaryTrainer2)}
+                                    </View>
                                 </View>
                             </View>
-                        </View>
+                        </ScrollView>
                     </View>
                 </ScrollView>
             )}

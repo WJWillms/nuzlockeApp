@@ -325,6 +325,24 @@ const spriteMap = {
     "324": require("../../assets/sprites/324.png"),
     "325": require("../../assets/sprites/325.png"),
     "326": require("../../assets/sprites/326.png"),
+    "327": require("../../assets/sprites/327.png"),
+    "328": require("../../assets/sprites/328.png"),
+    "329": require("../../assets/sprites/329.png"),
+    "330": require("../../assets/sprites/330.png"),
+    "331": require("../../assets/sprites/331.png"),
+    "332": require("../../assets/sprites/332.png"),
+    "333": require("../../assets/sprites/333.png"),
+    "334": require("../../assets/sprites/334.png"),
+    "335": require("../../assets/sprites/335.png"),
+    "336": require("../../assets/sprites/336.png"),
+    "337": require("../../assets/sprites/337.png"),
+    "338": require("../../assets/sprites/338.png"),
+    "339": require("../../assets/sprites/339.png"),
+    "340": require("../../assets/sprites/340.png"),
+    "341": require("../../assets/sprites/341.png"),
+    "342": require("../../assets/sprites/342.png"),
+
+
 
 
 

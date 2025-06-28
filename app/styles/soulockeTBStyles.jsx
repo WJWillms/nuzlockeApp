@@ -1,7 +1,14 @@
 import { Dimensions, StyleSheet } from 'react-native';
 
-const screenWidth = Dimensions.get('window').width;
-const screenHeight = Dimensions.get('window').height;
+const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+
+const guidelineBaseWidth = 375;
+const guidelineBaseHeight = 812;
+
+const scale = size => (screenWidth / guidelineBaseWidth) * size;
+const verticalScale = size => (screenHeight / guidelineBaseHeight) * size;
+const moderateScale = (size, factor = 0.5) =>
+    size + (scale(size) - size) * factor;
 
 const soulockeTBStyles = StyleSheet.create({
     overallContainer: {
@@ -55,6 +62,7 @@ const soulockeTBStyles = StyleSheet.create({
     optionsButtonText: {
         color: '#fff',
         fontWeight: 'bold',
+        fontSize: moderateScale(5),
     },
 
     scrollWrapper: {
@@ -76,12 +84,16 @@ const soulockeTBStyles = StyleSheet.create({
     rowSection: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: '100%',
+        minWidth: screenWidth,
+        //width: '100%',
     },
 
     trainerColumn: {
-        flex: 1.75,            // more space than sprite column
+        flex: 1.75,
         paddingHorizontal: 6,
+        justifyContent: 'space-between', // Distribute placeholders evenly
+        minWidth: screenWidth * 0.28,
+        maxWidth: screenWidth * 0.7, //Maybe adjust this if we want to put in sideways typings
     },
 
     spriteColumn: {
@@ -89,6 +101,8 @@ const soulockeTBStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: 0,  // prevent bleeding
+        minWidth: screenWidth * 0.15,
+        maxWidth: screenWidth * 0.25,
     },
 
     spritePairBox: {
@@ -113,8 +127,8 @@ const soulockeTBStyles = StyleSheet.create({
     },
 
     sprite: {
-        width: 100,
-        height: 100,
+        width: Math.min(100, screenWidth * 0.25),
+        height: Math.min(100, screenWidth * 0.25),
         resizeMode: 'contain',
     },
 
@@ -140,23 +154,26 @@ const soulockeTBStyles = StyleSheet.create({
     },
 
     sectionHeader: {
-        fontSize: 24,
+        fontSize: moderateScale(8),
         fontWeight: 'bold',
         textAlign: 'center',
-        marginBottom: 2,
-        marginTop: 2,
+        marginBottom: 1,
+        marginTop: 1,
     },
 
     placeholderBox: {
-        height: 230,                // taller than before
-        width: '100%',              // fill the column without overflowing
+        minHeight: screenHeight * 0.22,
+        width: '100%',
         backgroundColor: '#eee',
         borderRadius: 8,
         borderWidth: 1,
         borderColor: '#ccc',
         marginBottom: 4,
         alignSelf: 'stretch',
+        padding: 8,
+        flexShrink: 1,
     },
+
     trainerWithLabel: {
         flexDirection: 'row',
         alignItems: 'flex-start',
@@ -202,8 +219,8 @@ const soulockeTBStyles = StyleSheet.create({
 
     trainerLabelText: {
         fontWeight: '600',
-        fontSize: 14,
-        color: '#334155', // a subtle darkish blue/gray
+        fontSize: moderateScale(14),
+        color: '#334155',
     },
 
     labelWrapper: {
@@ -375,12 +392,12 @@ const soulockeTBStyles = StyleSheet.create({
         backgroundColor: '#fff',
         padding: 20,
         borderRadius: 12,
-        width: '35%',
-        height: '65%',
+        width: screenWidth > 600 ? '35%' : '90%',
+        height: screenHeight > 600 ? '65%' : '80%',
         alignItems: 'center',
     },
     flyerTitle: {
-        fontSize: 18,
+        fontSize: moderateScale(18),
         fontWeight: 'bold',
         marginBottom: 20,
     },
