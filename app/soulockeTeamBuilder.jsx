@@ -610,7 +610,7 @@ const soulockeTeamBuilder = () => {
         const { showCombined, stats: displayedStats } = computeSelectedStats();
 
         return (
-            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginTop: 30, marginLeft: 20 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginTop: 22, marginLeft: 20 }}>
                 {/* Radar Chart (left) */}
                 <RadarChart
                     data={chartOptions.filter(o => activeCharts.includes(o.label))}
@@ -787,7 +787,7 @@ const soulockeTeamBuilder = () => {
         };
 
         return (
-            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginTop: 30, marginLeft: 20 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginTop: 22, marginLeft: 20 }}>
                 {/* Stat Totals (left) */}
                 <View style={{ marginLeft: 92, marginRight: 92, flex: 0.3 }}>
                     {[
@@ -946,45 +946,71 @@ const soulockeTeamBuilder = () => {
         const getTrainerScoreDragunknight = (team) => {
             let resistScore = 0;
             let weaknessPenalty = 0;
-            let attackScore = 0;
+            let offenseScore = 0;
             let defenseScore = 0;
-            let speedHpScore = 0;
+            let hpScore = 0;
+            let speedScore = 0;
             let baseStatBonus = 0;
 
             team.forEach(id => {
                 const mon = Pokedex[id];
                 if (!mon) return;
 
+                // Resistances
                 Object.values(mon.resistances || {}).forEach(val => {
                     if (val === 0) resistScore += 5;
                     else if (val === 0.25) resistScore += 2;
                     else if (val === 0.5) resistScore += 1;
                 });
 
+                // Weaknesses
                 Object.values(mon.weaknesses || {}).forEach(val => {
                     if (val === 4) weaknessPenalty += 4;
                     else if (val === 2) weaknessPenalty += 1;
                 });
 
-                attackScore += (mon.attack + mon.specialAttack) * 0.5;
-                defenseScore += (mon.defense + mon.specialDefense) * 0.75;
-                speedHpScore += mon.speed * 0.1 + mon.hp;
+                // Offensive Stat Scaling
+                const atk = mon.attack;
+                const spAtk = mon.specialAttack;
 
+                if (atk > spAtk) {
+                    offenseScore += atk * 1.3 + spAtk * 0.55;
+                } else if (spAtk > atk) {
+                    offenseScore += spAtk * 1.3 + atk * 0.55;
+                } else {
+                    offenseScore += atk * 1.1 + spAtk * 1.1;
+                }
+
+                // Defense Score
+                defenseScore += (mon.defense + mon.specialDefense) * 1.5;
+
+                // HP and Speed Separated
+                hpScore += mon.hp * 0.7;       // You can adjust this if desired
+                speedScore += mon.speed * 1.2;
+
+                // Base Stat Bonus
                 const total = mon.totalBaseStats;
-                if (total >= 600) baseStatBonus += 35;
-                else if (total >= 550) baseStatBonus += 22;
+                if (total >= 600) baseStatBonus += 50;
+                else if (total >= 550) baseStatBonus += 30;
                 else if (total >= 500) baseStatBonus += 10;
+                else if (total >= 300 && total <= 330) baseStatBonus -= 10;
+                else if (total >= 251 && total <= 299) baseStatBonus -= 20;
+                else if (total >= 225 && total <= 250) baseStatBonus -= 25;
+                else if (total >= 200 && total <= 224) baseStatBonus -= 40;
+                else if (total < 200) baseStatBonus -= 75;
             });
 
             return (
                 resistScore +
-                attackScore +
+                offenseScore +
                 defenseScore +
-                speedHpScore +
+                hpScore +
+                speedScore +
                 baseStatBonus -
                 weaknessPenalty
             );
         };
+
 
         const getAverageScore = (combo, key) => {
             const t1 = combo.map(i => trainerOneTeam[i]);

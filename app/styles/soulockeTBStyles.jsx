@@ -158,11 +158,12 @@ const soulockeTBStyles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
         marginBottom: 1,
-        marginTop: 1,
+        marginTop: 0,
     },
 
     placeholderBox: {
-        minHeight: screenHeight * 0.22,
+        minHeight: screenHeight * 0.25,
+        maxHeight: screenHeight * 0.25,
         width: '100%',
         backgroundColor: '#eee',
         borderRadius: 8,
@@ -275,7 +276,7 @@ const soulockeTBStyles = StyleSheet.create({
 
     resistancesColumn: {
         flex: 1,
-        marginTop: 7
+        marginTop: 0
     },
 
     resistancesGrid: {
