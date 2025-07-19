@@ -1,6 +1,6 @@
 import { Picker } from '@react-native-picker/picker';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Dimensions, Image, Pressable, ScrollView, Switch, Text, View } from 'react-native';
 import RadarChart from '../components/RadarChart';
 import TypePill from '../components/TypePill';
@@ -15,27 +15,34 @@ const screenHeight = Dimensions.get('window').height;
 const soulockeTeamBuilder = () => {
     const router = useRouter();
     const { trainerOneTeam, trainerTwoTeam } = useLocalSearchParams();
+    
 
     const parsedTrainerOneTeam = JSON.parse(trainerOneTeam || '[]');
     const parsedTrainerTwoTeam = JSON.parse(trainerTwoTeam || '[]');
 
+    const [localTrainerOneTeam, setLocalTrainerOneTeam] = useState(parsedTrainerOneTeam);
+    const [localTrainerTwoTeam, setLocalTrainerTwoTeam] = useState(parsedTrainerTwoTeam);
+
     const [teamIndex, setTeamIndex] = useState(0);
     const [validCombos, setValidCombos] = useState([]);
     const [sortOption, setSortOption] = useState('none');
+    
 
     // Inside your component function, near the top (before using team1/team2)
     const sortedCombos = sortCombosByOption(
         validCombos,
-        parsedTrainerOneTeam,
-        parsedTrainerTwoTeam,
+        localTrainerOneTeam,
+        localTrainerTwoTeam,
         sortOption
     );
+    // 1. Ensure teamIndex stays valid
+    const safeTeamIndex = Math.min(teamIndex, sortedCombos.length - 1);
 
     // Then use sortedCombos to get current indices:
-    const currentIndices = sortedCombos[teamIndex] || [];
+    const currentIndices = sortedCombos[safeTeamIndex] || [];
 
-    const team1 = currentIndices.map(i => parsedTrainerOneTeam[i]);
-    const team2 = currentIndices.map(i => parsedTrainerTwoTeam[i]);
+    const team1 = currentIndices.map(i => localTrainerOneTeam[i]).filter(Boolean);
+    const team2 = currentIndices.map(i => localTrainerTwoTeam[i]).filter(Boolean);
 
 
     const [activeCharts, setActiveCharts] = useState(['T1_Total', 'T2_Total']);
@@ -52,6 +59,11 @@ const soulockeTeamBuilder = () => {
 
     const [focusPair, setFocusPair] = useState(null);
     const [allPairs, setAllPairs] = useState([]);
+
+    const [showRemovePairs, setShowRemovePairs] = useState(false);
+    const [tempRemovedPairs, setTempRemovedPairs] = useState({});
+    
+
 
 
 
@@ -70,7 +82,7 @@ const soulockeTeamBuilder = () => {
 
     useEffect(() => {
         const buildValidCombos = () => {
-            const totalCount = parsedTrainerOneTeam.length;
+            const totalCount = localTrainerOneTeam.length;
             const indexList = Array.from({ length: totalCount }, (_, i) => i);
 
             let maxValidCombos = [];
@@ -93,8 +105,8 @@ const soulockeTeamBuilder = () => {
                     for (let i = 0; i < combo.length; i++) {
                         const idx = combo[i];
 
-                        const mon1Id = parsedTrainerOneTeam[idx];
-                        const mon2Id = parsedTrainerTwoTeam[idx];
+                        const mon1Id = localTrainerOneTeam[idx];
+                        const mon2Id = localTrainerTwoTeam[idx];
 
                         const mon1 = Pokedex[mon1Id];
                         const mon2 = Pokedex[mon2Id];
@@ -137,7 +149,9 @@ const soulockeTeamBuilder = () => {
         trainerTwoTeam,
         flyerTypeOverrides,
         ruleBreakingOption,
-        focusPair
+        focusPair,
+        localTrainerOneTeam,
+        localTrainerTwoTeam
     ]);
 
 
@@ -148,8 +162,8 @@ const soulockeTeamBuilder = () => {
 
         const newFlyingMonEntries = [];
 
-        parsedTrainerOneTeam.forEach((id1, index) => {
-            const id2 = parsedTrainerTwoTeam[index];
+        localTrainerOneTeam.forEach((id1, index) => {
+            const id2 = localTrainerTwoTeam[index];
             const mon1 = Pokedex[id1];
             const mon2 = Pokedex[id2];
 
@@ -176,12 +190,12 @@ const soulockeTeamBuilder = () => {
         });
 
         setFlyingTypePairs(newFlyingMonEntries);
-    }, []);
+    }, [localTrainerOneTeam,localTrainerTwoTeam]);
 
-
+    //Build all pairs
     useEffect(() => {
-        const pairs = parsedTrainerOneTeam.map((mon1Id, idx) => {
-            const mon2Id = parsedTrainerTwoTeam[idx];
+        const pairs = localTrainerOneTeam.map((mon1Id, idx) => {
+            const mon2Id = localTrainerTwoTeam[idx];
             return {
                 index: idx,
                 label: `${Pokedex[mon1Id].name} / ${Pokedex[mon2Id].name}`,
@@ -189,7 +203,23 @@ const soulockeTeamBuilder = () => {
         });
 
         setAllPairs(pairs);
-    }, [trainerOneTeam, trainerTwoTeam]);
+    }, [trainerOneTeam, trainerTwoTeam, localTrainerOneTeam, localTrainerTwoTeam]);
+
+    //useEffect to make sure screen doesnt break at 0 pairs
+    useEffect(() => {
+        if (teamIndex >= sortedCombos.length) {
+            setTeamIndex(Math.max(sortedCombos.length - 1, 0));
+        }
+    }, [sortedCombos]);
+
+    //UseEffect to stop breaking on multiple pair deletes
+    useEffect(() => {
+        if (teamIndex >= sortedCombos.length) {
+            setTeamIndex(Math.max(sortedCombos.length - 1, 0));
+        }
+    }, [sortedCombos]);
+
+
 
     const getCombinations = (arr, k) => {
         const result = [];
@@ -1103,6 +1133,13 @@ const soulockeTeamBuilder = () => {
                     <Text style={soulockeTBStyles.optionsButtonText}>Flyer Edits</Text>
                 </Pressable>
 
+                <Pressable
+                    onPress={() => setShowRemovePairs(true)}
+                    style={soulockeTBStyles.optionsButton}
+                >
+                    <Text style={soulockeTBStyles.optionsButtonText}>Remove Pairs</Text>
+                </Pressable>
+
                 <View style={soulockeTBStyles.pickerWrapper}>
                     <Text style={soulockeTBStyles.pickerLabel}>Rule Breaking Pair</Text>
                     <Picker
@@ -1151,7 +1188,6 @@ const soulockeTeamBuilder = () => {
                         <Picker.Item label="Dragunknight Formula" value="dragunknight" />
                     </Picker>
                 </View>
-
             </View>
 
 
@@ -1261,12 +1297,110 @@ const soulockeTeamBuilder = () => {
                 </View>
             )}
 
+            {showRemovePairs && (
+                <View style={soulockeTBStyles.modalOverlay}>
+                    <View style={soulockeTBStyles.flyerModal}>
+                        <Text style={soulockeTBStyles.flyerTitle}>Remove Pairs</Text>
+
+                        {/* Header Row */}
+                        <View style={soulockeTBStyles.pairHeaderRow}>
+                            <Text style={soulockeTBStyles.pairHeaderText}>Trainer 1</Text>
+                            <Text style={soulockeTBStyles.pairHeaderText}>Trainer 2</Text>
+                            <Text style={soulockeTBStyles.pairHeaderTextRight}>Remove</Text>
+                        </View>
+
+                        {/* Toggle Pairs List */}
+                        <ScrollView
+                            style={soulockeTBStyles.scrollList}
+                            contentContainerStyle={{ paddingBottom: 12 }}
+                        >
+                            {allPairs.map(({ index, label }) => {
+                                const mon1 = Pokedex[localTrainerOneTeam[index]];
+                                const mon2 = Pokedex[localTrainerTwoTeam[index]];
+                                const key = `PAIR-${index}`;
+                                const isMarked = tempRemovedPairs[key] || false;
+
+                                return (
+                                    <View key={key} style={soulockeTBStyles.flyerRow}>
+                                        <View style={soulockeTBStyles.spritePairBox}>
+                                            <View style={soulockeTBStyles.spritePair}>
+                                                {/* Trainer 1 */}
+                                                <View style={soulockeTBStyles.spriteWithLabel}>
+                                                    <Image source={spriteMap[mon1.spriteId]} style={soulockeTBStyles.sprite} />
+                                                    <Text style={soulockeTBStyles.monLabel}>{mon1.name}</Text>
+                                                </View>
+
+                                                <View style={soulockeTBStyles.fullVerticalDivider} />
+
+                                                {/* Trainer 2 */}
+                                                <View style={soulockeTBStyles.spriteWithLabel}>
+                                                    <Image source={spriteMap[mon2.spriteId]} style={soulockeTBStyles.sprite} />
+                                                    <Text style={soulockeTBStyles.monLabel}>{mon2.name}</Text>
+                                                </View>
+                                            </View>
+                                        </View>
+
+                                        {/* Toggle Switch */}
+                                        <View style={soulockeTBStyles.toggleContainer}>
+                                            <Switch
+                                                value={isMarked}
+                                                onValueChange={(newVal) =>
+                                                    setTempRemovedPairs(prev => ({
+                                                        ...prev,
+                                                        [key]: newVal
+                                                    }))
+                                                }
+                                            />
+                                        </View>
+                                    </View>
+                                );
+                            })}
+                        </ScrollView>
+
+                        {/* Modal Buttons */}
+                        <View style={soulockeTBStyles.modalButtonRow}>
+                            <Pressable
+                                onPress={() => {
+                                    setShowRemovePairs(false);
+                                    setTempRemovedPairs({});
+                                }}
+                                style={soulockeTBStyles.cancelButton}
+                            >
+                                <Text style={soulockeTBStyles.modalButtonText}>Cancel</Text>
+                            </Pressable>
+                            <Pressable
+                                onPress={() => {
+                                    const indicesToRemove = Object.keys(tempRemovedPairs)
+                                        .filter(k => tempRemovedPairs[k])
+                                        .map(k => parseInt(k.replace('PAIR-', '')));
+
+                                    const filteredT1 = localTrainerOneTeam.filter((_, i) => !indicesToRemove.includes(i));
+                                    const filteredT2 = localTrainerTwoTeam.filter((_, i) => !indicesToRemove.includes(i));
+
+                                    setLocalTrainerOneTeam(filteredT1);
+                                    setLocalTrainerTwoTeam(filteredT2);
+
+                                    setShowRemovePairs(false);
+                                    setTempRemovedPairs({});
+                                }}
+
+
+                                style={soulockeTBStyles.applyButton}
+                            >
+                                <Text style={soulockeTBStyles.modalButtonText}>Apply</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                </View>
+            )}
+
+
 
 
 
 
             {/* Bottom Grid Area */}
-            {sortedCombos.length === 0 ? (
+            {(!sortedCombos.length || !sortedCombos[safeTeamIndex]?.length) ? (
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 }}>
                     <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center', color: '#444' }}>
                         No Valid Team Combinations Available
