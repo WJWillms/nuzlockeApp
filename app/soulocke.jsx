@@ -1,5 +1,5 @@
-import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useState } from 'react';
 import {
   Dimensions,
   Image,
@@ -20,12 +20,24 @@ const PokemonPicker = ({ onConfirm }) => {
   const [selected, setSelected] = useState(new Set());
 
   const router = useRouter();
+  const { trainerOneTeam, trainerTwoTeam } = useLocalSearchParams();
+  const parsedT1 = JSON.parse(trainerOneTeam || '[]');
+  const parsedT2 = JSON.parse(trainerTwoTeam || '[]');
 
   const handleConfirm = () => {
     const selectedArray = Array.from(selected);
+
+    // Build two sets:
+    const updatedTrainerOneTeam = [...parsedT1, ...selectedArray]; // full
+    const newOnlyTrainerOne = selectedArray; // just the additions
+
     router.push({
       pathname: "/soulockeTrainerTwo",
-      params: { trainerOneTeam: JSON.stringify(selectedArray) },
+      params: {
+        trainerOneTeam: JSON.stringify(updatedTrainerOneTeam),
+        newTrainerOneOnly: JSON.stringify(newOnlyTrainerOne),
+        trainerTwoTeam: JSON.stringify(parsedT2), // might be empty if first time
+      },
     });
   };
 

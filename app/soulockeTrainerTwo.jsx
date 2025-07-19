@@ -1,13 +1,13 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
-    Dimensions,
-    Image,
-    Pressable,
-    ScrollView,
-    Text,
-    TextInput,
-    View,
+  Dimensions,
+  Image,
+  Pressable,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
 import spriteMap from "./Pokedex/spriteMap";
 import { Pokedex } from './Pokedex/sunMoonPokedex';
@@ -16,8 +16,10 @@ import soulockeTrainerTwoStyles from "./styles/soulockeTrainerTwoStyles";
 const screenWidth = Dimensions.get('window').width;
 
 const PokemonPicker = () => {
-  const { trainerOneTeam } = useLocalSearchParams();
-  const parsedTrainerOneTeam = JSON.parse(trainerOneTeam || '[]');
+  const { trainerOneTeam, newTrainerOneOnly, trainerTwoTeam } = useLocalSearchParams();
+  const parsedTrainerOneTeam = JSON.parse(trainerOneTeam || '[]');        // Full team
+  const parsedNewOnly = JSON.parse(newTrainerOneOnly || '[]');            // New additions
+  const parsedTrainerTwoTeam = JSON.parse(trainerTwoTeam || '[]');        // Previous T2
 
   const [search, setSearch] = useState('');
   const [selected, setSelected] = useState(new Set());
@@ -26,23 +28,30 @@ const PokemonPicker = () => {
 
   const handleConfirm = () => {
     const selectedArray = Array.from(selected);
-    if (selectedArray.length !== parsedTrainerOneTeam.length) return;
 
+    // Ensure match count is correct
+    if (selectedArray.length !== parsedNewOnly.length) return;
+
+    // Combine with previous Trainer 2 team
+    const updatedTrainerTwoTeam = [...parsedTrainerTwoTeam, ...selectedArray];
+
+    // Pass full updated state to builder
     router.push({
       pathname: "/soulockeTeamBuilder",
       params: {
         trainerOneTeam,
-        trainerTwoTeam: JSON.stringify(selectedArray),
+        trainerTwoTeam: JSON.stringify(updatedTrainerTwoTeam),
       },
     });
   };
+
 
   const handleToggle = (id) => {
     const idStr = id.toString();
     const newSelected = new Set(selected);
     if (newSelected.has(idStr)) {
       newSelected.delete(idStr);
-    } else if (newSelected.size < parsedTrainerOneTeam.length) {
+    } else if (newSelected.size < parsedNewOnly.length) {
       newSelected.add(idStr);
     }
     setSelected(newSelected);
@@ -52,7 +61,7 @@ const PokemonPicker = () => {
     mon.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  const matchingMonId = parsedTrainerOneTeam[selected.size];
+  const matchingMonId = parsedNewOnly[selected.size];
   const matchingMon = matchingMonId ? Pokedex[matchingMonId] : null;
 
   return (
@@ -116,7 +125,7 @@ const PokemonPicker = () => {
       <View style={soulockeTrainerTwoStyles.buttonContainer}>
         <Pressable onPress={handleConfirm} style={soulockeTrainerTwoStyles.button}>
           <Text style={soulockeTrainerTwoStyles.buttonText}>
-            Confirm Choices ({selected.size} / {parsedTrainerOneTeam.length})
+            Confirm Choices ({selected.size} / {parsedNewOnly.length})
           </Text>
         </Pressable>
       </View>

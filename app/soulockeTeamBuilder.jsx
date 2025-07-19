@@ -15,7 +15,7 @@ const screenHeight = Dimensions.get('window').height;
 const soulockeTeamBuilder = () => {
     const router = useRouter();
     const { trainerOneTeam, trainerTwoTeam } = useLocalSearchParams();
-    
+
 
     const parsedTrainerOneTeam = JSON.parse(trainerOneTeam || '[]');
     const parsedTrainerTwoTeam = JSON.parse(trainerTwoTeam || '[]');
@@ -26,7 +26,7 @@ const soulockeTeamBuilder = () => {
     const [teamIndex, setTeamIndex] = useState(0);
     const [validCombos, setValidCombos] = useState([]);
     const [sortOption, setSortOption] = useState('none');
-    
+
 
     // Inside your component function, near the top (before using team1/team2)
     const sortedCombos = sortCombosByOption(
@@ -62,7 +62,7 @@ const soulockeTeamBuilder = () => {
 
     const [showRemovePairs, setShowRemovePairs] = useState(false);
     const [tempRemovedPairs, setTempRemovedPairs] = useState({});
-    
+
 
 
 
@@ -190,7 +190,7 @@ const soulockeTeamBuilder = () => {
         });
 
         setFlyingTypePairs(newFlyingMonEntries);
-    }, [localTrainerOneTeam,localTrainerTwoTeam]);
+    }, [localTrainerOneTeam, localTrainerTwoTeam]);
 
     //Build all pairs
     useEffect(() => {
@@ -240,6 +240,18 @@ const soulockeTeamBuilder = () => {
         recurse(0);
         return result;
     };
+
+    //Add Pairs function
+    const handleAddPairs = () => {
+        router.push({
+            pathname: "/soulocke", // Or whatever path your picker file is at
+            params: {
+                trainerOneTeam: JSON.stringify(localTrainerOneTeam),
+                trainerTwoTeam: JSON.stringify(localTrainerTwoTeam),
+            },
+        });
+    };
+
 
 
 
@@ -1131,6 +1143,13 @@ const soulockeTeamBuilder = () => {
                     style={soulockeTBStyles.optionsButton}
                 >
                     <Text style={soulockeTBStyles.optionsButtonText}>Flyer Edits</Text>
+                </Pressable>
+
+                <Pressable
+                    onPress={handleAddPairs}
+                    style={soulockeTBStyles.optionsButton}
+                >
+                    <Text style={soulockeTBStyles.optionsButtonText}>Add Pairs</Text>
                 </Pressable>
 
                 <Pressable
