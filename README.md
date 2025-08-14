@@ -1,50 +1,29 @@
-# Welcome to your Expo app 👋
+This is a React Native Project that was meant to help people make teams from the Pokemon they have caught in Pokemon Soulocke runs, based on the Mr. Fruit(Youtuber) ruleset. This started out as just something to run on my own computer but has recently evolved into a website. Current version supports the Sun/Moon Pokedex.
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+# Website: [SoulockeForge](https://soulockeforge.netlify.app/)
 
-## Get started
+# Known Issues:
+1.  This was originally desined to be perfectly sized to my screen so it's not fully compatible to all users and their screen sizes, especially mobile.
+2.  Extra Form Names stretch further than intended.
+3.  Some sprites tend to dissappear.
+4.  Untested swapping Mono flying type in Flyer Edits menu.
 
-1. Install dependencies
+# Possible Updates:
+1. More tweaking for the website to work on more monitor sizes and possibly even mobile.
+2. Adding in a game selection choice to choose between different pokedex's.
+3. Easier typing adjustments for pokemon like Arceus or Silvally.
+4. Add/Remove pairs to Soulocke version (Added)
 
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+# How to use:
+![Choose between Nuzlocke and Soulocke version](/assets/readMePictures/versionChoice.PNG)
+This will be the default page you are greeted with. The Nuzlocke version was mainly used as a testing ground and setting the framework for the Soulocke version. It's missing a few features that the Soulocke side has as it's not the primary concern, but essentially choose which version you want to use.
+![Trainer 1 Choices](/assets/readMePictures/default.PNG)
+This is what the next page will look like if you choose Nuzlocke or Soulocke. If you use the Nuzlocke version just choose the Pokemon you want to use and click confirm. If you are in the Soulocke version it will say Trainer 1 in the top left. So whoever is designated as Trainer 1 will choose all of the Pokemon they have and then click confirm. Unclicking a picture will deselect a choice.
+![Trainer 2 Choices](/assets/readMePictures/trainer2Selection.PNG)
+This is the page you will go to for Trainer 2. Looks almost exactly the same as before except the top left will say Trainer 2 and on the top right it shows a picture of the Trainer 1's pokemon their next pick will match to. You can track the choice you are on in the confirm button by noticing the #/# inside the button. Since trainer 1 and trainer 2 pokemon are all pairs it won't let Trainer 2 choose more than Trainer 1.
+![Search](/assets/readMePictures/search.PNG)
+If you are having problems finding a certain Pokemon you can use the search bar at the top. It searches for all varitions of what you search for so if you can only remember part of the name you can still find it. For example if you can only remember the "Chu" in "Pikachu" you can search for "Chu" and still find it.
+![Soulocke Team View](/assets/readMePictures/soulockeBaseView.png)
+This is the page that will display all of the teams available after selecting confirm on Trainer 2. You can rotate between the teams using the previous and next buttons at the top, and refine the results by using the options bar. The options there are again based off of the Mr. Fruit ruleset and should be self explanitory outside of Focus. Focus is an option to choose a pair and that pair will be in every variation of teams that are presented.
+![Flyer Edits](/assets/readMePictures/flyerEdits.png)
+This is the Flyer Edits menu that allows the user to swap the Primary and Secondary typing of a Pokemon. The red box indicates the pokemon being modified in the pair.
