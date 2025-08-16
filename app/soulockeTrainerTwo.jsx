@@ -67,7 +67,7 @@ const PokemonPicker = () => {
   return (
     <View style={soulockeTrainerTwoStyles.container}>
 
-      {/* 🧭 Search Row */}
+      {/*  Search Row */}
       <View style={soulockeTrainerTwoStyles.searchRow}>
         <Text style={soulockeTrainerTwoStyles.trainerLabel}>Trainer 2 Choices</Text>
 
@@ -96,7 +96,7 @@ const PokemonPicker = () => {
         </View>
       </View>
 
-      {/* 🧃 Pokémon Grid */}
+      {/*  Pokémon Grid */}
       <View style={soulockeTrainerTwoStyles.gridWrapper}>
         <ScrollView contentContainerStyle={soulockeTrainerTwoStyles.gridScrollContent}>
           {filteredPokemon.map(([id, mon]) => {
@@ -121,7 +121,7 @@ const PokemonPicker = () => {
         </ScrollView>
       </View>
 
-      {/* ✅ Confirm Button */}
+      {/*  Confirm Button */}
       <View style={soulockeTrainerTwoStyles.buttonContainer}>
         <Pressable onPress={handleConfirm} style={soulockeTrainerTwoStyles.button}>
           <Text style={soulockeTrainerTwoStyles.buttonText}>
