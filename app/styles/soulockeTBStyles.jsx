@@ -97,12 +97,12 @@ const soulockeTBStyles = StyleSheet.create({
     },
 
     spriteColumn: {
-        flex: 0.5,             // less space than trainers
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingHorizontal: 0,  // prevent bleeding
-        minWidth: screenWidth * 0.15,
-        maxWidth: screenWidth * 0.25,
+        flex: 0.5, // takes half the container by default
+        justifyContent: "center",
+        alignItems: "center",
+        paddingHorizontal: "2%", // gives breathing room, relative to screen
+        minWidth: screenWidth * 0.1,
+        maxWidth: screenWidth * 0.3,
     },
 
     spritePairBox: {
@@ -119,17 +119,21 @@ const soulockeTBStyles = StyleSheet.create({
     },
 
     spritePair: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'relative',
-        height: 100,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "relative",
+        paddingVertical: "1%", // scalable spacing
+        minHeight: 80,
+        maxHeight: 100, // good guardrails
     },
 
     sprite: {
-        width: Math.min(100, screenWidth * 0.25),
-        height: Math.min(100, screenWidth * 0.25),
-        resizeMode: 'contain',
+        width: screenWidth * 0.08,   // ~8% of width
+        height: screenWidth * 0.08,
+        maxWidth: 100,
+        maxHeight: 100,
+        resizeMode: "contain",
     },
 
     fullVerticalDivider: {
@@ -153,6 +157,7 @@ const soulockeTBStyles = StyleSheet.create({
         paddingHorizontal: 2,
     },
 
+
     sectionHeader: {
         fontSize: moderateScale(8),
         fontWeight: 'bold',
@@ -162,18 +167,19 @@ const soulockeTBStyles = StyleSheet.create({
     },
 
     placeholderBox: {
-        minHeight: screenHeight * 0.25,
-        maxHeight: screenHeight * 0.25,
-        width: '100%',
-        backgroundColor: '#eee',
+        flexShrink: 1,
+        flexGrow: 0,
+        width: "100%",
+        minHeight: screenHeight * 0.2,
+        maxHeight: screenHeight * 0.3,
+        backgroundColor: "#eee",
         borderRadius: 8,
         borderWidth: 1,
-        borderColor: '#ccc',
-        marginBottom: 4,
-        alignSelf: 'stretch',
-        padding: 8,
-        flexShrink: 1,
+        borderColor: "#ccc",
+        marginBottom: Math.max(4, screenHeight * 0.005),
+        padding: Math.max(8, screenWidth * 0.005),
     },
+
 
     trainerWithLabel: {
         flexDirection: 'row',
@@ -527,15 +533,9 @@ const soulockeTBStyles = StyleSheet.create({
 
     monLabel: {
         marginTop: 2,
-        fontSize: 12,
-        color: '#444',
-        fontWeight: '500',
-    },
-
-    spriteWithLabel: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginHorizontal: 4,
+        fontSize: Math.min(14, screenWidth * 0.012),
+        color: "#444",
+        fontWeight: "500",
     },
 
     originalMonLabel: {
@@ -609,7 +609,7 @@ const soulockeTBStyles = StyleSheet.create({
         flexDirection: 'column', // Stack contents vertically
         flexGrow: 1,             // Grow to fill available horizontal space equally
         flexBasis: '45%',        // Take up about half width per category (adjust as needed)
-        marginRight: 12,
+        marginRight: screenWidth * 0.015,
         minWidth: 140,           // Prevent from becoming too narrow
     },
 
@@ -662,6 +662,10 @@ const soulockeTBStyles = StyleSheet.create({
         justifyContent: 'space-between',
         gap: 8,
     },
+    statSectionTTwo: {
+        marginHorizontal: screenWidth * 0.035, // 10% of screen width
+        flex: 0.3,
+    }
 
 
 

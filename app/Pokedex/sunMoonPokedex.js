@@ -6814,7 +6814,7 @@ export const Pokedex = {
     },
   },
   259: {
-    name: "Quagsire",
+    name: "Marshtomp",
     spriteId: "259",
     typeOne: "Water",
     typeTwo: "Ground",
@@ -23588,6 +23588,7 @@ export const Pokedex = {
   },
   882: {
     name: "Oricorio (Pom-Pom Style)",
+    displayName: "Oricorio",
     spriteId: "741-p",
     typeOne: "Electric",
     typeTwo: "Flying",
@@ -23615,6 +23616,7 @@ export const Pokedex = {
   },
   883: {
     name: "Oricorio (Pa-u Style)",
+    displayName: "Oricorio",
     spriteId: "741-pau",
     typeOne: "Psychic",
     typeTwo: "Flying",
@@ -23643,6 +23645,7 @@ export const Pokedex = {
   },
   884: {
     name: "Oricorio (Sensu Style)",
+    displayName: "Oricorio",
     spriteId: "741-s",
     typeOne: "Ghost",
     typeTwo: "Flying",
@@ -23673,6 +23676,7 @@ export const Pokedex = {
   },
   885: {
     name: "Lycanroc Midnight Form",
+    displayName: "Lycanroc",
     spriteId: "745-m",
     typeOne: "Rock",
     typeTwo: null,
@@ -23701,6 +23705,7 @@ export const Pokedex = {
   },
   886: {
     name: "Lycanroc Dusk Form",
+    displayName: "Lycanroc",
     spriteId: "745-d",
     typeOne: "Rock",
     typeTwo: null,
@@ -23729,6 +23734,7 @@ export const Pokedex = {
   },
   887: {
     name: "Sivally Bug",
+    displayName: "Sivally",
     spriteId: "773-bug",
     typeOne: "Bug",
     typeTwo: null,
@@ -23754,6 +23760,7 @@ export const Pokedex = {
   },
   888: {
     name: "Sivally Dark",
+    displayName: "Sivally",
     spriteId: "773-dark",
     typeOne: "Dark",
     typeTwo: null,
@@ -23779,6 +23786,7 @@ export const Pokedex = {
   },
   889: {
     name: "Sivally Dragon",
+    displayName: "Sivally",
     spriteId: "773-dragon",
     typeOne: "Dragon",
     typeTwo: null,
@@ -23805,6 +23813,7 @@ export const Pokedex = {
   },
   890: {
     name: "Sivally Electric",
+    displayName: "Sivally",
     spriteId: "773-electric",
     typeOne: "Electric",
     typeTwo: null,
@@ -23828,6 +23837,7 @@ export const Pokedex = {
   },
   891: {
     name: "Sivally Fairy",
+    displayName: "Sivally",
     spriteId: "773-fairy",
     typeOne: "Fairy",
     typeTwo: null,
@@ -23853,6 +23863,7 @@ export const Pokedex = {
   },
   892: {
     name: "Sivally Fighting",
+    displayName: "Sivally",
     spriteId: "773-fighting",
     typeOne: "Fighting",
     typeTwo: null,
@@ -23878,6 +23889,7 @@ export const Pokedex = {
   },
   893: {
     name: "Sivally Fire",
+    displayName: "Sivally",
     spriteId: "773-fire",
     typeOne: "Fire",
     typeTwo: null,
@@ -23906,6 +23918,7 @@ export const Pokedex = {
   },
   894: {
     name: "Sivally Flying",
+    displayName: "Sivally",
     spriteId: "773-flying",
     typeOne: "Flying",
     typeTwo: null,
@@ -23932,6 +23945,7 @@ export const Pokedex = {
   },
   895: {
     name: "Sivally Ghost",
+    displayName: "Sivally",
     spriteId: "773-ghost",
     typeOne: "Ghost",
     typeTwo: null,
@@ -23957,6 +23971,7 @@ export const Pokedex = {
   },
   896: {
     name: "Sivally Grass",
+    displayName: "Sivally",
     spriteId: "773-grass",
     typeOne: "Grass",
     typeTwo: null,
@@ -23985,6 +24000,7 @@ export const Pokedex = {
   },
   897: {
     name: "Sivally Ground",
+    displayName: "Sivally",
     spriteId: "773-ground",
     typeOne: "Ground",
     typeTwo: null,
@@ -24010,6 +24026,7 @@ export const Pokedex = {
   },
   898: {
     name: "Sivally Ice",
+    displayName: "Sivally",
     spriteId: "773-ice",
     typeOne: "Ice",
     typeTwo: null,
@@ -24034,6 +24051,7 @@ export const Pokedex = {
   },
   899: {
     name: "Sivally Poison",
+    displayName: "Sivally",
     spriteId: "773-poison",
     typeOne: "Poison",
     typeTwo: null,
@@ -24060,6 +24078,7 @@ export const Pokedex = {
   },
   900: {
     name: "Sivally Psychic",
+    displayName: "Sivally",
     spriteId: "773-psychic",
     typeOne: "Psychic",
     typeTwo: null,
@@ -24084,6 +24103,7 @@ export const Pokedex = {
   },
   901: {
     name: "Sivally Rock",
+    displayName: "Sivally",
     spriteId: "773-rock",
     typeOne: "Rock",
     typeTwo: null,
@@ -24112,6 +24132,7 @@ export const Pokedex = {
   },
   902: {
     name: "Sivally Steel",
+    displayName: "Sivally",
     spriteId: "773-steel",
     typeOne: "Steel",
     typeTwo: null,
@@ -24145,6 +24166,7 @@ export const Pokedex = {
   },
   903: {
     name: "Sivally Water",
+    displayName: "Arceus",
     spriteId: "773-water",
     typeOne: "Water",
     typeTwo: null,
@@ -24170,6 +24192,7 @@ export const Pokedex = {
   },
   904: {
     name: "Arceus Bug",
+    displayName: "Arceus",
     spriteId: "493-bug",
     typeOne: "Bug",
     typeTwo: null,
@@ -24195,6 +24218,7 @@ export const Pokedex = {
   },
   905: {
     name: "Arceus Dark",
+    displayName: "Arceus",
     spriteId: "493-dark",
     typeOne: "Dark",
     typeTwo: null,
@@ -24220,6 +24244,7 @@ export const Pokedex = {
   },
   906: {
     name: "Arceus Dragon",
+    displayName: "Arceus",
     spriteId: "493-dragon",
     typeOne: "Dragon",
     typeTwo: null,
@@ -24246,6 +24271,7 @@ export const Pokedex = {
   },
   907: {
     name: "Arceus Electric",
+    displayName: "Arceus",
     spriteId: "493-electric",
     typeOne: "Electric",
     typeTwo: null,
@@ -24269,6 +24295,7 @@ export const Pokedex = {
   },
   908: {
     name: "Arceus Fairy",
+    displayName: "Arceus",
     spriteId: "493-fairy",
     typeOne: "Fairy",
     typeTwo: null,
@@ -24294,6 +24321,7 @@ export const Pokedex = {
   },
   909: {
     name: "Arceus Fighting",
+    displayName: "Arceus",
     spriteId: "493-fighting",
     typeOne: "Fighting",
     typeTwo: null,
@@ -24319,6 +24347,7 @@ export const Pokedex = {
   },
   910: {
     name: "Arceus Fire",
+    displayName: "Arceus",
     spriteId: "493-fire",
     typeOne: "Fire",
     typeTwo: null,
@@ -24347,6 +24376,7 @@ export const Pokedex = {
   },
   911: {
     name: "Arceus Flying",
+    displayName: "Arceus",
     spriteId: "493-flying",
     typeOne: "Flying",
     typeTwo: null,
@@ -24373,6 +24403,7 @@ export const Pokedex = {
   },
   912: {
     name: "Arceus Ghost",
+    displayName: "Arceus",
     spriteId: "493-ghost",
     typeOne: "Ghost",
     typeTwo: null,
@@ -24398,6 +24429,7 @@ export const Pokedex = {
   },
   913: {
     name: "Arceus Grass",
+    displayName: "Arceus",
     spriteId: "493-grass",
     typeOne: "Grass",
     typeTwo: null,
@@ -24426,6 +24458,7 @@ export const Pokedex = {
   },
   914: {
     name: "Arceus Ground",
+    displayName: "Arceus",
     spriteId: "493-ground",
     typeOne: "Ground",
     typeTwo: null,
@@ -24451,6 +24484,7 @@ export const Pokedex = {
   },
   915: {
     name: "Arceus Ice",
+    displayName: "Arceus",
     spriteId: "493-ice",
     typeOne: "Ice",
     typeTwo: null,
@@ -24475,6 +24509,7 @@ export const Pokedex = {
   },
   916: {
     name: "Arceus Poison",
+    displayName: "Arceus",
     spriteId: "493-poison",
     typeOne: "Poison",
     typeTwo: null,
@@ -24501,6 +24536,7 @@ export const Pokedex = {
   },
   917: {
     name: "Arceus Psychic",
+    displayName: "Arceus",
     spriteId: "493-psychic",
     typeOne: "Psychic",
     typeTwo: null,
@@ -24525,6 +24561,7 @@ export const Pokedex = {
   },
   918: {
     name: "Arceus Rock",
+    displayName: "Arceus",
     spriteId: "493-rock",
     typeOne: "Rock",
     typeTwo: null,
@@ -24553,6 +24590,7 @@ export const Pokedex = {
   },
   919: {
     name: "Arceus Steel",
+    displayName: "Arceus",
     spriteId: "493-steel",
     typeOne: "Steel",
     typeTwo: null,
@@ -24586,6 +24624,7 @@ export const Pokedex = {
   },
   920: {
     name: "Arceus Water",
+    displayName: "Arceus",
     spriteId: "493-water",
     typeOne: "Water",
     typeTwo: null,
@@ -24611,6 +24650,7 @@ export const Pokedex = {
   },
   921: {
     name: "Necrozma Dusk Mane",
+    displayName: "Necrozma",
     spriteId: "800-dm",
     typeOne: "Psychic",
     typeTwo: "Steel",
@@ -24644,6 +24684,7 @@ export const Pokedex = {
   },
   922: {
     name: "Necrozma Dawn Wings",
+    displayName: "Necrozma",
     spriteId: "800-dw",
     typeOne: "Psychic",
     typeTwo: "Ghost",
@@ -24669,6 +24710,7 @@ export const Pokedex = {
   },
   923: {
     name: "Necrozma Ultra Burst",
+    displayName: "Necrozma",
     spriteId: "800-u",
     typeOne: "Psychic",
     typeTwo: "Dragon",
@@ -25141,6 +25183,7 @@ export const Pokedex = {
   },
   940: {
     name: "Alolan Exeggutor",
+    displayName: "Exeggutor",
     spriteId: "103-a",
     typeOne: "Grass",
     typeTwo: "Dragon",

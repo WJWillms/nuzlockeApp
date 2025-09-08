@@ -600,7 +600,7 @@ const soulockeTeamBuilder = () => {
 
             chartOptions.push({
                 label: `${labelPrefix}_${mon.name}`,   // unique
-                displayLabel: mon.name,
+                displayLabel: mon.displayName || mon.name,
                 stats: [mon.hp, mon.attack, mon.defense, mon.speed, mon.specialDefense, mon.specialAttack],
                 color: individualColors[idx % individualColors.length],
             });
@@ -652,7 +652,7 @@ const soulockeTeamBuilder = () => {
         const { showCombined, stats: displayedStats } = computeSelectedStats();
 
         return (
-            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginTop: 22, marginLeft: 20 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginTop: screenHeight * 0.025, marginLeft: screenWidth * 0.015 }}>
                 {/* Radar Chart (left) */}
                 <RadarChart
                     data={chartOptions.filter(o => activeCharts.includes(o.label))}
@@ -661,11 +661,11 @@ const soulockeTeamBuilder = () => {
                 />
 
                 {/* Buttons + Stats Column */}
-                <View style={{ flexDirection: 'row', flex: 1, marginLeft: 62 }}>
+                <View style={{ flexDirection: 'row', flex: 1, marginLeft: screenWidth * 0.035 }}>
                     {/* Buttons Grid (center) */}
                     <View style={{ flex: 0.4 }}>
                         {/* Total Button */}
-                        <View style={{ alignItems: 'center', marginBottom: 12 }}>
+                        <View style={{ alignItems: 'center', marginBottom: screenHeight * 0.015 }}>
                             {chartOptions
                                 .filter(o => o.displayLabel === 'Total')
                                 .map((entry, index) => (
@@ -691,7 +691,7 @@ const soulockeTeamBuilder = () => {
                             {Array.from({ length: 3 }).map((_, rowIndex) => (
                                 <View
                                     key={rowIndex}
-                                    style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}
+                                    style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: screenHeight * 0.01 }}
                                 >
                                     {[0, 1].map(colIndex => {
                                         const buttonIndex = rowIndex * 2 + colIndex;
@@ -720,7 +720,7 @@ const soulockeTeamBuilder = () => {
                     </View>
 
                     {/* Stat Totals (right) */}
-                    <View style={{ marginLeft: 140, flex: 0.2 }}>
+                    <View style={{ marginLeft: screenWidth * 0.055, flex: 0.2 }}>
                         {[
                             ['HP:', displayedStats.hp],
                             ['Attack:', displayedStats.attack],
@@ -829,9 +829,9 @@ const soulockeTeamBuilder = () => {
         };
 
         return (
-            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginTop: 22, marginLeft: 20 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginTop: screenHeight * 0.025, marginLeft: screenWidth * 0.015 }}>
                 {/* Stat Totals (left) */}
-                <View style={{ marginLeft: 92, marginRight: 92, flex: 0.3 }}>
+                <View style={soulockeTBStyles.statSectionTTwo}>
                     {[
                         ['HP:', displayedStats.hp],
                         ['Attack:', displayedStats.attack],
@@ -874,7 +874,7 @@ const soulockeTeamBuilder = () => {
                 {/* Buttons Grid (center) */}
                 <View style={{ flex: 0.4 }}>
                     {/* Total Button */}
-                    <View style={{ alignItems: 'center', marginBottom: 12 }}>
+                    <View style={{ alignItems: 'center', marginBottom: screenHeight * 0.015 }}>
                         {chartOptions
                             .filter(o => o.displayLabel === 'Total')
                             .map((entry, index) => (
@@ -900,7 +900,7 @@ const soulockeTeamBuilder = () => {
                         {Array.from({ length: 3 }).map((_, rowIndex) => (
                             <View
                                 key={rowIndex}
-                                style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}
+                                style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: screenHeight * 0.010 }}
                             >
                                 {[0, 1].map(colIndex => {
                                     const buttonIndex = rowIndex * 2 + colIndex;
@@ -1475,7 +1475,7 @@ const soulockeTeamBuilder = () => {
                                                             source={spriteMap[mon1.spriteId]}
                                                             style={soulockeTBStyles.sprite}
                                                         />
-                                                        <Text style={soulockeTBStyles.monLabel}>{mon1.name}</Text>
+                                                        <Text style={soulockeTBStyles.monLabel}>{mon1.displayName ?? mon1.name}</Text>
                                                     </View>
 
 
@@ -1488,7 +1488,7 @@ const soulockeTeamBuilder = () => {
                                                             source={spriteMap[mon2.spriteId]}
                                                             style={soulockeTBStyles.sprite}
                                                         />
-                                                        <Text style={soulockeTBStyles.monLabel}>{mon2.name}</Text>
+                                                        <Text style={soulockeTBStyles.monLabel}>{mon2.displayName ?? mon2.name}</Text>
                                                     </View>
 
                                                 </View>
