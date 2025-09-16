@@ -239,7 +239,7 @@ const soulockeTBStyles = StyleSheet.create({
         top: 4,
         left: 20, // Adjust based on your padding
         backgroundColor: '#e0e7ff',
-        paddingVertical: 4,
+        paddingVertical: 2,
         paddingHorizontal: 10,
         borderRadius: 6,
         elevation: 1,
