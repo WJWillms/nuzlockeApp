@@ -1248,12 +1248,12 @@ const soulockeTeamBuilder = () => {
                                                 {isFocusT1 ? (
                                                     <View style={soulockeTBStyles.glowFrame}>
                                                         <Image source={spriteMap[mon1.spriteId]} style={soulockeTBStyles.sprite} />
-                                                        <Text style={soulockeTBStyles.monLabelInsideGlow}>{mon1.name}</Text>
+                                                        <Text style={soulockeTBStyles.monLabelInsideGlow}>{mon1.displayName ?? mon1.name}</Text>
                                                     </View>
                                                 ) : (
                                                     <View style={soulockeTBStyles.spriteWithLabel}>
                                                         <Image source={spriteMap[mon1.spriteId]} style={soulockeTBStyles.sprite} />
-                                                        <Text style={soulockeTBStyles.monLabel}>{mon1.name}</Text>
+                                                        <Text style={soulockeTBStyles.monLabel}>{mon1.displayName ?? mon1.name}</Text>
                                                     </View>
                                                 )}
 
@@ -1263,12 +1263,12 @@ const soulockeTeamBuilder = () => {
                                                 {!isFocusT1 ? (
                                                     <View style={soulockeTBStyles.glowFrame}>
                                                         <Image source={spriteMap[mon2.spriteId]} style={soulockeTBStyles.sprite} />
-                                                        <Text style={[soulockeTBStyles.monLabel, soulockeTBStyles.monLabelInsideGlow]}>{mon2.name}</Text>
+                                                        <Text style={[soulockeTBStyles.monLabel, soulockeTBStyles.monLabelInsideGlow]}>{mon2.displayName ?? mon2.name}</Text>
                                                     </View>
                                                 ) : (
                                                     <View style={soulockeTBStyles.spriteWithLabel}>
                                                         <Image source={spriteMap[mon2.spriteId]} style={soulockeTBStyles.sprite} />
-                                                        <Text style={soulockeTBStyles.monLabel}>{mon2.name}</Text>
+                                                        <Text style={soulockeTBStyles.monLabel}>{mon2.displayName ?? mon2.name}</Text>
                                                     </View>
                                                 )}
                                             </View>
@@ -1346,7 +1346,7 @@ const soulockeTeamBuilder = () => {
                                                 {/* Trainer 1 */}
                                                 <View style={soulockeTBStyles.spriteWithLabel}>
                                                     <Image source={spriteMap[mon1.spriteId]} style={soulockeTBStyles.sprite} />
-                                                    <Text style={soulockeTBStyles.monLabel}>{mon1.name}</Text>
+                                                    <Text style={soulockeTBStyles.monLabel}>{mon1.displayName ?? mon1.name}</Text>
                                                 </View>
 
                                                 <View style={soulockeTBStyles.fullVerticalDivider} />
@@ -1354,7 +1354,7 @@ const soulockeTeamBuilder = () => {
                                                 {/* Trainer 2 */}
                                                 <View style={soulockeTBStyles.spriteWithLabel}>
                                                     <Image source={spriteMap[mon2.spriteId]} style={soulockeTBStyles.sprite} />
-                                                    <Text style={soulockeTBStyles.monLabel}>{mon2.name}</Text>
+                                                    <Text style={soulockeTBStyles.monLabel}>{mon2.displayName ?? mon2.name}</Text>
                                                 </View>
                                             </View>
                                         </View>
