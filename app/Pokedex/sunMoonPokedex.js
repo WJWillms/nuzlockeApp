@@ -21586,6 +21586,7 @@ export const Pokedex = {
   },
   810: {
     name: "Mega Venusaur",
+    displayName: "Venusaur",
     spriteId: "003-m",
     typeOne: "Grass",
     typeTwo: "Poison",
@@ -21614,6 +21615,7 @@ export const Pokedex = {
   },
   811: {
     name: "Mega Charizard X",
+    displayName: "Charizard",
     spriteId: "006-mx",
     typeOne: "Fire",
     typeTwo: "Dragon",
@@ -21641,6 +21643,7 @@ export const Pokedex = {
   },
   812: {
     name: "Mega Charizard Y",
+    displayName: "Charizard",
     spriteId: "006-my",
     typeOne: "Fire",
     typeTwo: "Flying",
@@ -21671,6 +21674,7 @@ export const Pokedex = {
   },
   813: {
     name: "Mega Blastoise",
+    displayName: "Blastoise",
     spriteId: "009-m",
     typeOne: "Water",
     typeTwo: null,
@@ -21696,6 +21700,7 @@ export const Pokedex = {
   },
   814: {
     name: "Mega Beedrill",
+    displayName: "Beedrill",
     spriteId: "015-m",
     typeOne: "Bug",
     typeTwo: "Poison",
@@ -21724,6 +21729,7 @@ export const Pokedex = {
   },
   815: {
     name: "Mega Pidgeot",
+    displayName: "Pidgeot",
     spriteId: "018-m",
     typeOne: "Normal",
     typeTwo: "Flying",
@@ -21750,6 +21756,7 @@ export const Pokedex = {
   },
   816: {
     name: "Mega Alakazam",
+    displayName: "Alakazam",
     spriteId: "065-m",
     typeOne: "Psychic",
     typeTwo: null,
@@ -21774,6 +21781,7 @@ export const Pokedex = {
   },
   817: {
     name: "Mega Slowbro",
+    displayName: "Slowbro",
     spriteId: "080-m",
     typeOne: "Water",
     typeTwo: "Psychic",
@@ -21804,6 +21812,7 @@ export const Pokedex = {
   },
   818: {
     name: "Mega Gengar",
+    displayName: "Gengar",
     spriteId: "094-m",
     typeOne: "Ghost",
     typeTwo: "Poison",
@@ -21833,6 +21842,7 @@ export const Pokedex = {
   },
   819: {
     name: "Mega Kangaskhan",
+    displayName: "Kangaskhan",
     spriteId: "115-m",
     typeOne: "Normal",
     typeTwo: null,
@@ -21854,6 +21864,7 @@ export const Pokedex = {
   },
   820: {
     name: "Mega Pinsir",
+    displayName: "Pinsir",
     spriteId: "127-m",
     typeOne: "Bug",
     typeTwo: "Flying",
@@ -21882,6 +21893,7 @@ export const Pokedex = {
   },
   821: {
     name: "Mega Gyarados",
+    displayName: "Gyarados",
     spriteId: "130-m",
     typeOne: "Water",
     typeTwo: "Dark",
@@ -21913,6 +21925,7 @@ export const Pokedex = {
   },
   822: {
     name: "Mega Aerodactyl",
+    displayName: "Aerodactyl",
     spriteId: "142-m",
     typeOne: "Rock",
     typeTwo: "Flying",
@@ -21943,6 +21956,7 @@ export const Pokedex = {
   },
   823: {
     name: "Mega Mewtwo X",
+    displayName: "Mewtwo",
     spriteId: "150-mx",
     typeOne: "Psychic",
     typeTwo: "Fighting",
@@ -21967,6 +21981,7 @@ export const Pokedex = {
   },
   824: {
     name: "Mega Mewtwo Y",
+    displayName: "Mewtwo",
     spriteId: "150-my",
     typeOne: "Psychic",
     typeTwo: null,
@@ -21991,6 +22006,7 @@ export const Pokedex = {
   },
   825: {
     name: "Mega Ampharos",
+    displayName: "Ampharos",
     spriteId: "181-m",
     typeOne: "Electric",
     typeTwo: "Dragon",
@@ -22020,6 +22036,7 @@ export const Pokedex = {
   },
   826: {
     name: "Mega Scizor",
+    displayName: "Scizor",
     spriteId: "212-m",
     typeOne: "Bug",
     typeTwo: "Steel",
@@ -22049,6 +22066,7 @@ export const Pokedex = {
   },
   827: {
     name: "Mega Heracross",
+    displayName: "Heracross",
     spriteId: "214-m",
     typeOne: "Bug",
     typeTwo: "Fighting",
@@ -22078,6 +22096,7 @@ export const Pokedex = {
   },
   828: {
     name: "Mega Houndoom",
+    displayName: "Houndoom",
     spriteId: "229-m",
     typeOne: "Dark",
     typeTwo: "Fire",
@@ -22108,6 +22127,7 @@ export const Pokedex = {
   },
   829: {
     name: "Mega Tyranitar",
+    displayName: "Tyranitar",
     spriteId: "248-m",
     typeOne: "Rock",
     typeTwo: "Dark",
@@ -22141,6 +22161,7 @@ export const Pokedex = {
   },
   830: {
     name: "Mega Sceptile",
+    displayName: "Sceptile",
     spriteId: "254-m",
     typeOne: "Grass",
     typeTwo: "Dragon",
@@ -22170,6 +22191,7 @@ export const Pokedex = {
   },
   831: {
     name: "Mega Blaziken",
+    displayName: "Blaziken",
     spriteId: "257-m",
     typeOne: "Fire",
     typeTwo: "Fighting",
@@ -22199,6 +22221,7 @@ export const Pokedex = {
   },
   832: {
     name: "Mega Swampert",
+    displayName: "Swampert",
     spriteId: "260-m",
     typeOne: "Water",
     typeTwo: "Ground",
@@ -22224,6 +22247,7 @@ export const Pokedex = {
   },
   833: {
     name: "Mega Gardevoir",
+    displayName: "Gardevoir",
     spriteId: "282-m",
     typeOne: "Psychic",
     typeTwo: "Fairy",
@@ -22249,6 +22273,7 @@ export const Pokedex = {
   },
   834: {
     name: "Mega Sableye",
+    displayName: "Sableye",
     spriteId: "302-m",
     typeOne: "Dark",
     typeTwo: "Ghost",
@@ -22273,6 +22298,7 @@ export const Pokedex = {
   },
   835: {
     name: "Mega Mawile",
+    displayName: "Mawile",
     spriteId: "303-m",
     typeOne: "Steel",
     typeTwo: "Fairy",
@@ -22305,6 +22331,7 @@ export const Pokedex = {
   },
   836: {
     name: "Mega Aggron",
+    displayName: "Aggron",
     spriteId: "306-m",
     typeOne: "Steel",
     typeTwo: null,
@@ -22338,6 +22365,7 @@ export const Pokedex = {
   },
   837: {
     name: "Mega Medicham",
+    displayName: "Medicham",
     spriteId: "308-m",
     typeOne: "Fighting",
     typeTwo: "Psychic",
@@ -22362,6 +22390,7 @@ export const Pokedex = {
   },
   838: {
     name: "Mega Manectric",
+    displayName: "Manectric",
     spriteId: "310-m",
     typeOne: "Electric",
     typeTwo: null,
@@ -22385,6 +22414,7 @@ export const Pokedex = {
   },
   839: {
     name: "Mega Sharpedo",
+    displayName: "Sharpedo",
     spriteId: "319-m",
     typeOne: "Water",
     typeTwo: "Dark",
@@ -22416,6 +22446,7 @@ export const Pokedex = {
   },
   840: {
     name: "Mega Camerupt",
+    displayName: "Camerupt",
     spriteId: "323-m",
     typeOne: "Fire",
     typeTwo: "Ground",
@@ -22444,6 +22475,7 @@ export const Pokedex = {
   },
   841: {
     name: "Mega Altaria",
+    displayName: "Altaria",
     spriteId: "334-m",
     typeOne: "Dragon",
     typeTwo: "Fairy",
@@ -22475,6 +22507,7 @@ export const Pokedex = {
   },
   842: {
     name: "Mega Banette",
+    displayName: "Banette",
     spriteId: "354-m",
     typeOne: "Ghost",
     typeTwo: null,
@@ -22500,6 +22533,7 @@ export const Pokedex = {
   },
   843: {
     name: "Mega Absol",
+    displayName: "Absol",
     spriteId: "359-m",
     typeOne: "Dark",
     typeTwo: null,
@@ -22525,6 +22559,7 @@ export const Pokedex = {
   },
   844: {
     name: "Mega Glalie",
+    displayName: "Glalie",
     spriteId: "362-m",
     typeOne: "Ice",
     typeTwo: null,
@@ -22549,6 +22584,7 @@ export const Pokedex = {
   },
   845: {
     name: "Mega Salamence",
+    displayName: "Salamence",
     spriteId: "373-m",
     typeOne: "Dragon",
     typeTwo: "Flying",
@@ -22578,6 +22614,7 @@ export const Pokedex = {
   },
   846: {
     name: "Mega Metagross",
+    displayName: "Metagross",
     spriteId: "376-m",
     typeOne: "Steel",
     typeTwo: "Psychic",
@@ -22611,6 +22648,7 @@ export const Pokedex = {
   },
   847: {
     name: "Mega Latias",
+    displayName: "Latias",
     spriteId: "380-m",
     typeOne: "Dragon",
     typeTwo: "Psychic",
@@ -22642,6 +22680,7 @@ export const Pokedex = {
   },
   848: {
     name: "Mega Latios",
+    displayName: "Latios",
     spriteId: "381-m",
     typeOne: "Dragon",
     typeTwo: "Psychic",
@@ -22673,6 +22712,7 @@ export const Pokedex = {
   },
   849: {
     name: "Mega Lopunny",
+    displayName: "Lopunny",
     spriteId: "428-m",
     typeOne: "Normal",
     typeTwo: "Fighting",
@@ -22700,6 +22740,7 @@ export const Pokedex = {
   },
   850: {
     name: "Mega Garchomp",
+    displayName: "Garchomp",
     spriteId: "445-m",
     typeOne: "Dragon",
     typeTwo: "Ground",
@@ -22726,6 +22767,7 @@ export const Pokedex = {
   },
   851: {
     name: "Mega Lucario",
+    displayName: "Lucario",
     spriteId: "448-m",
     typeOne: "Fighting",
     typeTwo: "Steel",
@@ -22757,6 +22799,7 @@ export const Pokedex = {
   },
   852: {
     name: "Mega Gallade",
+    displayName: "Gallade",
     spriteId: "475-m",
     typeOne: "Psychic",
     typeTwo: "Fighting",
@@ -22781,6 +22824,7 @@ export const Pokedex = {
   },
   853: {
     name: "Mega Audino",
+    displayName: "Audino",
     spriteId: "531-m",
     typeOne: "Normal",
     typeTwo: "Fairy",
@@ -22806,6 +22850,7 @@ export const Pokedex = {
   },
   854: {
     name: "Mega Diancie",
+    displayName: "Diancie",
     spriteId: "719-m",
     typeOne: "Rock",
     typeTwo: "Fairy",
@@ -22835,6 +22880,7 @@ export const Pokedex = {
   },
   855: {
     name: "Wormadam Sandy Cloak",
+    displayName: "Wormadam",
     spriteId: "413-c",
     typeOne: "Bug",
     typeTwo: "Ground",
@@ -22862,6 +22908,7 @@ export const Pokedex = {
   },
   856: {
     name: "Wormadam Trash Cloak",
+    displayName: "Wormadam",
     spriteId: "413-s",
     typeOne: "Bug",
     typeTwo: "Steel",
@@ -22891,6 +22938,7 @@ export const Pokedex = {
   },
   857: {
     name: "Frost Rotom",
+    displayName: "Rotom",
     spriteId: "479-f",
     typeOne: "Electric",
     typeTwo: "Ice",
@@ -22917,6 +22965,7 @@ export const Pokedex = {
   },
   858: {
     name: "Heat Rotom",
+    displayName: "Rotom",
     spriteId: "479-h",
     typeOne: "Electric",
     typeTwo: "Fire",
@@ -22947,6 +22996,7 @@ export const Pokedex = {
   },
   859: {
     name: "Mow Rotom",
+    displayName: "Rotom",
     spriteId: "479-m",
     typeOne: "Electric",
     typeTwo: "Grass",
@@ -22974,6 +23024,7 @@ export const Pokedex = {
   },
   860: {
     name: "Fan Rotom",
+    displayName: "Rotom",
     spriteId: "479-s",
     typeOne: "Electric",
     typeTwo: "Flying",
@@ -23001,6 +23052,7 @@ export const Pokedex = {
   },
   861: {
     name: "Wash Rotom",
+    displayName: "Rotom",
     spriteId: "479-w",
     typeOne: "Electric",
     typeTwo: "Water",
@@ -23027,6 +23079,7 @@ export const Pokedex = {
   },
   862: {
     name: "Giratina Origin Forme",
+    displayName: "Giratina",
     spriteId: "487-o",
     typeOne: "Ghost",
     typeTwo: "Dragon",
@@ -23059,6 +23112,7 @@ export const Pokedex = {
   },
   863: {
     name: "Shaymin Sky Forme",
+    displayName: "Shaymin",
     spriteId: "492-s",
     typeOne: "Grass",
     typeTwo: "Flying",
@@ -23087,6 +23141,7 @@ export const Pokedex = {
   },
   864: {
     name: "Darmanitan Zen Mode",
+    displayName: "Darmanitan",
     spriteId: "555-d",
     typeOne: "Fire",
     typeTwo: "Psychic",
@@ -23118,6 +23173,7 @@ export const Pokedex = {
   },
   865: {
     name: "Tornadus Therian Forme",
+    displayName: "Tornadus",
     spriteId: "641-s",
     typeOne: "Flying",
     typeTwo: null,
@@ -23144,6 +23200,7 @@ export const Pokedex = {
   },
   866: {
     name: "Thundurus Therian Forme",
+    displayName: "Thundurus",
     spriteId: "642-s",
     typeOne: "Electric",
     typeTwo: "Flying",
@@ -23171,6 +23228,7 @@ export const Pokedex = {
   },
   867: {
     name: "Landorus Therian Forme",
+    displayName: "Landorus",
     spriteId: "645-s",
     typeOne: "Ground",
     typeTwo: "Flying",
@@ -23197,6 +23255,7 @@ export const Pokedex = {
   },
   868: {
     name: "Black Kyurem",
+    displayName: "Kyurem",
     spriteId: "646-b",
     typeOne: "Dragon",
     typeTwo: "Ice",
@@ -23224,6 +23283,7 @@ export const Pokedex = {
   },
   869: {
     name: "White Kyurem",
+    displayName: "Kyurem",
     spriteId: "646-w",
     typeOne: "Dragon",
     typeTwo: "Ice",
@@ -23251,6 +23311,7 @@ export const Pokedex = {
   },
   870: {
     name: "Meloetta Pirouette Forme",
+    displayName: "Meloetta",
     spriteId: "648-s",
     typeOne: "Normal",
     typeTwo: "Fighting",
@@ -23278,6 +23339,7 @@ export const Pokedex = {
   },
   871: {
     name: "Ash-Greninja",
+    displayName: "Greninja",
     spriteId: "658",
     typeOne: "Water",
     typeTwo: "Dark",
@@ -23309,6 +23371,7 @@ export const Pokedex = {
   },
   872: {
     name: "Floette Eternal Flower",
+    displayName: "Floette",
     spriteId: "670-e",
     typeOne: "Fairy",
     typeTwo: null,
@@ -23334,6 +23397,7 @@ export const Pokedex = {
   },
   873: {
     name: "Pumpkaboo Small Size",
+    displayName: "Pumpkaboo",
     spriteId: "710-s",
     typeOne: "Ghost",
     typeTwo: "Grass",
@@ -23364,6 +23428,7 @@ export const Pokedex = {
   },
   874: {
     name: "Pumpkaboo Large Size",
+    displayName: "Pumpkaboo",
     spriteId: "710-l",
     typeOne: "Ghost",
     typeTwo: "Grass",
@@ -23394,6 +23459,7 @@ export const Pokedex = {
   },
   875: {
     name: "Pumpkaboo Super Size",
+    displayName: "Pumpkaboo",
     spriteId: "710-h",
     typeOne: "Ghost",
     typeTwo: "Grass",
@@ -23424,6 +23490,7 @@ export const Pokedex = {
   },
   876: {
     name: "Gourgeist Small Size",
+    displayName: "Gourgeist",
     spriteId: "711-s",
     typeOne: "Ghost",
     typeTwo: "Grass",
@@ -23454,6 +23521,7 @@ export const Pokedex = {
   },
   877: {
     name: "Gourgeist Large Size",
+    displayName: "Gourgeist",
     spriteId: "711-l",
     typeOne: "Ghost",
     typeTwo: "Grass",
@@ -23484,6 +23552,7 @@ export const Pokedex = {
   },
   878: {
     name: "Gourgeist Super Size",
+    displayName: "Gourgeist",
     spriteId: "711-h",
     typeOne: "Ghost",
     typeTwo: "Grass",
@@ -23514,6 +23583,7 @@ export const Pokedex = {
   },
   879: {
     name: "Zygarde 10% Forme",
+    displayName: "Zygarde",
     spriteId: "718-10",
     typeOne: "Dragon",
     typeTwo: "Ground",
@@ -23540,6 +23610,7 @@ export const Pokedex = {
   },
   880: {
     name: "Zygarde Complete Forme",
+    displayName: "Zygarde",
     spriteId: "718-c",
     typeOne: "Dragon",
     typeTwo: "Ground",
@@ -23566,6 +23637,7 @@ export const Pokedex = {
   },
   881: {
     name: "Hoopa Unbound",
+    displayName: "Hoopa",
     spriteId: "720-u",
     typeOne: "Psychic",
     typeTwo: "Ghost",
@@ -24166,7 +24238,7 @@ export const Pokedex = {
   },
   903: {
     name: "Sivally Water",
-    displayName: "Arceus",
+    displayName: "Sivally",
     spriteId: "773-water",
     typeOne: "Water",
     typeTwo: null,
@@ -24742,6 +24814,7 @@ export const Pokedex = {
   },
   924: {
     name: "Alolan Rattata",
+    displayName: "Rattata",
     spriteId: "019-a",
     typeOne: "Dark",
     typeTwo: "Normal",
@@ -24767,6 +24840,7 @@ export const Pokedex = {
   },
   925: {
     name: "Alolan Raticate",
+    displayName: "Raticate",
     spriteId: "020-a",
     typeOne: "Normal",
     typeTwo: null,
@@ -24792,6 +24866,7 @@ export const Pokedex = {
   },
   926: {
     name: "Alolan Raichu",
+    displayName: "Raichu",
     spriteId: "026-a",
     typeOne: "Electric",
     typeTwo: "Psychic",
@@ -24820,6 +24895,7 @@ export const Pokedex = {
   },
   927: {
     name: "Alolan Sandshrew",
+    displayName: "Sandshrew",
     spriteId: "027-a",
     typeOne: "Ice",
     typeTwo: "Steel",
@@ -24851,6 +24927,7 @@ export const Pokedex = {
   },
   928: {
     name: "Alolan Sandslash",
+    displayName: "Sandslash",
     spriteId: "028-a",
     typeOne: "Ice",
     typeTwo: "Steel",
@@ -24882,6 +24959,7 @@ export const Pokedex = {
   },
   929: {
     name: "Alolan Vulpix",
+    displayName: "Vulpix",
     spriteId: "037-a",
     typeOne: "Ice",
     typeTwo: null,
@@ -24906,6 +24984,7 @@ export const Pokedex = {
   },
   930: {
     name: "Alolan Ninetales",
+    displayName: "Ninetales",
     spriteId: "038",
     typeOne: "Ice",
     typeTwo: "Fairy",
@@ -24933,6 +25012,7 @@ export const Pokedex = {
   },
   931: {
     name: "Alolan Diglett",
+    displayName: "Diglett",
     spriteId: "050-a",
     typeOne: "Ground",
     typeTwo: "Steel",
@@ -24966,6 +25046,7 @@ export const Pokedex = {
   },
   932: {
     name: "Alolan Dugtrio",
+    displayName: "Dugtrio",
     spriteId: "051-a",
     typeOne: "Ground",
     typeTwo: "Steel",
@@ -24999,6 +25080,7 @@ export const Pokedex = {
   },
   933: {
     name: "Alolan Meowth",
+    displayName: "Meowth",
     spriteId: "052-a",
     typeOne: "Dark",
     typeTwo: null,
@@ -25024,6 +25106,7 @@ export const Pokedex = {
   },
   934: {
     name: "Alolan Persian",
+    displayName: "Persian",
     spriteId: "053-a",
     typeOne: "Normal",
     typeTwo: null,
@@ -25049,6 +25132,7 @@ export const Pokedex = {
   },
   935: {
     name: "Alolan Geodude",
+    displayName: "Geodude",
     spriteId: "074-a",
     typeOne: "Rock",
     typeTwo: "Electric",
@@ -25077,6 +25161,7 @@ export const Pokedex = {
   },
   936: {
     name: "Alolan Graveler",
+    displayName: "Graveler",
     spriteId: "075-a",
     typeOne: "Rock",
     typeTwo: "Electric",
@@ -25105,6 +25190,7 @@ export const Pokedex = {
   },
   937: {
     name: "Alolan Golem",
+    displayName: "Golem",
     spriteId: "076-a",
     typeOne: "Rock",
     typeTwo: "Electric",
@@ -25133,6 +25219,7 @@ export const Pokedex = {
   },
   938: {
     name: "Alolan Grimer",
+    displayName: "Grimer",
     spriteId: "088-a",
     typeOne: "Poison",
     typeTwo: "Dark",
@@ -25158,6 +25245,7 @@ export const Pokedex = {
   },
   939: {
     name: "Alolan Muk",
+    displayName: "Muk",
     spriteId: "089-a",
     typeOne: "Poison",
     typeTwo: "Dark",
@@ -25213,6 +25301,7 @@ export const Pokedex = {
   },
   941: {
     name: "Alolan Marowak",
+    displayName: "Marowak",
     spriteId: "105-a",
     typeOne: "Fire",
     typeTwo: "Ghost",
