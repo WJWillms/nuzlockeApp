@@ -13,6 +13,8 @@ This is a React Native Project that was meant to help people make teams from the
 2. Adding in a game selection choice to choose between different pokedex's.
 3. Easier typing adjustments for pokemon like Arceus or Silvally.
 4. Add/Remove pairs to Soulocke version (Added)
+5. Ability to evolve a pokemon from the team generation page.
+6. Ability to click a sprite to bring up a pokedex style page.
 
 # How to use:
 ![Choose between Nuzlocke and Soulocke version](/assets/readMePictures/versionChoice.PNG)
