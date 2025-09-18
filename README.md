@@ -7,6 +7,7 @@ This is a React Native Project that was meant to help people make teams from the
 2.  Extra Form Names stretch further than intended.
 3.  Some sprites tend to dissappear.
 4.  Untested swapping Mono flying type in Flyer Edits menu.
+5.  Need to make Stat section box sizes static instead of dynamically sizing to amount in the container.
 
 # Possible Updates:
 1. More tweaking for the website to work on more monitor sizes and possibly even mobile.
