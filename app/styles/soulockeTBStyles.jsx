@@ -170,8 +170,8 @@ const soulockeTBStyles = StyleSheet.create({
         flexShrink: 1,
         flexGrow: 0,
         width: "100%",
-        minHeight: screenHeight * 0.2,
-        maxHeight: screenHeight * 0.3,
+        minHeight: screenHeight * 0.255,
+        maxHeight: screenHeight * 0.255,
         backgroundColor: "#eee",
         borderRadius: 8,
         borderWidth: 1,
@@ -239,7 +239,7 @@ const soulockeTBStyles = StyleSheet.create({
         top: 4,
         left: 20, // Adjust based on your padding
         backgroundColor: '#e0e7ff',
-        paddingVertical: 2,
+        paddingVertical: 3,
         paddingHorizontal: 10,
         borderRadius: 6,
         elevation: 1,
@@ -255,7 +255,7 @@ const soulockeTBStyles = StyleSheet.create({
         top: 4,
         right: 20, // Adjust based on your padding
         backgroundColor: '#e0e7ff',
-        paddingVertical: 4,
+        paddingVertical: 3,
         paddingHorizontal: 10,
         borderRadius: 6,
         elevation: 1,

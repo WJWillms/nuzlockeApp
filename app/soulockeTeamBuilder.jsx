@@ -1,12 +1,14 @@
 import { Picker } from '@react-native-picker/picker';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Dimensions, Image, Pressable, ScrollView, Switch, Text, View } from 'react-native';
+import { Dimensions, Image, Pressable, ScrollView, Switch, Text, TouchableOpacity, View } from 'react-native';
+import PokemonDetailModal from "../components/PokemonDetailModal";
 import RadarChart from '../components/RadarChart';
 import TypePill from '../components/TypePill';
 import spriteMap from "./Pokedex/spriteMap";
 import { Pokedex } from './Pokedex/sunMoonPokedex';
 import soulockeTBStyles from "./styles/soulockeTBStyles";
+
 
 
 const screenWidth = Dimensions.get('window').width;
@@ -63,9 +65,16 @@ const soulockeTeamBuilder = () => {
     const [showRemovePairs, setShowRemovePairs] = useState(false);
     const [tempRemovedPairs, setTempRemovedPairs] = useState({});
 
+    const [selectedPokemon, setSelectedPokemon] = useState(null);
 
 
 
+
+    <PokemonDetailModal
+        visible={!!selectedPokemon}
+        onClose={() => setSelectedPokemon(null)}
+        pokemon={selectedPokemon}
+    />
 
 
 
@@ -1470,33 +1479,40 @@ const soulockeTeamBuilder = () => {
                                                 <Text style={soulockeTBStyles.chainOverlay}>🔗</Text>
                                                 <View style={soulockeTBStyles.spritePair}>
                                                     {/* Trainer 1 */}
-                                                    <View style={soulockeTBStyles.spriteWithLabel}>
+                                                    <TouchableOpacity
+                                                        style={soulockeTBStyles.spriteWithLabel}
+                                                        onPress={() => setSelectedPokemon(mon1)}
+                                                    >
                                                         <Image
                                                             source={spriteMap[mon1.spriteId]}
                                                             style={soulockeTBStyles.sprite}
                                                         />
-                                                        <Text style={soulockeTBStyles.monLabel}>{mon1.displayName ?? mon1.name}</Text>
-                                                    </View>
-
-
+                                                        <Text style={soulockeTBStyles.monLabel}>
+                                                            {mon1.displayName ?? mon1.name}
+                                                        </Text>
+                                                    </TouchableOpacity>
 
                                                     <View style={soulockeTBStyles.fullVerticalDivider} />
 
                                                     {/* Trainer 2 */}
-                                                    <View style={soulockeTBStyles.spriteWithLabel}>
+                                                    <TouchableOpacity
+                                                        style={soulockeTBStyles.spriteWithLabel}
+                                                        onPress={() => setSelectedPokemon(mon2)}
+                                                    >
                                                         <Image
                                                             source={spriteMap[mon2.spriteId]}
                                                             style={soulockeTBStyles.sprite}
                                                         />
-                                                        <Text style={soulockeTBStyles.monLabel}>{mon2.displayName ?? mon2.name}</Text>
-                                                    </View>
-
+                                                        <Text style={soulockeTBStyles.monLabel}>
+                                                            {mon2.displayName ?? mon2.name}
+                                                        </Text>
+                                                    </TouchableOpacity>
                                                 </View>
                                             </View>
-
                                         );
                                     })}
                                 </View>
+
 
                                 {/* Trainer 2 Column */}
                                 <View style={soulockeTBStyles.trainerColumn}>
@@ -1518,6 +1534,14 @@ const soulockeTeamBuilder = () => {
                     </View>
                 </ScrollView>
             )}
+
+            {/* Pokémon Detail Modal */}
+            <PokemonDetailModal
+                visible={!!selectedPokemon}
+                onClose={() => setSelectedPokemon(null)}
+                pokemon={selectedPokemon}
+            />
+
         </View>
     );
 

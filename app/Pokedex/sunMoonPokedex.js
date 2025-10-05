@@ -28,6 +28,197 @@ export const Pokedex = {
       Fighting: 0.5,
       Fairy: 0.5,
     },
+    evolutionLine: [
+      {
+        id: 1,
+        name: "Bulbasaur",
+        spriteId: "001",
+        next: [
+          {
+            id: 2,
+            name: "Ivysaur",
+            spriteId: "002",
+            method: "level",
+            value: 16,
+            next: [
+              {
+                id: 3,
+                name: "Venusaur",
+                spriteId: "003",
+                method: "level",
+                value: 32,
+                next: [
+                  {
+                    id: 810,
+                    name: "Mega Venusaur",
+                    spriteId: "003-m",
+                    method: "megaStone",
+                    value: "venusaurite",
+                    next: []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    levelUpMoves: [
+      {
+        level: null,
+        name: "Tackle",
+        description: "A physical attack in which the user charges and slams into the target with its whole body.",
+        type: "Normal",
+        category: "Physical",
+        power: 40,
+        accuracy: 100,
+        pp: 35,
+        effectPercent: null
+      },
+      {
+        level: 3,
+        name: "Growl",
+        description: "The user growls in an endearing way, making opposing Pokémon less wary. This lowers their Attack stat.",
+        type: "Normal",
+        category: "Status",
+        power: null,
+        accuracy: 100,
+        pp: 40,
+        effectPercent: null
+      },
+      {
+        level: 7,
+        name: "Vine Whip",
+        description: "The target is struck with slender, whiplike vines to inflict damage.",
+        type: "Grass",
+        category: "Physical",
+        power: 45,
+        accuracy: 100,
+        pp: 25,
+        effectPercent: null
+      },
+      {
+        level: 9,
+        name: "Vine Whip",
+        description: "The target is struck with slender, whiplike vines to inflict damage.",
+        type: "Grass",
+        category: "Physical",
+        power: 45,
+        accuracy: 100,
+        pp: 25,
+        effectPercent: null
+      },
+      {
+        level: 13,
+        name: "Poison Powder",
+        description: "The user scatters a cloud of poisonous dust that poisons the target.",
+        type: "Poison",
+        category: "Status",
+        power: null,
+        accuracy: 75,
+        pp: 35,
+        effectPercent: null
+      },
+      {
+        level: 13,
+        name: "Sleep Powder",
+        description: "The user scatters a big cloud of sleep-inducing dust around the target.",
+        type: "Grass",
+        category: "Status",
+        power: null,
+        accuracy: 75,
+        pp: 15,
+        effectPercent: null
+      },
+      {
+        level: 15,
+        name: "Take Down",
+        description: "A reckless, full-body charge attack for slamming into the target. This also damages the user a little.",
+        type: "Normal",
+        category: "Physical",
+        power: 90,
+        accuracy: 85,
+        pp: 20,
+        effectPercent: null
+      },
+      {
+        level: 19,
+        name: "Razor Leaf",
+        description: "Sharp-edged leaves are launched to slash at the opposing Pokémon. Critical hits land more easily.",
+        type: "Grass",
+        category: "Physical",
+        power: 55,
+        accuracy: 95,
+        pp: 25,
+        effectPercent: null
+      },
+      {
+        level: 21,
+        name: "Sweet Scent",
+        description: "A sweet scent that harshly lowers opposing Pokémon's evasiveness.",
+        type: "Normal",
+        category: "Status",
+        power: null,
+        accuracy: 100,
+        pp: 20,
+        effectPercent: null
+      },
+      {
+        level: 25,
+        name: "Growth",
+        description: "The user's body grows all at once, raising the Attack and Sp. Atk stats.",
+        type: "Normal",
+        category: "Status",
+        power: null,
+        accuracy: null,
+        pp: 20,
+        effectPercent: null
+      },
+      {
+        level: 27,
+        name: "Double-Edge",
+        description: "A reckless, life-risking tackle. This also damages the user quite a lot.",
+        type: "Normal",
+        category: "Physical",
+        power: 120,
+        accuracy: 100,
+        pp: 15,
+        effectPercent: null
+      },
+      {
+        level: 31,
+        name: "Worry Seed",
+        description: "A seed that causes worry is planted on the target. It prevents sleep by making the target's Ability Insomnia.",
+        type: "Grass",
+        category: "Status",
+        power: null,
+        accuracy: 100,
+        pp: 10,
+        effectPercent: null
+      },
+      {
+        level: 33,
+        name: "Synthesis",
+        description: "The user restores its own HP. The amount of HP regained varies with the weather.",
+        type: "Grass",
+        category: "Status",
+        power: null,
+        accuracy: null,
+        pp: 5,
+        effectPercent: null
+      },
+      {
+        level: 37,
+        name: "Seed Bomb",
+        description: "The user slams a barrage of hard-shelled seeds down on the target from above.",
+        type: "Grass",
+        category: "Physical",
+        power: 80,
+        accuracy: 100,
+        pp: 15,
+        effectPercent: null
+      },
+    ]
   },
   2: {
     name: "Ivysaur",
@@ -56,6 +247,41 @@ export const Pokedex = {
       Fighting: 0.5,
       Fairy: 0.5,
     },
+    evolutionLine: [
+      {
+        id: 1,
+        name: "Bulbasaur",
+        spriteId: "001",
+        next: [
+          {
+            id: 2,
+            name: "Ivysaur",
+            spriteId: "002",
+            method: "level",
+            value: 16,
+            next: [
+              {
+                id: 3,
+                name: "Venusaur",
+                spriteId: "003",
+                method: "level",
+                value: 32,
+                next: [
+                  {
+                    id: 810,
+                    name: "Mega Venusaur",
+                    spriteId: "003-m",
+                    method: "megaStone",
+                    value: "venusaurite",
+                    next: []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
   },
   3: {
     name: "Venusaur",
@@ -84,6 +310,41 @@ export const Pokedex = {
       Fighting: 0.5,
       Fairy: 0.5,
     },
+    evolutionLine: [
+      {
+        id: 1,
+        name: "Bulbasaur",
+        spriteId: "001",
+        next: [
+          {
+            id: 2,
+            name: "Ivysaur",
+            spriteId: "002",
+            method: "level",
+            value: 16,
+            next: [
+              {
+                id: 3,
+                name: "Venusaur",
+                spriteId: "003",
+                method: "level",
+                value: 32,
+                next: [
+                  {
+                    id: 810,
+                    name: "Mega Venusaur",
+                    spriteId: "003-m",
+                    method: "megaStone",
+                    value: "venusaurite",
+                    next: []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
   },
   4: {
     name: "Charmander",
@@ -4010,7 +4271,7 @@ export const Pokedex = {
     resistances: {
       Water: 0.5,
       Electric: 0.5,
-      Grass:0.5,
+      Grass: 0.5,
       Ground: 0.5,
     }
   },
@@ -4038,7 +4299,7 @@ export const Pokedex = {
     resistances: {
       Water: 0.5,
       Electric: 0.5,
-      Grass:0.5,
+      Grass: 0.5,
       Ground: 0.5,
     }
   },
@@ -4066,7 +4327,7 @@ export const Pokedex = {
     resistances: {
       Water: 0.5,
       Electric: 0.5,
-      Grass:0.5,
+      Grass: 0.5,
       Ground: 0.5,
     }
   },
@@ -11971,7 +12232,7 @@ export const Pokedex = {
     resistances: {
       Water: 0.5,
       Electric: 0.5,
-      Grass:0.5,
+      Grass: 0.5,
       Ground: 0.5,
     }
   },
@@ -17210,7 +17471,7 @@ export const Pokedex = {
     resistances: {
       Water: 0.5,
       Electric: 0.5,
-      Grass:0.5,
+      Grass: 0.5,
       Ground: 0.5,
     }
   },
@@ -17238,7 +17499,7 @@ export const Pokedex = {
     resistances: {
       Water: 0.5,
       Electric: 0.5,
-      Grass:0.5,
+      Grass: 0.5,
       Ground: 0.5,
     }
   },
@@ -21612,6 +21873,41 @@ export const Pokedex = {
       Fighting: 0.5,
       Fairy: 0.5,
     },
+    evolutionLine: [
+      {
+        id: 1,
+        name: "Bulbasaur",
+        spriteId: "001",
+        next: [
+          {
+            id: 2,
+            name: "Ivysaur",
+            spriteId: "002",
+            method: "level",
+            value: 16,
+            next: [
+              {
+                id: 3,
+                name: "Venusaur",
+                spriteId: "003",
+                method: "level",
+                value: 32,
+                next: [
+                  {
+                    id: 810,
+                    name: "Mega Venusaur",
+                    spriteId: "003-m",
+                    method: "megaStone",
+                    value: "venusaurite",
+                    next: []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
   },
   811: {
     name: "Mega Charizard X",
@@ -22185,7 +22481,7 @@ export const Pokedex = {
     resistances: {
       Water: 0.25,
       Electric: 0.25,
-      Grass:0.25,
+      Grass: 0.25,
       Ground: 0.5,
     }
   },
@@ -25295,7 +25591,7 @@ export const Pokedex = {
     resistances: {
       Water: 0.25,
       Electric: 0.25,
-      Grass:0.25,
+      Grass: 0.25,
       Ground: 0.5,
     }
   },

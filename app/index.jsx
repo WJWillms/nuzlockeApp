@@ -1,86 +1,93 @@
 import { useRouter } from 'expo-router';
-import React, { useRef } from 'react';
-import { Animated, Platform, Pressable, StyleSheet, View } from 'react-native';
-
-function HoverButton({ label, onPress, backgroundColor }) {
-  const scale = useRef(new Animated.Value(1)).current;
-  const router = useRouter();
-
-  const handleHoverIn = () => {
-    Animated.spring(scale, {
-      toValue: 1.2,
-      useNativeDriver: true,
-      friction: 4,
-    }).start();
-  };
-
-  const handleHoverOut = () => {
-    Animated.spring(scale, {
-      toValue: 1,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  return (
-    <Pressable
-      style={[styles.half, { backgroundColor }]}
-      onPress={onPress}
-      onHoverIn={Platform.OS === 'web' ? handleHoverIn : undefined}
-      onHoverOut={Platform.OS === 'web' ? handleHoverOut : undefined}
-    >
-      <Animated.Text style={[styles.text, { transform: [{ scale }] }]}>
-        {label}
-      </Animated.Text>
-    </Pressable>
-  );
-}
+import React, { useEffect, useRef } from 'react';
+import { Animated, Dimensions, Easing, ImageBackground, Pressable, StyleSheet } from 'react-native';
 
 export default function HomeScreen() {
+  const fadeAnim = useRef(new Animated.Value(0.15)).current;
   const router = useRouter();
+  const { width, height } = Dimensions.get('window');
 
-  const handleChoice = (isSoulocke) => {
-    router.push({
-      pathname: isSoulocke ? '/soulocke' : '/nuzlocke',
-      params: { soulocke: isSoulocke },
-    });
+  useEffect(() => {
+    let isMounted = true;
+
+    const pulse = () => {
+      if (!isMounted) return;
+      Animated.sequence([
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 2000,
+          easing: Easing.inOut(Easing.quad),
+          useNativeDriver: true,
+        }),
+        Animated.delay(300),
+        Animated.timing(fadeAnim, {
+          toValue: 0.0,
+          duration: 2000,
+          easing: Easing.inOut(Easing.quad),
+          useNativeDriver: true,
+        }),
+        Animated.delay(300),
+      ]).start(({ finished }) => {
+        if (finished && isMounted) pulse(); // manually loop smoothly
+      });
+    };
+
+    pulse();
+
+    return () => {
+      isMounted = false;
+      fadeAnim.stopAnimation();
+    };
+  }, [fadeAnim]);
+
+  const handlePress = () => {
+    router.push('/soulocke');
   };
 
+  const baseFontSize = Math.min(width, height) * 0.06;
+
   return (
-    <View style={styles.container}>
-      <HoverButton
-        label="Nuzlocke"
-        backgroundColor="#D0E8FF"
-        onPress={() => handleChoice(false)}
-      />
-      <HoverButton
-        label="Soulocke"
-        backgroundColor="#FFD0D0"
-        onPress={() => handleChoice(true)}
-      />
-    </View>
+    <Pressable style={styles.container} onPress={handlePress}>
+      <ImageBackground
+        source={require('../assets/images/soulockeForge2.png')}
+        style={styles.background}
+        resizeMode="cover"
+      >
+        <Animated.Text
+          style={[
+            styles.text,
+            {
+              opacity: fadeAnim,
+              fontSize: baseFontSize,
+              marginTop: height * 0.1,
+            },
+          ]}
+        >
+          Enter the Forge
+        </Animated.Text>
+      </ImageBackground>
+    </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
   },
-  half: {
+  background: {
     flex: 1,
+    width: '100%',
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
   text: {
-    fontSize: 40,
     fontWeight: 'bold',
-    fontFamily: Platform.select({
-      ios: 'Courier New',
-      android: 'monospace',
-      web: 'Courier New',
-    }),
+    color: '#fff',
     textAlign: 'center',
-    paddingHorizontal: 10,
-    color: '#222',
+    textShadowColor: 'rgba(0, 0, 0, 0.7)',
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 8,
+    fontFamily: 'Courier New',
   },
 });
