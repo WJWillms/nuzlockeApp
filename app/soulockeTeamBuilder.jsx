@@ -4,10 +4,12 @@ import { useEffect, useState } from 'react';
 import { Dimensions, Image, Pressable, ScrollView, Switch, Text, TouchableOpacity, View } from 'react-native';
 import PokemonDetailModal from "../components/PokemonDetailModal";
 import RadarChart from '../components/RadarChart';
+import { clearSoulockeData, loadSoulockeData, saveSoulockeData } from "../components/storage"; // adjust path if needed
 import TypePill from '../components/TypePill';
 import spriteMap from "./Pokedex/spriteMap";
 import { Pokedex } from './Pokedex/sunMoonPokedex';
 import soulockeTBStyles from "./styles/soulockeTBStyles";
+
 
 
 
@@ -79,6 +81,39 @@ const soulockeTeamBuilder = () => {
 
 
 
+    useEffect(() => {
+        (async () => {
+            try {
+                const savedData = await loadSoulockeData();
+
+                if (
+                    savedData &&
+                    (savedData.trainer1Team?.length > 0 ||
+                        savedData.trainer2Team?.length > 0)
+                ) {
+                    //  Load saved data
+                    setLocalTrainerOneTeam(savedData.trainer1Team || []);
+                    setLocalTrainerTwoTeam(savedData.trainer2Team || []);
+                    if (savedData.flyerEdits) setFlyerTypeOverrides(savedData.flyerEdits);
+                    console.log("Loaded saved Soulocke data");
+                } else {
+                    //  No saved data — use the incoming teams
+                    setLocalTrainerOneTeam(parsedTrainerOneTeam);
+                    setLocalTrainerTwoTeam(parsedTrainerTwoTeam);
+
+                    // Save initial data to create baseline
+                    await saveSoulockeData({
+                        trainer1Team: parsedTrainerOneTeam,
+                        trainer2Team: parsedTrainerTwoTeam,
+                    });
+
+                    console.log("Initialized new Soulocke data");
+                }
+            } catch (err) {
+                console.error("Error loading Soulocke data:", err);
+            }
+        })();
+    }, []);
 
 
 
@@ -251,14 +286,27 @@ const soulockeTeamBuilder = () => {
     };
 
     //Add Pairs function
-    const handleAddPairs = () => {
-        router.push({
-            pathname: "/soulocke", // Or whatever path your picker file is at
-            params: {
-                trainerOneTeam: JSON.stringify(localTrainerOneTeam),
-                trainerTwoTeam: JSON.stringify(localTrainerTwoTeam),
-            },
-        });
+    const handleAddPairs = async () => {
+        try {
+            await clearSoulockeData(); // clear saved data first
+            router.push({
+                pathname: "/soulocke",
+                params: {
+                    trainerOneTeam: JSON.stringify(localTrainerOneTeam),
+                    trainerTwoTeam: JSON.stringify(localTrainerTwoTeam),
+                },
+            });
+        } catch (error) {
+            console.error("Error clearing Soulocke data before adding pairs:", error);
+            // still route even if it fails, to avoid blocking user
+            router.push({
+                pathname: "/soulocke",
+                params: {
+                    trainerOneTeam: JSON.stringify(localTrainerOneTeam),
+                    trainerTwoTeam: JSON.stringify(localTrainerTwoTeam),
+                },
+            });
+        }
     };
 
 
@@ -1141,7 +1189,14 @@ const soulockeTeamBuilder = () => {
             {/* Options Bar */}
             <View style={soulockeTBStyles.optionsBarContainer}>
                 <Pressable
-                    onPress={() => router.push('/')}
+                    onPress={async () => {
+                        try {
+                            await clearSoulockeData(); // 🧹 Clear saved data
+                            router.push('/');          // 🏠 Then go home
+                        } catch (err) {
+                            console.error("Failed to clear saved data:", err);
+                        }
+                    }}
                     style={soulockeTBStyles.optionsButton}
                 >
                     <Text style={soulockeTBStyles.optionsButtonText}>Return to Home</Text>
@@ -1407,6 +1462,11 @@ const soulockeTeamBuilder = () => {
 
                                     setLocalTrainerOneTeam(filteredT1);
                                     setLocalTrainerTwoTeam(filteredT2);
+
+                                    saveSoulockeData({
+                                        trainer1Team: filteredT1,
+                                        trainer2Team: filteredT2,
+                                    });
 
                                     setShowRemovePairs(false);
                                     setTempRemovedPairs({});
