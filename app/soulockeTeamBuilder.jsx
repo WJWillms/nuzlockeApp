@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Dimensions, Image, Pressable, ScrollView, Switch, Text, TouchableOpacity, View } from 'react-native';
 import PokemonDetailModal from "../components/PokemonDetailModal";
 import RadarChart from '../components/RadarChart';
-import { clearSoulockeData, loadSoulockeData, saveSoulockeData } from "../components/storage"; // adjust path if needed
+import { clearSoulockeData, clearSoulockeTeamsOnly, loadSoulockeData, saveSoulockeData } from "../components/storage"; // adjust path if needed
 import TypePill from '../components/TypePill';
 import spriteMap from "./Pokedex/spriteMap";
 import { Pokedex } from './Pokedex/sunMoonPokedex';
@@ -80,40 +80,95 @@ const soulockeTeamBuilder = () => {
 
 
 
-
+    //Used to help Load/Save Storage
     useEffect(() => {
         (async () => {
             try {
                 const savedData = await loadSoulockeData();
 
-                if (
+                const hasSavedTeams =
                     savedData &&
-                    (savedData.trainer1Team?.length > 0 ||
-                        savedData.trainer2Team?.length > 0)
-                ) {
-                    //  Load saved data
+                    (Array.isArray(savedData.trainer1Team) && savedData.trainer1Team.length > 0 ||
+                        Array.isArray(savedData.trainer2Team) && savedData.trainer2Team.length > 0);
+
+                if (hasSavedTeams) {
+                    // --- Load saved data ---
                     setLocalTrainerOneTeam(savedData.trainer1Team || []);
                     setLocalTrainerTwoTeam(savedData.trainer2Team || []);
+
                     if (savedData.flyerEdits) setFlyerTypeOverrides(savedData.flyerEdits);
+                    if (savedData.ruleBreakingOption) setRuleBreakingOption(savedData.ruleBreakingOption);
+                    if (savedData.focusPair !== undefined) setFocusPair(savedData.focusPair);
+                    if (savedData.sortOption) setSortOption(savedData.sortOption);
+
                     console.log("Loaded saved Soulocke data");
                 } else {
-                    //  No saved data — use the incoming teams
+                    // --- No teams saved: preserve settings but use new teams ---
+                    const preservedFlyerEdits = savedData?.flyerEdits || flyerTypeOverrides;
+                    const preservedRuleOption = savedData?.ruleBreakingOption || ruleBreakingOption;
+                    const preservedFocusPair = savedData?.focusPair ?? focusPair;
+                    const preservedSort = savedData?.sortOption || sortOption;
+
+                    // Load preserved settings into state
+                    if (preservedFlyerEdits) setFlyerTypeOverrides(preservedFlyerEdits);
+                    if (preservedRuleOption) setRuleBreakingOption(preservedRuleOption);
+                    if (preservedFocusPair !== undefined) setFocusPair(preservedFocusPair);
+                    if (preservedSort) setSortOption(preservedSort);
+
+                    // Use incoming teams from params
                     setLocalTrainerOneTeam(parsedTrainerOneTeam);
                     setLocalTrainerTwoTeam(parsedTrainerTwoTeam);
 
-                    // Save initial data to create baseline
+                    // Save combined data
                     await saveSoulockeData({
                         trainer1Team: parsedTrainerOneTeam,
                         trainer2Team: parsedTrainerTwoTeam,
+                        flyerEdits: preservedFlyerEdits,
+                        ruleBreakingOption: preservedRuleOption,
+                        focusPair: preservedFocusPair,
+                        sortOption: preservedSort,
                     });
 
-                    console.log("Initialized new Soulocke data");
+                    console.log("Initialized new Soulocke data (preserved flyer edits and settings)");
                 }
             } catch (err) {
                 console.error("Error loading Soulocke data:", err);
             }
         })();
     }, []);
+
+
+    //Used to help save storage.
+    useEffect(() => {
+        const saveAll = async () => {
+            try {
+                await saveSoulockeData({
+                    trainer1Team: localTrainerOneTeam,
+                    trainer2Team: localTrainerTwoTeam,
+                    flyerEdits: flyerTypeOverrides,
+                    ruleBreakingOption,
+                    focusPair,
+                    sortOption,
+                });
+            } catch (err) {
+                console.error("Error auto-saving Soulocke data:", err);
+            }
+        };
+
+        // Only save after initial load to avoid overwriting before data is ready
+        if (localTrainerOneTeam.length || localTrainerTwoTeam.length) {
+            saveAll();
+        }
+    }, [
+        localTrainerOneTeam,
+        localTrainerTwoTeam,
+        flyerTypeOverrides,
+        ruleBreakingOption,
+        focusPair,
+        sortOption,
+    ]);
+
+
 
 
 
@@ -288,7 +343,7 @@ const soulockeTeamBuilder = () => {
     //Add Pairs function
     const handleAddPairs = async () => {
         try {
-            await clearSoulockeData(); // clear saved data first
+            await clearSoulockeTeamsOnly(); // Clear only teams, keep settings
             router.push({
                 pathname: "/soulocke",
                 params: {
@@ -1203,11 +1258,16 @@ const soulockeTeamBuilder = () => {
                 </Pressable>
 
                 <Pressable
-                    onPress={() => setShowFlyerModal(true)}
+                    onPress={() => {
+                        // When opening modal, preload saved flyer edits
+                        setTempOverrides(flyerTypeOverrides);
+                        setShowFlyerModal(true);
+                    }}
                     style={soulockeTBStyles.optionsButton}
                 >
                     <Text style={soulockeTBStyles.optionsButtonText}>Flyer Edits</Text>
                 </Pressable>
+
 
                 <Pressable
                     onPress={handleAddPairs}
@@ -1367,14 +1427,32 @@ const soulockeTeamBuilder = () => {
                                 <Text style={soulockeTBStyles.modalButtonText}>Cancel</Text>
                             </Pressable>
                             <Pressable
-                                onPress={() => {
-                                    setFlyerTypeOverrides(tempOverrides); // save changes
-                                    setShowFlyerModal(false);
+                                onPress={async () => {
+                                    try {
+                                        // Update state immediately
+                                        setFlyerTypeOverrides(tempOverrides);
+                                        setShowFlyerModal(false);
+
+                                        // Load current save data to merge with
+                                        const currentData = await loadSoulockeData();
+
+                                        // Merge flyer edits with rest of save
+                                        const updatedData = {
+                                            ...currentData,
+                                            flyerEdits: tempOverrides,
+                                        };
+
+                                        await saveSoulockeData(updatedData);
+                                        console.log("Saved flyer edits to storage.");
+                                    } catch (err) {
+                                        console.error("Error saving flyer edits:", err);
+                                    }
                                 }}
                                 style={soulockeTBStyles.applyButton}
                             >
                                 <Text style={soulockeTBStyles.modalButtonText}>Apply</Text>
                             </Pressable>
+
                         </View>
                     </View>
                 </View>
