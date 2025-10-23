@@ -13,19 +13,20 @@ const styles = StyleSheet.create({
         backgroundColor: "#eee",
         borderRadius: 12,
         padding: 16,
-        width: Math.min(screenWidth * 0.95, 1000),  // slightly wider
+        width: Math.min(screenWidth * 0.97, 1000),  // slightly wider
         maxHeight: "95%",                             // taller
     },
 
     headerRow: {
         flexDirection: "row",
         marginBottom: screenHeight * 0.004,
+        marginTop: screenHeight * 0.004,
     },
     sprite: {
-        width: screenWidth * 0.07,
-        height: screenHeight * 0.12,
-        marginRight: 1,
-        //marginBottom: screenWidth * 0.005,
+        width: "90%", // responsive — always fits within wrapper
+        height: "90%",
+        resizeMode: "contain", // preserves proportions, prevents cropping
+        marginRight: 0, // no manual offset
     },
     typeContainer: {
         justifyContent: "flex-start",
@@ -46,6 +47,7 @@ const styles = StyleSheet.create({
     evolutionScroll: {
         marginTop: screenHeight * 0.0,
         marginBottom: screenHeight * 0.0,
+        paddingVertical: screenHeight * 0.035, //add breathing room inside scroll area
     },
     evolutionScrollContent: {
         flexGrow: 1,           // allow content to grow to fill ScrollView width
@@ -57,6 +59,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",    // center if space available
         alignItems: "center",
         width: "100%",               // make it as wide as the ScrollView
+        paddingVertical: screenHeight * 0.015, // same internal buffer
     },
     evolutionRow: {
         flexDirection: "row",
@@ -72,6 +75,7 @@ const styles = StyleSheet.create({
     evolutionStage: {
         alignItems: "center",
         marginHorizontal: 8,
+        paddingVertical: screenHeight * 0.012, //keeps sprite clear of scroll bounds
     },
     evolutionImage: {
         width: screenWidth * 0.06,
@@ -140,11 +144,11 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: "#ccc",
         borderRadius: 8,
-        paddingVertical: screenHeight * 0.01, // smaller top/bottom padding
-        paddingHorizontal: screenWidth * 0.01, // keep side padding
-        //marginRight: 12,
-        alignItems: "center", // center sprite + type pills
+        aspectRatio: 1, // keeps it square and scalable
+        width: screenWidth * 0.08, // define size based on screen width
+        alignItems: "center",
         justifyContent: "center",
+        overflow: "hidden", // ensures nothing leaks outside, but sprite fits inside
     },
     typeWrapper: {
         justifyContent: "center",
@@ -163,7 +167,7 @@ const styles = StyleSheet.create({
     },
     totalStats: {
         fontWeight: "bold",
-        fontSize: 20,
+        fontSize: 16,
         marginTop: 4,
     },
     totalStatsRow: {
@@ -172,12 +176,12 @@ const styles = StyleSheet.create({
     },
     statLabel: {
         fontWeight: "bold",
-        fontSize: 18,
+        fontSize: 14,
         marginBottom: 4,
     },
     statValue: {
         fontWeight: "normal",
-        fontSize: 18,
+        fontSize: 14,
     },
     typePillsContainer: {
         flexDirection: "row",
@@ -237,6 +241,97 @@ const styles = StyleSheet.create({
         fontStyle: "italic",
         padding: 6,
     },
+    typeWrapperBelow: {
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: screenHeight * 0.005,
+    },
+
+    rightInfoSection: {
+        flexDirection: "row",
+        alignItems: "flex-start",
+        marginLeft: screenWidth * 0.015,
+        flexShrink: 1,
+        flexGrow: 1,
+        maxWidth: screenWidth * 0.6, // reduced width
+    },
+
+    statColumnSingle: {
+        flexBasis: "20%",
+        flexShrink: 0,
+        flexGrow: 0,
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        marginRight: screenWidth * 0.01,
+        marginTop: screenHeight * 0.01,
+    },
+
+    wrColumns: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+        alignItems: "flex-start",
+        flexWrap: "nowrap",
+        maxWidth: "80%",
+        flexShrink: 1,
+    },
+
+    wrColumn: {
+        width: screenWidth * 0.09,   // fixed width based on screen size (~25% each)
+        minHeight: screenHeight * 0.175, // consistent height regardless of pill count
+        //borderWidth: 1,
+        //borderColor: "#ccc",
+        //borderRadius: 8,
+        paddingVertical: 6,
+        paddingHorizontal: 4,
+        alignItems: "center",
+        //backgroundColor: "#f9f9f9",
+        justifyContent: "flex-start",
+    },
+
+    wrHeader: {
+        fontWeight: "bold",
+        fontSize: 16,
+        textDecorationLine: "underline",
+        marginBottom: 6,
+        textAlign: "center",
+    },
+
+    typeGrid: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        width: "100%",
+        rowGap: 3,
+        columnGap: 3,
+    },
+
+    typeCell: {
+        width: "48%", // keeps two per row
+        alignItems: "center",
+    },
+    spriteAndTypesContainer: {
+        flexDirection: "column",
+        alignItems: "center",
+        marginRight: screenWidth * 0.01, // small spacing before the stats section
+    },
+    tooltipContainer: {
+        position: "absolute",
+        top: -30,
+        backgroundColor: "rgba(0,0,0,0.8)",
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+        borderRadius: 6,
+        zIndex: 999,
+    },
+
+    tooltipText: {
+        color: "#fff",
+        fontSize: 12,
+        textAlign: "center",
+    },
+
 
 });
 

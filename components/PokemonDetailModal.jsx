@@ -1,16 +1,110 @@
 import { useEffect, useRef, useState } from "react";
-import { Animated, Image, Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import {
+    Animated,
+    Image,
+    Modal,
+    Pressable,
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
 import evolutionMap from "../app/Pokedex/evolutionMap";
 import spriteMap from "../app/Pokedex/spriteMap";
 import styles from "../app/styles/PokemonDetailModalStyles";
 import TypePill from "../components/TypePill";
 
+// 🧩 New sub-component for evolution stages with hover tooltip
+const EvolutionStage = ({ stage }) => {
+    const [hovered, setHovered] = useState(null);
+
+    if (!stage) return null;
+
+    // --- Single Evolution Chain (one next stage) ---
+    if (stage.next && stage.next.length === 1) {
+        const nextStage = stage.next[0];
+        const key =
+            nextStage.method === "level"
+                ? `l${nextStage.value}`
+                : nextStage.value?.toLowerCase();
+        const evoData = evolutionMap[key];
+
+        return (
+            <View style={styles.evolutionRow}>
+                <View style={styles.evolutionStage}>
+                    <Image
+                        source={spriteMap[stage.spriteId]}
+                        style={styles.evolutionImage}
+                    />
+                    <Text style={styles.evolutionName}>{stage.name}</Text>
+                </View>
+
+                {evoData && (
+                    <View style={{ alignItems: "center" }}>
+                        <Pressable
+                            onHoverIn={() => setHovered(key)}
+                            onHoverOut={() => setHovered(null)}
+                        >
+                            <Image
+                                source={evoData.image}
+                                style={styles.evolutionMethod}
+                                resizeMode="contain"
+                            />
+                        </Pressable>
+
+                        {hovered === key && (
+                            <View style={styles.tooltipContainer}>
+                                <Text style={styles.tooltipText}>
+                                    {evoData.description}
+                                </Text>
+                            </View>
+                        )}
+                    </View>
+                )}
+
+                {/* Recursive call */}
+                <EvolutionStage stage={nextStage} />
+            </View>
+        );
+    }
+
+    // --- Branching Evolutions (more than one next stage) ---
+    if (stage.next && stage.next.length > 1) {
+        return (
+            <View style={styles.evolutionRowVertical}>
+                <View style={styles.evolutionStage}>
+                    <Image
+                        source={spriteMap[stage.spriteId]}
+                        style={styles.evolutionImage}
+                    />
+                    <Text style={styles.evolutionName}>{stage.name}</Text>
+                </View>
+
+                {stage.next.map((nextStage) => (
+                    <View key={nextStage.id} style={styles.branchContainer}>
+                        <EvolutionStage stage={nextStage} />
+                    </View>
+                ))}
+            </View>
+        );
+    }
+
+    // --- Final Evolution (no next) ---
+    return (
+        <View style={styles.evolutionStage}>
+            <Image
+                source={spriteMap[stage.spriteId]}
+                style={styles.evolutionImage}
+            />
+            <Text style={styles.evolutionName}>{stage.name}</Text>
+        </View>
+    );
+};
+
 const PokemonDetailModal = ({ visible, onClose, pokemon }) => {
     const [showModal, setShowModal] = useState(visible);
     const slideAnim = useRef(new Animated.Value(300)).current;
     const opacityAnim = useRef(new Animated.Value(0)).current;
-
-
 
     useEffect(() => {
         if (visible) {
@@ -43,63 +137,7 @@ const PokemonDetailModal = ({ visible, onClose, pokemon }) => {
         }
     }, [visible]);
 
-    // Guard against null Pokémon
     if (!pokemon) return null;
-    // Recursive rendering of evolution chain
-    const renderEvolutionChain = (stage) => {
-        if (!stage) return null;
-
-        if (stage.next && stage.next.length === 1) {
-            const nextStage = stage.next[0];
-            return (
-                <View style={styles.evolutionRow}>
-                    <View style={styles.evolutionStage}>
-                        <Image source={spriteMap[stage.spriteId]} style={styles.evolutionImage} />
-                        <Text style={styles.evolutionName}>{stage.name}</Text>
-                    </View>
-
-                    {nextStage.method && (
-                        <Image
-                            source={
-                                evolutionMap[
-                                nextStage.method === "level"
-                                    ? `l${nextStage.value}`
-                                    : nextStage.value?.toLowerCase()
-                                ]
-                            }
-                            style={styles.evolutionMethod}
-                            resizeMode="contain"
-                        />
-                    )}
-
-                    {renderEvolutionChain(nextStage)}
-                </View>
-            );
-        }
-
-        if (stage.next && stage.next.length > 1) {
-            return (
-                <View style={styles.evolutionRowVertical}>
-                    <View style={styles.evolutionStage}>
-                        <Image source={spriteMap[stage.spriteId]} style={styles.evolutionImage} />
-                        <Text style={styles.evolutionName}>{stage.name}</Text>
-                    </View>
-                    {stage.next.map((nextStage) => (
-                        <View key={nextStage.id} style={styles.branchContainer}>
-                            {renderEvolutionChain(nextStage)}
-                        </View>
-                    ))}
-                </View>
-            );
-        }
-
-        return (
-            <View style={styles.evolutionStage}>
-                <Image source={spriteMap[stage.spriteId]} style={styles.evolutionImage} />
-                <Text style={styles.evolutionName}>{stage.name}</Text>
-            </View>
-        );
-    };
 
     return (
         <Modal visible={showModal} transparent animationType="none">
@@ -107,124 +145,278 @@ const PokemonDetailModal = ({ visible, onClose, pokemon }) => {
                 <Animated.View
                     style={[
                         styles.modalContainer,
-                        { transform: [{ translateY: slideAnim }], opacity: opacityAnim },
+                        {
+                            transform: [{ translateY: slideAnim }],
+                            opacity: opacityAnim,
+                        },
                     ]}
                 >
-                    {/* Header: Pokémon name */}
+                    {/* Header */}
                     <Text style={styles.pokemonName}>{pokemon.name}</Text>
                     <View style={styles.divider} />
 
-                    {/* Sprite, Types, Stats */}
+                    {/* Sprite + Stats + Weaknesses + Resistances */}
                     <View style={styles.headerRow}>
-                        <View style={styles.spriteWrapper}>
-                            <Image source={spriteMap[pokemon.spriteId]} style={styles.sprite} />
-                            <View style={styles.typePillsContainer}>
-                                <TypePill type={pokemon.typeOne} />
-                                {pokemon.typeTwo && (
-                                    <View style={styles.typeSpacing}>
-                                        <TypePill type={pokemon.typeTwo} />
-                                    </View>
-                                )}
+                        {/* Sprite + Types */}
+                        <View style={styles.spriteAndTypesContainer}>
+                            <View style={styles.spriteWrapper}>
+                                <Image
+                                    source={spriteMap[pokemon.spriteId]}
+                                    style={styles.sprite}
+                                />
+                            </View>
+
+                            {/* Types below sprite */}
+                            <View style={styles.typeWrapperBelow}>
+                                <View style={styles.typePillsContainer}>
+                                    <TypePill type={pokemon.typeOne} />
+                                    {pokemon.typeTwo && (
+                                        <View style={styles.typeSpacing}>
+                                            <TypePill type={pokemon.typeTwo} />
+                                        </View>
+                                    )}
+                                </View>
                             </View>
                         </View>
 
-                        {/* Stats */}
-                        <View style={styles.statSection}>
-                            <View style={styles.statGrid}>
-                                <View style={styles.statColumn}>
-                                    <Text style={styles.statLabel}>
-                                        HP: <Text style={styles.statValue}>{pokemon.hp}</Text>
+                        {/* Stats + Weaknesses + Resistances */}
+                        <View style={styles.rightInfoSection}>
+                            {/* Stats */}
+                            <View style={styles.statColumnSingle}>
+                                <Text style={styles.statLabel}>
+                                    HP:{" "}
+                                    <Text style={styles.statValue}>
+                                        {pokemon.hp}
                                     </Text>
-                                    <Text style={styles.statLabel}>
-                                        Speed: <Text style={styles.statValue}>{pokemon.speed}</Text>
+                                </Text>
+                                <Text style={styles.statLabel}>
+                                    Attack:{" "}
+                                    <Text style={styles.statValue}>
+                                        {pokemon.attack}
                                     </Text>
-                                    <Text style={styles.statLabel}>
-                                        Sp. Atk: <Text style={styles.statValue}>{pokemon.specialAttack}</Text>
+                                </Text>
+                                <Text style={styles.statLabel}>
+                                    Defense:{" "}
+                                    <Text style={styles.statValue}>
+                                        {pokemon.defense}
                                     </Text>
-                                </View>
+                                </Text>
+                                <Text style={styles.statLabel}>
+                                    Sp. Atk:{" "}
+                                    <Text style={styles.statValue}>
+                                        {pokemon.specialAttack}
+                                    </Text>
+                                </Text>
+                                <Text style={styles.statLabel}>
+                                    Sp. Def:{" "}
+                                    <Text style={styles.statValue}>
+                                        {pokemon.specialDefense}
+                                    </Text>
+                                </Text>
+                                <Text style={styles.statLabel}>
+                                    Speed:{" "}
+                                    <Text style={styles.statValue}>
+                                        {pokemon.speed}
+                                    </Text>
+                                </Text>
 
-                                <View style={styles.statColumn}>
-                                    <Text style={styles.statLabel}>
-                                        Attack: <Text style={styles.statValue}>{pokemon.attack}</Text>
-                                    </Text>
-                                    <Text style={styles.statLabel}>
-                                        Defense: <Text style={styles.statValue}>{pokemon.defense}</Text>
-                                    </Text>
-                                    <Text style={styles.statLabel}>
-                                        Sp. Def: <Text style={styles.statValue}>{pokemon.specialDefense}</Text>
-                                    </Text>
-                                </View>
+                                <Text style={styles.totalStats}>
+                                    Total: {pokemon.totalBaseStats}
+                                </Text>
                             </View>
 
-                            <View style={styles.totalStatsRow}>
-                                <Text style={styles.totalStats}>Total: {pokemon.totalBaseStats}</Text>
+                            {/* Weaknesses & Resistances */}
+                            <View style={styles.wrColumns}>
+                                <View style={styles.wrColumn}>
+                                    <Text style={styles.wrHeader}>
+                                        Weaknesses
+                                    </Text>
+                                    <View style={styles.typeGrid}>
+                                        {Object.keys(pokemon.weaknesses).map(
+                                            (type, index) => (
+                                                <View
+                                                    key={index}
+                                                    style={styles.typeCell}
+                                                >
+                                                    <TypePill type={type} />
+                                                </View>
+                                            )
+                                        )}
+                                    </View>
+                                </View>
+
+                                <View style={styles.wrColumn}>
+                                    <Text style={styles.wrHeader}>
+                                        Resistances
+                                    </Text>
+                                    <View style={styles.typeGrid}>
+                                        {Object.keys(pokemon.resistances).map(
+                                            (type, index) => (
+                                                <View
+                                                    key={index}
+                                                    style={styles.typeCell}
+                                                >
+                                                    <TypePill type={type} />
+                                                </View>
+                                            )
+                                        )}
+                                    </View>
+                                </View>
                             </View>
                         </View>
                     </View>
 
+                    <View style={styles.divider} />
+
                     {/* Evolution Chain */}
                     {pokemon.evolutionLine && pokemon.evolutionLine.length > 0 && (
                         <>
-                            <View style={styles.divider} />
-                            <Text style={styles.ECSectionTitle}>Evolutionary Chain</Text>
+                            <Text style={styles.ECSectionTitle}>
+                                Evolutionary Chain
+                            </Text>
                             <ScrollView
                                 horizontal
                                 style={styles.evolutionScroll}
-                                contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+                                contentContainerStyle={{
+                                    flexGrow: 1,
+                                    justifyContent: "center",
+                                }}
                                 showsHorizontalScrollIndicator={false}
                             >
                                 <View style={styles.evolutionScrollInner}>
-                                    {renderEvolutionChain(pokemon.evolutionLine[0])}
+                                    <EvolutionStage
+                                        stage={pokemon.evolutionLine[0]}
+                                    />
                                 </View>
                             </ScrollView>
+                            <View style={styles.divider} />
                         </>
                     )}
 
                     {/* Level-Up Moves */}
                     {pokemon.levelUpMoves?.length > 0 && (
                         <>
-                            <View style={styles.divider} />
-                            <Text style={styles.sectionTitle}>Level-Up Moves</Text>
+                            <Text style={styles.sectionTitle}>
+                                Level-Up Moves
+                            </Text>
 
-                            {/* Header Row (static) */}
+                            {/* Header Row */}
                             <View style={styles.movesHeaderRow}>
-                                <Text style={[styles.headerCell, { flex: 0.5 }]}>Lvl</Text>
-                                <Text style={[styles.headerCell, { flex: 1.5 }]}>Move</Text>
-                                <Text style={[styles.headerCell, { flex: 1 }]}>Type</Text>
-                                <Text style={[styles.headerCell, { flex: 1 }]}>Category</Text>
-                                <Text style={[styles.headerCell, { flex: 1 }]}>Power</Text>
-                                <Text style={[styles.headerCell, { flex: 1 }]}>Accuracy</Text>
-                                <Text style={[styles.headerCell, { flex: 0.8 }]}>PP</Text>
-                                <Text style={[styles.headerCell, { flex: 1 }]}>Effect %</Text>
+                                <Text style={[styles.headerCell, { flex: 0.5 }]}>
+                                    Lvl
+                                </Text>
+                                <Text style={[styles.headerCell, { flex: 1.5 }]}>
+                                    Move
+                                </Text>
+                                <Text style={[styles.headerCell, { flex: 1 }]}>
+                                    Type
+                                </Text>
+                                <Text style={[styles.headerCell, { flex: 1 }]}>
+                                    Category
+                                </Text>
+                                <Text style={[styles.headerCell, { flex: 1 }]}>
+                                    Power
+                                </Text>
+                                <Text style={[styles.headerCell, { flex: 1 }]}>
+                                    Accuracy
+                                </Text>
+                                <Text style={[styles.headerCell, { flex: 0.8 }]}>
+                                    PP
+                                </Text>
+                                <Text style={[styles.headerCell, { flex: 1 }]}>
+                                    Effect %
+                                </Text>
                             </View>
 
                             <ScrollView style={styles.movesScroll}>
                                 {pokemon.levelUpMoves.map((move, idx) => (
                                     <View key={idx} style={styles.moveRow}>
-                                        {/* Data Row */}
                                         <View style={styles.moveInfoRow}>
-                                            <Text style={[styles.moveCell, { flex: 0.5 }]}>{move.level ?? "-"}</Text>
-                                            <Text style={[styles.moveCell, { flex: 1.5 }]}>{move.name}</Text>
-                                            <View style={[styles.moveCell, { flex: 1, alignItems: "center", justifyContent: "center" }]}>
+                                            <Text
+                                                style={[
+                                                    styles.moveCell,
+                                                    { flex: 0.5 },
+                                                ]}
+                                            >
+                                                {move.level ?? "-"}
+                                            </Text>
+                                            <Text
+                                                style={[
+                                                    styles.moveCell,
+                                                    { flex: 1.5 },
+                                                ]}
+                                            >
+                                                {move.name}
+                                            </Text>
+                                            <View
+                                                style={[
+                                                    styles.moveCell,
+                                                    {
+                                                        flex: 1,
+                                                        alignItems: "center",
+                                                        justifyContent:
+                                                            "center",
+                                                    },
+                                                ]}
+                                            >
                                                 <TypePill type={move.type} />
                                             </View>
-                                            <Text style={[styles.moveCell, { flex: 1 }]}>{move.category}</Text>
-                                            <Text style={[styles.moveCell, { flex: 1 }]}>{move.power ?? "-"}</Text>
-                                            <Text style={[styles.moveCell, { flex: 1 }]}>{move.accuracy ?? "-"}</Text>
-                                            <Text style={[styles.moveCell, { flex: 0.8 }]}>{move.pp ?? "-"}</Text>
-                                            <Text style={[styles.moveCell, { flex: 1 }]}>{move.effectPercent ?? "-"}</Text>
+                                            <Text
+                                                style={[
+                                                    styles.moveCell,
+                                                    { flex: 1 },
+                                                ]}
+                                            >
+                                                {move.category}
+                                            </Text>
+                                            <Text
+                                                style={[
+                                                    styles.moveCell,
+                                                    { flex: 1 },
+                                                ]}
+                                            >
+                                                {move.power ?? "-"}
+                                            </Text>
+                                            <Text
+                                                style={[
+                                                    styles.moveCell,
+                                                    { flex: 1 },
+                                                ]}
+                                            >
+                                                {move.accuracy ?? "-"}
+                                            </Text>
+                                            <Text
+                                                style={[
+                                                    styles.moveCell,
+                                                    { flex: 0.8 },
+                                                ]}
+                                            >
+                                                {move.pp ?? "-"}
+                                            </Text>
+                                            <Text
+                                                style={[
+                                                    styles.moveCell,
+                                                    { flex: 1 },
+                                                ]}
+                                            >
+                                                {move.effectPercent ?? "-"}
+                                            </Text>
                                         </View>
 
-                                        {/* Description under row */}
-                                        <Text style={styles.moveDescription}>{move.description}</Text>
+                                        <Text style={styles.moveDescription}>
+                                            {move.description}
+                                        </Text>
                                     </View>
                                 ))}
                             </ScrollView>
                         </>
                     )}
 
-                    {/* Close button */}
-                    <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+                    {/* Close */}
+                    <TouchableOpacity
+                        onPress={onClose}
+                        style={styles.closeButton}
+                    >
                         <Text style={styles.closeButtonText}>Close</Text>
                     </TouchableOpacity>
                 </Animated.View>
