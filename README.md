@@ -14,13 +14,13 @@ This is a React Native Project that was meant to help people make teams from the
 5. Ability to evolve a pokemon from the team generation page.
 
 # How to use:
-![Home Page](/assets/readMePictures/Home_Page.PNG)
+![Home Page](/assets/readMePictures/Home_Page.png)
 This is the home page. Just a nice simple welcome page to get you into the program.
-![Trainer 1 Choices](/assets/readMePictures/Trainer1.PNG)
+![Trainer 1 Choices](/assets/readMePictures/Trainer1.png)
 This is what the next page will look like. Here the user will select all of the Pokemon for Trainer 1 and then select Confirm at the bottom.
-![Trainer 2 Choices](/assets/readMePictures/Trainer2.PNG)
+![Trainer 2 Choices](/assets/readMePictures/Trainer2.png)
 Once the selections have been input for Trainer 1, the input selection for Trainer 2 will begin. You will notice in the top right it shows the current Pokemon that your next choice will be matching to from Trainer 1. Also in the Confirm button you will notice what number choice you are on. You won't be able to make more choices thatn trainer 1 to keep teams at the same size.
-![Search](/assets/readMePictures/Search_Feature.PNG)
+![Search](/assets/readMePictures/Search_Feature.png)
 If you are having problems finding a certain Pokemon you can use the search bar at the top. It searches for all varitions of what you search for so if you can only remember part of the name you can still find it. For example if you can only remember the "Chu" in "Pikachu" you can search for "Chu" and still find it.
 ![Soulocke Team View](/assets/readMePictures/Teams_Display.png)
 This is the page that will display all of the teams available after selecting confirm on Trainer 2. You can rotate between the teams using the previous and next buttons at the top, and refine the results by using the options bar. The options there are again based off of the Mr. Fruit ruleset and should be self explanitory outside of Focus. Focus is an option to choose a pair and that pair will be in every variation of teams that are presented. Also if you notice some typings in the Weaknesses section may have a glow to them. This is meant as a warning that this type doesn't have a match in the resistances section, or put simply, no pokemon on that team resist that type.
